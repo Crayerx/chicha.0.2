@@ -5,7 +5,7 @@ const SOURCES = [
   { label: 'BRITANNICA OPEN', icon: Scroll },
   { label: 'OPEN HISTORY FOUNDATION', icon: Compass },
 ];
-
+ 
 export default function Hero() {
   return (
     <section className="relative overflow-hidden border-b-2 border-ink-600">
