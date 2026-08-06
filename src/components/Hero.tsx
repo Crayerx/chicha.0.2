@@ -29,12 +29,12 @@ export default function Hero() {
             </span>
           </div>
 
-          <h1 className="font-pixel text-2xl leading-tight text-gold-300 text-shadow-pixel sm:text-3xl md:text-4xl lg:text-5xl">
-            START YOUR<br />
-            <span className="text-gold-200">HISTORY</span><br />
-            <span className="text-ember-400">ADVENTURE</span>
+<h1 className="font-pixel text-2xl leading-tight text-gold-300 text-shadow-pixel sm:text-3xl md:text-4xl lg:text-5xl">
+            COMIENZA TU<br />
+            <span className="text-gold-200">AVENTURA</span><br />
+            <span className="text-ember-400">POR LA HISTORIA</span>
           </h1>
-
+          
           <p className="mx-auto mt-6 max-w-xl font-terminal text-xl leading-snug text-slate2-300 lg:mx-0 lg:text-2xl">
             La forma más interactiva y ludificada de dominar los grandes eventos
             de la humanidad a través de decisiones, mapas y simulación.
