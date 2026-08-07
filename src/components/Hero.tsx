@@ -39,7 +39,7 @@ export default function Hero() {
               <Play className="h-5 w-5 fill-ink-900" />
               Get Started
             </button>
-            
+            <a
               href="#cursos"
               className="flex w-full items-center justify-center gap-2 border-2 border-ink-500 bg-ink-700 px-6 py-4 font-mono text-base font-bold uppercase tracking-wider text-slate2-300 shadow-pixel-sm transition-all hover:-translate-y-1 hover:border-gold-400 hover:text-gold-200 sm:w-auto"
             >
