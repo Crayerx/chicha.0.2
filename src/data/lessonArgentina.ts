@@ -1,4 +1,4 @@
-import {
+ import {
   TrendingDown,
   Factory,
   Users,
@@ -67,7 +67,7 @@ export const loreSlides: LoreSlide[] = [
     icon: Globe,
     tag: '1929-1946',
     accent: 'gold',
-    body: 'El período estuvo atravesado por la crisis de 1929, el ascenso del fascismo, la Segunda Guerra Mundial (1939-1945) y la reconfiguración del orden global. Argentina declaró la guerra al Eje en marzo de 1945, tarde pero decisivo para su inserción postwar. La guerra también reforzó la ISI: las industrias nacionales sustituyeron importaciones cortadas por el conflicto.',
+    body: 'El período estuvo atravesado por la crisis de 1929, el ascenso del fascismo, la Segunda Guerra Mundial (1939-1945) y la reconfiguración del orden global. Argentina declaró la guerra al Eje en marzo de 1945, tarde pero decisivo para su inserción de posguerra. La guerra también reforzó la ISI: las industrias nacionales sustituyeron importaciones cortadas por el conflicto.',
   },
   {
     id: 6,
@@ -281,7 +281,7 @@ export const lessonMeta = {
     { id: 1, label: 'Contexto', icon: Landmark },
     { id: 2, label: 'Tiempo', icon: TrendingDown },
     { id: 3, label: 'Pares', icon: Scroll },
-    { id: 4, label: 'Blanks', icon: Puzzle },
+    { id: 4, label: 'Completar', icon: Puzzle },
     { id: 5, label: 'Categorías', icon: Grid3x3 },
     { id: 6, label: 'V/F', icon: Check },
     { id: 7, label: 'Mapa', icon: MapPin },
@@ -308,11 +308,11 @@ export const fillBlankExercise: FillBlankExercise = {
     'Completa el texto arrastrando o tocando la palabra correcta para cada espacio.',
   blanks: [
     { id: '1', textBefore: 'La ', textAfter: ' de 1929 provocó la caída del modelo', correct: 'Gran Depresión' },
-    { id: '2', textBefore: 'modelo ', textAfter: '. La imposibilidad de importar impulsó la', correct: 'agroexportador' },
-    { id: '3', textBefore: 'impulsó la ', textAfter: '. Perón, desde la', correct: 'ISI' },
-    { id: '4', textBefore: 'desde la ', textAfter: ', consolidó los derechos laborales.', correct: 'Secretaría de Trabajo' },
+    { id: '2', textBefore: '', textAfter: '. La imposibilidad de importar impulsó la', correct: 'agroexportador' },
+    { id: '3', textBefore: '', textAfter: '. Perón, desde la', correct: 'ISI' },
+    { id: '4', textBefore: '', textAfter: ', consolidó los derechos laborales.', correct: 'Secretaría de Trabajo' },
     { id: '5', textBefore: 'El ', textAfter: ' de 1945 marcó la irrupción obrera en', correct: '17 de Octubre' },
-    { id: '6', textBefore: 'en ', textAfter: '.', correct: 'Plaza de Mayo' },
+    { id: '6', textBefore: '', textAfter: '.', correct: 'Plaza de Mayo' },
   ],
   bank: [
     'Gran Depresión',
