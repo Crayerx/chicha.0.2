@@ -101,7 +101,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t-2 border-ink-600 pt-6 sm:flex-row">
           <p className="font-mono text-[10px] uppercase tracking-widest text-slate2-500">
-            © 2026 Chronos · Hecho con código abierto
+            © 2026 Chronos ·
           </p>
           <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-slate2-500">
             <span className="h-2 w-2 animate-blink bg-jade-400" />
