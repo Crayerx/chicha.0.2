@@ -1,4 +1,4 @@
- import { Play, Hourglass } from 'lucide-react';
+import { Play, Hourglass } from 'lucide-react';
 
 export default function Hero() {
   return (
