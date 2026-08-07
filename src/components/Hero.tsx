@@ -1,11 +1,5 @@
-import { Play, Hourglass, Compass, BookOpen, Scroll } from 'lucide-react';
+import { Play, Hourglass } from 'lucide-react';
 
-const SOURCES = [
-  { label: 'WIKIMEDIA PROJECT', icon: BookOpen },
-  { label: 'BRITANNICA OPEN', icon: Scroll },
-  { label: 'OPEN HISTORY FOUNDATION', icon: Compass },
-];
- 
 export default function Hero() {
   return (
     <section className="relative overflow-hidden border-b-2 border-ink-600">
@@ -29,12 +23,12 @@ export default function Hero() {
             </span>
           </div>
 
-<h1 className="font-pixel text-2xl leading-tight text-gold-300 text-shadow-pixel sm:text-3xl md:text-4xl lg:text-5xl">
+          <h1 className="font-pixel text-2xl leading-tight text-gold-300 text-shadow-pixel sm:text-3xl md:text-4xl lg:text-5xl">
             COMIENZA TU<br />
             <span className="text-gold-200">AVENTURA</span><br />
             <span className="text-ember-400">POR LA HISTORIA</span>
           </h1>
-          
+
           <p className="mx-auto mt-6 max-w-xl font-terminal text-xl leading-snug text-slate2-300 lg:mx-0 lg:text-2xl">
             La forma más interactiva y ludificada de dominar los grandes eventos
             de la humanidad a través de decisiones, mapas y simulación.
@@ -45,7 +39,7 @@ export default function Hero() {
               <Play className="h-5 w-5 fill-ink-900" />
               Get Started
             </button>
-            <a
+            
               href="#cursos"
               className="flex w-full items-center justify-center gap-2 border-2 border-ink-500 bg-ink-700 px-6 py-4 font-mono text-base font-bold uppercase tracking-wider text-slate2-300 shadow-pixel-sm transition-all hover:-translate-y-1 hover:border-gold-400 hover:text-gold-200 sm:w-auto"
             >
@@ -74,24 +68,6 @@ export default function Hero() {
         {/* Right — pixel portal */}
         <div className="relative mx-auto flex max-w-md items-center justify-center lg:max-w-none">
           <PixelPortal />
-        </div>
-      </div>
-
-      {/* Source tags */}
-      <div className="relative border-t-2 border-ink-600 bg-ink-900/60">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-slate2-500">
-            Fuentes abiertas:
-          </span>
-          {SOURCES.map((src) => (
-            <span
-              key={src.label}
-              className="inline-flex items-center gap-1.5 border-2 border-ink-500 bg-ink-800 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-wider text-slate2-300 transition-colors hover:border-gold-400 hover:text-gold-200"
-            >
-              <src.icon className="h-3 w-3 text-gold-400" />
-              {src.label}
-            </span>
-          ))}
         </div>
       </div>
     </section>
