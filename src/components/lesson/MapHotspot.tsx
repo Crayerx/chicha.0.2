@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Check, X, RotateCcw, Trophy, MapPin, Target } from 'lucide-react';
-import { mapHotspots } from '@/data/lessonArgentina';
+import type { MapHotspot as MapHotspotData } from '@/data/lessonArgentina';
 
 interface MapHotspotProps {
+  hotspots: MapHotspotData[];
   onComplete: () => void;
 }
 
 const POINTS_PER_HIT = 25;
 
-export default function MapHotspot({ onComplete }: MapHotspotProps) {
+export default function MapHotspot({ hotspots: mapHotspots, onComplete }: MapHotspotProps) {
   const [current, setCurrent] = useState(0);
   const [clickPos, setClickPos] = useState<{ x: number; y: number } | null>(null);
   const [result, setResult] = useState<'correct' | 'wrong' | null>(null);

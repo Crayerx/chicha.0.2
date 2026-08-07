@@ -1,8 +1,9 @@
 import { useState, useCallback } from 'react';
 import { RotateCcw, Trophy, Check, Brain } from 'lucide-react';
-import { memoryCards, type MemoryCardData } from '@/data/lessonArgentina';
+import type { MemoryCardData } from '@/data/lessonArgentina';
 
 interface MemoryCardsProps {
+  cards: MemoryCardData[];
   onComplete: () => void;
 }
 
@@ -17,12 +18,12 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function buildDeck(): MemoryCardData[] {
+function buildDeck(memoryCards: MemoryCardData[]): MemoryCardData[] {
   return shuffle(memoryCards);
 }
 
-export default function MemoryCards({ onComplete }: MemoryCardsProps) {
-  const [deck, setDeck] = useState(buildDeck);
+export default function MemoryCards({ cards: memoryCards, onComplete }: MemoryCardsProps) {
+  const [deck, setDeck] = useState(() => buildDeck(memoryCards));
   const [flipped, setFlipped] = useState<string[]>([]);
   const [matched, setMatched] = useState<Set<string>>(new Set());
   const [wrongPair, setWrongPair] = useState<string[]>([]);
@@ -68,7 +69,7 @@ export default function MemoryCards({ onComplete }: MemoryCardsProps) {
   };
 
   const reset = () => {
-    setDeck(buildDeck());
+    setDeck(buildDeck(memoryCards));
     setFlipped([]);
     setMatched(new Set());
     setWrongPair([]);

@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { Check, X, RotateCcw, Trophy, SlidersHorizontal } from 'lucide-react';
-import { sliderQuestions } from '@/data/lessonArgentina';
+import type { SliderQuestion } from '@/data/lessonArgentina';
 
 interface SliderEstimateProps {
+  questions: SliderQuestion[];
   onComplete: () => void;
 }
 
 const POINTS_PER_QUESTION = 40;
 const PENALTY = 10;
 
-export default function SliderEstimate({ onComplete }: SliderEstimateProps) {
+export default function SliderEstimate({ questions: sliderQuestions, onComplete }: SliderEstimateProps) {
   const [current, setCurrent] = useState(0);
   const [values, setValues] = useState<number[]>(
     sliderQuestions.map((q) => Math.round((q.min + q.max) / 2)),

@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Check, X, RotateCcw, Trophy } from 'lucide-react';
-import { categories, categoryItems, accentClasses } from '@/data/lessonArgentina';
+import { accentClasses, type CategoryDef, type CategoryItem } from '@/data/lessonArgentina';
 
 interface CategorizeProps {
+  categories: CategoryDef[];
+  items: CategoryItem[];
   onComplete: () => void;
 }
 
@@ -17,13 +19,11 @@ function shuffle<T>(arr: T[]): T[] {
 
 const POINTS_PER_ITEM = 12;
 
-export default function Categorize({ onComplete }: CategorizeProps) {
+export default function Categorize({ categories, items: categoryItems, onComplete }: CategorizeProps) {
   const [pool, setPool] = useState(() => shuffle(categoryItems));
-  const [buckets, setBuckets] = useState<Record<string, string[]>>({
-    economy: [],
-    labor: [],
-    politics: [],
-  });
+  const [buckets, setBuckets] = useState<Record<string, string[]>>(() =>
+    Object.fromEntries(categories.map((c) => [c.id, []])),
+  );
   const [validated, setValidated] = useState(false);
   const [showVictory, setShowVictory] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -55,7 +55,7 @@ export default function Categorize({ onComplete }: CategorizeProps) {
 
   const reset = () => {
     setPool(shuffle(categoryItems));
-    setBuckets({ economy: [], labor: [], politics: [] });
+    setBuckets(Object.fromEntries(categories.map((c) => [c.id, []])));
     setValidated(false);
     setShowVictory(false);
     setSelectedItem(null);
@@ -77,7 +77,7 @@ export default function Categorize({ onComplete }: CategorizeProps) {
 
       <p className="mb-4 font-terminal text-lg text-slate2-300">
         Selecciona un ítem y luego toca la categoría correspondiente. Arrastra cada concepto
-        a su grupo: Economía, Derechos Laborales o Política.
+        a su grupo: {categories.map((c) => c.label).join(', ')}.
       </p>
 
       {/* Pool */}

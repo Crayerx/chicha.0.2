@@ -1,8 +1,9 @@
 import { useState, useCallback } from 'react';
 import { Check, X, RotateCcw, Link2, Trophy } from 'lucide-react';
-import { matchPairs, type MatchPair } from '@/data/lessonArgentina';
+import type { MatchPair } from '@/data/lessonArgentina';
 
 interface MatchPairsProps {
+  pairs: MatchPair[];
   onComplete: () => void;
 }
 
@@ -23,14 +24,14 @@ interface Side {
   side: 'left' | 'right';
 }
 
-function buildSides(): { left: Side[]; right: Side[] } {
-  const left: Side[] = matchPairs.map((p) => ({ pairId: p.id, text: p.concept, side: 'left' }));
-  const right: Side[] = matchPairs.map((p) => ({ pairId: p.id, text: p.match, side: 'right' }));
+function buildSides(pairs: MatchPair[]): { left: Side[]; right: Side[] } {
+  const left: Side[] = pairs.map((p) => ({ pairId: p.id, text: p.concept, side: 'left' }));
+  const right: Side[] = pairs.map((p) => ({ pairId: p.id, text: p.match, side: 'right' }));
   return { left, right: shuffle(right) };
 }
 
-export default function MatchPairs({ onComplete }: MatchPairsProps) {
-  const [{ left, right }, setSides] = useState(buildSides);
+export default function MatchPairs({ pairs, onComplete }: MatchPairsProps) {
+  const [{ left, right }, setSides] = useState(() => buildSides(pairs));
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
   const [selectedRight, setSelectedRight] = useState<string | null>(null);
   const [matched, setMatched] = useState<Set<string>>(new Set());
@@ -38,7 +39,7 @@ export default function MatchPairs({ onComplete }: MatchPairsProps) {
   const [showVictory, setShowVictory] = useState(false);
   const [wrongCount, setWrongCount] = useState(0);
 
-  const allMatched = matched.size === matchPairs.length;
+  const allMatched = matched.size === pairs.length;
 
   const tryMatch = useCallback(
     (lId: string, rId: string) => {
@@ -78,7 +79,7 @@ export default function MatchPairs({ onComplete }: MatchPairsProps) {
   };
 
   const reset = () => {
-    setSides(buildSides());
+    setSides(buildSides(pairs));
     setSelectedLeft(null);
     setSelectedRight(null);
     setMatched(new Set());
@@ -96,13 +97,13 @@ export default function MatchPairs({ onComplete }: MatchPairsProps) {
           EMPAREJAR CONCEPTOS
         </h3>
         <span className="font-mono text-[10px] uppercase tracking-widest text-slate2-400">
-          {matched.size}/{matchPairs.length} · +{earnedXp} XP
+          {matched.size}/{pairs.length} · +{earnedXp} XP
         </span>
       </div>
 
       <p className="mb-5 font-terminal text-lg text-slate2-300">
         Selecciona un concepto de la izquierda y su definición correspondiente
-        a la derecha. ¡Encuentra los <span className="text-gold-300">{matchPairs.length} pares</span>!
+        a la derecha. ¡Encuentra los <span className="text-gold-300">{pairs.length} pares</span>!
       </p>
 
       {/* Match board */}

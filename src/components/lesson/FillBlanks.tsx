@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Check, X, RotateCcw, Trophy } from 'lucide-react';
-import { fillBlankExercise } from '@/data/lessonArgentina';
+import type { FillBlankExercise } from '@/data/lessonArgentina';
 
 interface FillBlanksProps {
+  exercise: FillBlankExercise;
   onComplete: () => void;
 }
 
@@ -17,9 +18,9 @@ function shuffle<T>(arr: T[]): T[] {
 
 const POINTS_PER_BLANK = 15;
 
-export default function FillBlanks({ onComplete }: FillBlanksProps) {
-  const blanks = fillBlankExercise.blanks;
-  const [bank, setBank] = useState(() => shuffle(fillBlankExercise.bank));
+export default function FillBlanks({ exercise, onComplete }: FillBlanksProps) {
+  const blanks = exercise.blanks;
+  const [bank, setBank] = useState(() => shuffle(exercise.bank));
   const [placed, setPlaced] = useState<Record<string, string | null>>(
     Object.fromEntries(blanks.map((b) => [b.id, null])),
   );
@@ -65,7 +66,7 @@ export default function FillBlanks({ onComplete }: FillBlanksProps) {
   };
 
   const reset = () => {
-    setBank(shuffle(fillBlankExercise.bank));
+    setBank(shuffle(exercise.bank));
     setPlaced(Object.fromEntries(blanks.map((b) => [b.id, null])));
     setValidated(false);
     setShowVictory(false);
@@ -87,7 +88,7 @@ export default function FillBlanks({ onComplete }: FillBlanksProps) {
       </div>
 
       <p className="mb-5 font-terminal text-lg text-slate2-300">
-        {fillBlankExercise.prompt}
+        {exercise.prompt}
       </p>
 
       {/* Text with blanks */}

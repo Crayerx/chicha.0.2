@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Check, X, RotateCcw, Trophy, ThumbsUp, ThumbsDown } from 'lucide-react';
-import { trueFalseGrid } from '@/data/lessonArgentina';
+import type { TrueFalseItem } from '@/data/lessonArgentina';
 
 interface TrueFalseGridProps {
+  items: TrueFalseItem[];
   onComplete: () => void;
 }
 
 const POINTS_PER_ITEM = 15;
 
-export default function TrueFalseGrid({ onComplete }: TrueFalseGridProps) {
+export default function TrueFalseGrid({ items: trueFalseGrid, onComplete }: TrueFalseGridProps) {
   const [answers, setAnswers] = useState<Record<string, boolean | null>>(
     Object.fromEntries(trueFalseGrid.map((t) => [t.id, null])),
   );
