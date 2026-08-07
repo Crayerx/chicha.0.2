@@ -58,6 +58,15 @@ import {
   lessonArtifactPeronista,
   lessonMetaPeronista,
   stepXpPeronista,
+  matchPairsPeronista,
+  fillBlankExercisePeronista,
+  categoriesPeronista,
+  categoryItemsPeronista,
+  trueFalseGridPeronista,
+  mapHotspotsPeronista,
+  memoryPairsPeronista,
+  memoryCardsPeronista,
+  sliderQuestionsPeronista,
 } from './lessonPeronista';
 
 export type StepType = 'lore' | 'timeline' | 'match' | 'fill' | 'categorize' | 'truefalse' | 'map' | 'memory' | 'slider' | 'quiz';
@@ -118,12 +127,21 @@ export const lessons: Record<string, LessonConfig> = {
     subtitle: lessonMetaPeronista.subtitle,
     totalXp: lessonMetaPeronista.totalXp,
     steps: lessonMetaPeronista.steps,
-    stepTypes: ['lore', 'timeline', 'quiz'] as StepType[],
+    stepTypes: ['lore', 'timeline', 'match', 'fill', 'categorize', 'truefalse', 'map', 'memory', 'slider', 'quiz'] as StepType[],
     stepXp: stepXpPeronista,
     lore: loreSlidesPeronista,
     timeline: timelineEventsPeronista,
     quiz: quizQuestionsPeronista,
     artifact: lessonArtifactPeronista,
+    matchPairs: matchPairsPeronista,
+    fillBlank: fillBlankExercisePeronista,
+    categories: categoriesPeronista,
+    categoryItems: categoryItemsPeronista,
+    trueFalseGrid: trueFalseGridPeronista,
+    mapHotspots: mapHotspotsPeronista,
+    memoryPairs: memoryPairsPeronista,
+    memoryCards: memoryCardsPeronista,
+    sliderQuestions: sliderQuestionsPeronista,
   },
 };
 
