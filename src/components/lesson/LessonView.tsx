@@ -8,6 +8,7 @@ import {
 import { getLesson, type LessonConfig, type StepType } from '@/data/lessons';
 import { useLessonProgress } from '@/hooks/useLessonProgress';
 import { useUserStats } from '@/hooks/useUserStats';
+import { useWeeklyLeaderboard } from '@/hooks/useWeeklyLeaderboard';
 import XPBar from './XPBar';
 import LoreSlides from './LoreSlides';
 import TimelineGame from './TimelineGame';
@@ -37,6 +38,7 @@ export default function LessonView({ lessonId = 'argentina', onExit, reviewMode 
   const lesson: LessonConfig = getLesson(lessonId) ?? getLesson('argentina')!;
   const { progress, loaded, save, reset: resetProgress } = useLessonProgress(lessonId);
   const { recordActivity } = useUserStats();
+  const { addXp } = useWeeklyLeaderboard();
   const [step, setStep] = useState(1);
   const [xp, setXp] = useState(0);
   const [quizScore, setQuizScore] = useState(0);
@@ -95,6 +97,7 @@ export default function LessonView({ lessonId = 'argentina', onExit, reviewMode 
           quiz_score: extra?.quizScore ?? quizScore,
         });
         recordActivity(gainedXp);
+        if (gainedXp > 0) addXp(gainedXp);
         return next;
       });
       setXp((prev) => Math.min(maxXp, prev + extraXp));
@@ -102,7 +105,7 @@ export default function LessonView({ lessonId = 'argentina', onExit, reviewMode 
       if (extra?.finished) setShowVictory(true);
       if (extra?.quizScore !== undefined) setQuizScore(extra.quizScore);
     },
-    [xp, quizScore, maxXp, save, recordActivity, isReviewing],
+    [xp, quizScore, maxXp, save, recordActivity, addXp, isReviewing],
   );
 
   const stepType = (s: number): StepType | undefined => lesson.stepTypes[s - 1];

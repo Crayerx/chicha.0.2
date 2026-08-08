@@ -32,3 +32,15 @@ export interface UserStats {
   xp_today_date: string | null;
   updated_at?: string;
 }
+
+export interface Profile {
+  user_id: string;
+  username: string;
+  updated_at?: string;
+}
+
+export interface WeeklyXpEntry {
+  user_id: string;
+  xp: number;
+  profiles: { username: string } | null;
+}

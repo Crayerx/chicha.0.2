@@ -6,6 +6,8 @@ import { useUserStats } from '@/hooks/useUserStats';
 import { useAchievements } from '@/hooks/useAchievements';
 import { useAuth } from '@/contexts/AuthContext';
 import DailyGoalBar from './DailyGoalBar';
+import Leaderboard from './Leaderboard';
+import UsernameEditor from './UsernameEditor';
 
 /** Opciones de meta diaria: minutos aproximados de estudio -> XP objetivo. */
 const DAILY_GOAL_OPTIONS = [
@@ -183,6 +185,11 @@ export default function Profile({
                   <DailyGoalBar xpToday={xpToday} goalXp={stats.daily_goal_xp} compact />
                 </div>
               </div>
+
+              <UsernameEditor />
+
+              {/* Liga semanal */}
+              <Leaderboard />
 
               {/* Artifacts collection */}
               <section className="mt-10">
