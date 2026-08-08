@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, type ReactNode } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Courses from '@/components/Courses';
@@ -19,39 +19,35 @@ export default function App() {
   const [lessonId, setLessonId] = useState<string>('argentina');
   const [reviewMode, setReviewMode] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [pendingView, setPendingView] = useState<Exclude<View, 'home'> | null>(null);
-  const [pendingLessonId, setPendingLessonId] = useState<string | null>(null);
+  // Solo 'profile' necesita retomar una vista pendiente después del login:
+  // jugar una lección (goLesson) ya no requiere cuenta, así que no encola nada.
+  const [pendingProfile, setPendingProfile] = useState(false);
 
   const goHome = useCallback(() => setView('home'), []);
   const goPha = useCallback(() => setView('pha'), []);
+  const openAuthModal = useCallback(() => setAuthModalOpen(true), []);
 
   const closeAuthModal = useCallback(() => {
     setAuthModalOpen(false);
-    setPendingView(null);
-    setPendingLessonId(null);
+    setPendingProfile(false);
   }, []);
 
-  const goLesson = useCallback(
-    (id: string, opts?: { review?: boolean }) => {
-      if (!isAuthenticated) {
-        setPendingView('lesson');
-        setPendingLessonId(id);
-        setAuthModalOpen(true);
-        return;
-      }
-      setLessonId(id);
-      setReviewMode(!!opts?.review);
-      setView('lesson');
-    },
-    [isAuthenticated],
-  );
+  // Jugar una lección es libre: con o sin cuenta se entra directo. Sin cuenta
+  // el progreso queda en memoria nomás (useLessonProgress ya lo maneja), y es
+  // LessonView el que le avisa a la persona que no se está guardando nada.
+  const goLesson = useCallback((id: string, opts?: { review?: boolean }) => {
+    setLessonId(id);
+    setReviewMode(!!opts?.review);
+    setView('lesson');
+  }, []);
 
   const goReview = useCallback((id: string) => goLesson(id, { review: true }), [goLesson]);
 
+  // El perfil sí requiere cuenta (no hay nada que mostrar sin una), así que
+  // acá seguimos abriendo el modal y retomando la navegación al loguearse.
   const goProfile = useCallback(() => {
     if (!isAuthenticated) {
-      setPendingView('profile');
-      setPendingLessonId(null);
+      setPendingProfile(true);
       setAuthModalOpen(true);
       return;
     }
@@ -59,25 +55,22 @@ export default function App() {
   }, [isAuthenticated]);
 
   // Una vez que el login resuelve (magic link, Google o email+contraseña),
-  // cerramos el modal siempre. Si había una acción pendiente (empezar una
-  // lección o entrar al perfil), la retomamos; si el login se abrió suelto
-  // desde el navbar, simplemente se cierra y el usuario sigue en el home.
+  // cerramos el modal siempre. Si había una entrada al perfil pendiente, la
+  // retomamos; si el login se abrió suelto (navbar o desde una lección),
+  // simplemente se cierra y la persona sigue donde estaba.
   useEffect(() => {
     if (!isAuthenticated) return;
-    if (pendingView) {
-      if (pendingView === 'lesson' && pendingLessonId) setLessonId(pendingLessonId);
-      setView(pendingView);
+    if (pendingProfile) {
+      setView('profile');
+      setPendingProfile(false);
     }
-    setPendingView(null);
-    setPendingLessonId(null);
     setAuthModalOpen(false);
-  }, [isAuthenticated, pendingView, pendingLessonId]);
+  }, [isAuthenticated, pendingProfile]);
 
-  // Si cierra sesión estando en una vista que requiere cuenta, volvemos al home.
-  // 'pha' no requiere cuenta para navegar (solo para jugar una lección, que ya
-  // pasa por el gate de goLesson), así que queda afuera de este reset.
+  // Si cierra sesión estando en el perfil (la única vista que requiere
+  // cuenta), volvemos al home. 'lesson' y 'pha' se pueden navegar sin login.
   useEffect(() => {
-    if (!isAuthenticated && view !== 'home' && view !== 'pha') {
+    if (!isAuthenticated && view === 'profile') {
       setView('home');
     }
   }, [isAuthenticated, view]);
@@ -86,38 +79,47 @@ export default function App() {
     await signOut();
   }, [signOut]);
 
+  let content: ReactNode;
+
   if (view === 'lesson') {
-    return (
+    content = (
       <div className="min-h-screen bg-ink-900 text-slate2-300">
-        <LessonView lessonId={lessonId} onExit={goHome} reviewMode={reviewMode} />
+        <LessonView
+          lessonId={lessonId}
+          onExit={goHome}
+          reviewMode={reviewMode}
+          onRequestLogin={openAuthModal}
+        />
+      </div>
+    );
+  } else if (view === 'profile') {
+    content = <Profile onBack={goHome} onReview={goReview} />;
+  } else if (view === 'pha') {
+    content = <PhaView onPlay={goLesson} onReview={goReview} onBack={goHome} />;
+  } else {
+    content = (
+      <div className="min-h-screen bg-ink-900 text-slate2-300">
+        <Navbar
+          isAuthenticated={isAuthenticated}
+          userEmail={user?.email ?? null}
+          onProfile={goProfile}
+          onSignIn={openAuthModal}
+          onSignOut={handleSignOut}
+        />
+        {isAuthenticated && <StreakReminder onPlay={() => goLesson('argentina')} />}
+        <main>
+          <Hero onStart={() => goLesson('argentina')} />
+          <Courses onPlay={goLesson} onReview={goReview} onOpenGroup={goPha} />
+        </main>
+        <Footer />
       </div>
     );
   }
 
-  if (view === 'profile') {
-    return <Profile onBack={goHome} onReview={goReview} />;
-  }
-
-  if (view === 'pha') {
-    return <PhaView onPlay={goLesson} onReview={goReview} onBack={goHome} />;
-  }
-
   return (
-    <div className="min-h-screen bg-ink-900 text-slate2-300">
-      <Navbar
-        isAuthenticated={isAuthenticated}
-        userEmail={user?.email ?? null}
-        onProfile={goProfile}
-        onSignIn={() => setAuthModalOpen(true)}
-        onSignOut={handleSignOut}
-      />
-      {isAuthenticated && <StreakReminder onPlay={() => goLesson('argentina')} />}
-      <main>
-        <Hero onStart={() => goLesson('argentina')} />
-        <Courses onPlay={goLesson} onReview={goReview} onOpenGroup={goPha} />
-      </main>
-      <Footer />
+    <>
+      {content}
       {authModalOpen && <AuthModal onClose={closeAuthModal} />}
-    </div>
+    </>
   );
 }

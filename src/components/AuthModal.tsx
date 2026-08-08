@@ -85,7 +85,8 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
             INICIA SESIÓN
           </h2>
           <p className="mt-2 font-terminal text-lg leading-snug text-slate2-400">
-            Necesitás una cuenta para guardar tu progreso, XP y racha.
+            Iniciá sesión para guardar tu progreso, XP y racha. Podés seguir explorando sin
+            cuenta, pero no se va a guardar nada.
           </p>
         </div>
 
@@ -193,6 +194,14 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
                 {errorMsg}
               </p>
             )}
+
+            <button
+              type="button"
+              onClick={onClose}
+              className="mt-4 flex w-full items-center justify-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-slate2-500 transition-colors hover:text-slate2-300"
+            >
+              Seguir sin cuenta (no se guardará tu progreso)
+            </button>
           </>
         )}
       </div>

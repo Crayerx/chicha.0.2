@@ -3,12 +3,15 @@ import {
   Compass,
   MapPin,
   RotateCcw,
+  AlertTriangle,
+  LogIn,
   type LucideIcon,
 } from 'lucide-react';
 import { getLesson, type LessonConfig, type StepType } from '@/data/lessons';
 import { useLessonProgress } from '@/hooks/useLessonProgress';
 import { useUserStats } from '@/contexts/UserStatsContext';
 import { useWeeklyLeaderboard } from '@/hooks/useWeeklyLeaderboard';
+import { useAuth } from '@/contexts/AuthContext';
 import XPBar from './XPBar';
 import LoreSlides from './LoreSlides';
 import TimelineGame from './TimelineGame';
@@ -32,10 +35,19 @@ interface LessonViewProps {
    * intacto — pero sí se registra la actividad del día para la racha.
    */
   reviewMode?: boolean;
+  /** Abre el modal de login. Se usa en el aviso de "no se está guardando tu progreso". */
+  onRequestLogin?: () => void;
 }
 
-export default function LessonView({ lessonId = 'argentina', onExit, reviewMode = false }: LessonViewProps) {
+
+export default function LessonView({
+  lessonId = 'argentina',
+  onExit,
+  reviewMode = false,
+  onRequestLogin,
+}: LessonViewProps) {
   const lesson: LessonConfig = getLesson(lessonId) ?? getLesson('argentina')!;
+  const { isAuthenticated } = useAuth();
   const { progress, loaded, save, reset: resetProgress } = useLessonProgress(lessonId);
   const { recordActivity } = useUserStats();
   const { addXp } = useWeeklyLeaderboard();
@@ -165,6 +177,21 @@ export default function LessonView({ lessonId = 'argentina', onExit, reviewMode 
       {isReviewing && (
         <div className="flex items-center justify-center gap-2 border-b-2 border-jade-400/40 bg-jade-400/10 px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-widest text-jade-300">
           Modo repaso — tu XP y progreso ya guardados no se van a modificar
+        </div>
+      )}
+      {!isAuthenticated && !isReviewing && (
+        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 border-b-2 border-ember-400/40 bg-ember-400/10 px-4 py-2 text-center font-mono text-[10px] font-bold uppercase tracking-widest text-ember-300">
+          <span className="inline-flex items-center gap-1.5">
+            <AlertTriangle className="h-3.5 w-3.5" />
+            Estás jugando sin cuenta — tu progreso, XP y racha no se van a guardar
+          </span>
+          <button
+            onClick={onRequestLogin}
+            className="inline-flex items-center gap-1.5 border-2 border-ember-400/60 bg-ink-900/40 px-2 py-1 text-ember-300 transition-colors hover:border-ember-300 hover:text-ember-400"
+          >
+            <LogIn className="h-3 w-3" />
+            Iniciar sesión
+          </button>
         </div>
       )}
       <XPBar
