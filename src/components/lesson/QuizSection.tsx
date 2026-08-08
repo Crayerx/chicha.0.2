@@ -16,9 +16,10 @@ interface QuizSectionProps {
   onComplete: (score: number) => void;
 }
 
+const POINTS_PER_QUESTION = 50;
+
 export default function QuizSection({ questions, onComplete }: QuizSectionProps) {
   const total = questions.length;
-  const POINTS_PER_QUESTION = 50;
   const MAX_SCORE = total * POINTS_PER_QUESTION;
 
   const [current, setCurrent] = useState(0);
@@ -248,7 +249,7 @@ function QuizCard({
               ) : (
                 <div className="mt-3 flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-jade-300">
                   <Check className="h-4 w-4" />
-                  +{POINTS_PER_QUESTION} XP
+                  +{POINTS_PER_QUESTION} pts
                 </div>
               )}
             </div>
@@ -348,7 +349,7 @@ function QuizCard({
                 selectedIndex === question.correctIndex ? 'text-jade-300' : 'text-ruby-300'
               }`}
             >
-              {selectedIndex === question.correctIndex ? '¡Correcto! +50 XP' : 'Incorrecto'}
+              {selectedIndex === question.correctIndex ? `¡Correcto! +${POINTS_PER_QUESTION} pts` : 'Incorrecto'}
             </p>
             <p className="mt-1 font-terminal text-base leading-snug text-slate2-300">
               {question.explanation}

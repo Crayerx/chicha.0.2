@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { GripVertical, Check, RotateCcw, Trophy, X } from 'lucide-react';
 import type { TimelineEvent } from '@/data/lessonArgentina';
+import { STEP_TYPE_XP } from '@/data/lessons';
 
 interface TimelineGameProps {
   events: TimelineEvent[];
@@ -118,7 +119,7 @@ export default function TimelineGame({ events, onComplete }: TimelineGameProps) 
 
       <p className="mb-4 font-terminal text-lg text-slate2-300">
         Arrastra cada evento al slot correspondiente en orden cronológico.
-        ¡Completa la línea para ganar <span className="text-gold-300">+100 XP</span>!
+        ¡Completa la línea para ganar <span className="text-gold-300">+{STEP_TYPE_XP.timeline} XP</span>!
       </p>
 
       {/* Timeline slots */}
@@ -265,7 +266,7 @@ export default function TimelineGame({ events, onComplete }: TimelineGameProps) 
                 ¡VICTORIA!
               </h3>
               <p className="mt-3 font-mono text-sm font-bold uppercase tracking-widest text-jade-300">
-                +100 XP
+                +{STEP_TYPE_XP.timeline} XP
               </p>
               <p className="mt-2 font-terminal text-lg text-slate2-300">
                 Línea de tiempo completada

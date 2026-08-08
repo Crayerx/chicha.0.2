@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Check, X, RotateCcw, Trophy } from 'lucide-react';
 import type { FillBlankExercise } from '@/data/lessonArgentina';
+import { STEP_TYPE_XP } from '@/data/lessons';
 
 interface FillBlanksProps {
   exercise: FillBlankExercise;
@@ -15,8 +16,6 @@ function shuffle<T>(arr: T[]): T[] {
   }
   return a;
 }
-
-const POINTS_PER_BLANK = 15;
 
 export default function FillBlanks({ exercise, onComplete }: FillBlanksProps) {
   const blanks = exercise.blanks;
@@ -74,7 +73,8 @@ export default function FillBlanks({ exercise, onComplete }: FillBlanksProps) {
   };
 
   const correctCount = blanks.filter((b) => placed[b.id] === b.correct).length;
-  const earnedXp = correctCount * POINTS_PER_BLANK;
+  // Proporcional al XP real que otorga este paso (STEP_TYPE_XP.fill).
+  const earnedXp = Math.round((correctCount / blanks.length) * STEP_TYPE_XP.fill);
 
   return (
     <div className="flex h-full flex-col">

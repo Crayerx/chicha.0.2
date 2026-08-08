@@ -1,13 +1,12 @@
 import { useState, useCallback } from 'react';
 import { Check, X, RotateCcw, Link2, Trophy } from 'lucide-react';
 import type { MatchPair } from '@/data/lessonArgentina';
+import { STEP_TYPE_XP } from '@/data/lessons';
 
 interface MatchPairsProps {
   pairs: MatchPair[];
   onComplete: () => void;
 }
-
-const POINTS_PER_PAIR = 20;
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -88,7 +87,8 @@ export default function MatchPairs({ pairs, onComplete }: MatchPairsProps) {
     setShowVictory(false);
   };
 
-  const earnedXp = matched.size * POINTS_PER_PAIR;
+  // Proporcional al XP real que otorga este paso (STEP_TYPE_XP.match).
+  const earnedXp = Math.round((matched.size / pairs.length) * STEP_TYPE_XP.match);
 
   return (
     <div className="flex h-full flex-col">

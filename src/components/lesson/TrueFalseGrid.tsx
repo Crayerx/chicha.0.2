@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { Check, X, RotateCcw, Trophy, ThumbsUp, ThumbsDown } from 'lucide-react';
 import type { TrueFalseItem } from '@/data/lessonArgentina';
+import { STEP_TYPE_XP } from '@/data/lessons';
 
 interface TrueFalseGridProps {
   items: TrueFalseItem[];
   onComplete: () => void;
 }
-
-const POINTS_PER_ITEM = 15;
 
 export default function TrueFalseGrid({ items: trueFalseGrid, onComplete }: TrueFalseGridProps) {
   const [answers, setAnswers] = useState<Record<string, boolean | null>>(
@@ -39,7 +38,8 @@ export default function TrueFalseGrid({ items: trueFalseGrid, onComplete }: True
   };
 
   const correctCount = trueFalseGrid.filter((t) => answers[t.id] === t.answer).length;
-  const earnedXp = correctCount * POINTS_PER_ITEM;
+  // Proporcional al XP real que otorga este paso (STEP_TYPE_XP.truefalse).
+  const earnedXp = Math.round((correctCount / trueFalseGrid.length) * STEP_TYPE_XP.truefalse);
 
   return (
     <div className="flex h-full flex-col">

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Check, X, RotateCcw, Trophy } from 'lucide-react';
 import { accentClasses, type CategoryDef, type CategoryItem } from '@/data/lessonArgentina';
+import { STEP_TYPE_XP } from '@/data/lessons';
 
 interface CategorizeProps {
   categories: CategoryDef[];
@@ -16,8 +17,6 @@ function shuffle<T>(arr: T[]): T[] {
   }
   return a;
 }
-
-const POINTS_PER_ITEM = 12;
 
 export default function Categorize({ categories, items: categoryItems, onComplete }: CategorizeProps) {
   const [pool, setPool] = useState(() => shuffle(categoryItems));
@@ -62,7 +61,9 @@ export default function Categorize({ categories, items: categoryItems, onComplet
   };
 
   const correctCount = categoryItems.filter((item) => buckets[item.categoryId].includes(item.id)).length;
-  const earnedXp = correctCount * POINTS_PER_ITEM;
+  // Proporcional al XP real que otorga este paso (STEP_TYPE_XP.categorize) —
+  // al completarlo (correctCount === total) siempre da exactamente ese valor.
+  const earnedXp = Math.round((correctCount / categoryItems.length) * STEP_TYPE_XP.categorize);
 
   return (
     <div className="flex h-full flex-col">

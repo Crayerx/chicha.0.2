@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { Check, X, RotateCcw, Trophy, SlidersHorizontal } from 'lucide-react';
 import type { SliderQuestion } from '@/data/lessonArgentina';
+import { STEP_TYPE_XP } from '@/data/lessons';
 
 interface SliderEstimateProps {
   questions: SliderQuestion[];
   onComplete: () => void;
 }
-
-const POINTS_PER_QUESTION = 40;
-const PENALTY = 10;
 
 export default function SliderEstimate({ questions: sliderQuestions, onComplete }: SliderEstimateProps) {
   const [current, setCurrent] = useState(0);
@@ -60,12 +58,19 @@ export default function SliderEstimate({ questions: sliderQuestions, onComplete 
   const isCorrect = isRevealed && Math.abs(values[current] - q.correct) <= q.tolerance;
   const distance = Math.abs(values[current] - q.correct);
 
+  // Proporcional al XP real que otorga este paso (STEP_TYPE_XP.slider),
+  // repartido entre las preguntas y con penalización por distancia al valor
+  // correcto (misma lógica que antes, reescalada al nuevo rango).
+  const POINTS_PER_QUESTION = STEP_TYPE_XP.slider / sliderQuestions.length;
+  const PENALTY = POINTS_PER_QUESTION / 4;
+
   const score = sliderQuestions.reduce<number>((acc, sq, i) => {
     if (!revealed[i]) return acc;
     const dist = Math.abs(values[i] - sq.correct);
     if (dist <= sq.tolerance) return acc + POINTS_PER_QUESTION;
     return acc + Math.max(0, POINTS_PER_QUESTION - dist * PENALTY);
   }, 0);
+  const roundedScore = Math.round(score);
 
   const sliderPct = ((values[current] - q.min) / (q.max - q.min)) * 100;
   const correctPct = ((q.correct - q.min) / (q.max - q.min)) * 100;
@@ -77,7 +82,7 @@ export default function SliderEstimate({ questions: sliderQuestions, onComplete 
           ESTIMACIÓN
         </h3>
         <span className="font-mono text-[10px] uppercase tracking-widest text-slate2-400">
-          {current + 1}/{sliderQuestions.length} · Score: {score}
+          {current + 1}/{sliderQuestions.length} · Score: {roundedScore}
         </span>
       </div>
 
@@ -172,8 +177,8 @@ export default function SliderEstimate({ questions: sliderQuestions, onComplete 
               >
                 {isCorrect ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />}
                 {isCorrect
-                  ? `¡Exacto! +${POINTS_PER_QUESTION} XP`
-                  : `Estuviste a ${distance} año(s). +${Math.max(0, POINTS_PER_QUESTION - distance * PENALTY)} XP`}
+                  ? `¡Exacto! +${Math.round(POINTS_PER_QUESTION)} XP`
+                  : `Estuviste a ${distance} año(s). +${Math.round(Math.max(0, POINTS_PER_QUESTION - distance * PENALTY))} XP`}
               </p>
               <p className="mt-2 font-terminal text-base leading-snug text-slate2-300">
                 {q.explanation}
@@ -235,7 +240,7 @@ export default function SliderEstimate({ questions: sliderQuestions, onComplete 
               <Trophy className="mx-auto h-16 w-16 animate-pulse-glow text-gold-300 drop-shadow-[0_0_16px_rgba(255,204,51,0.7)]" />
               <h3 className="mt-4 font-pixel text-xl text-gold-300 text-shadow-pixel">¡PRECISO!</h3>
               <p className="mt-3 font-mono text-sm font-bold uppercase tracking-widest text-jade-300">
-                +{score} XP
+                +{roundedScore} XP
               </p>
               <p className="mt-2 font-terminal text-lg text-slate2-300">Estimaciones completadas</p>
             </div>

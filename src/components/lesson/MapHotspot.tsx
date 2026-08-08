@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { Check, X, RotateCcw, Trophy, MapPin, Target } from 'lucide-react';
 import type { MapHotspot as MapHotspotData } from '@/data/lessonArgentina';
+import { STEP_TYPE_XP } from '@/data/lessons';
 
 interface MapHotspotProps {
   hotspots: MapHotspotData[];
   onComplete: () => void;
 }
-
-const POINTS_PER_HIT = 25;
 
 export default function MapHotspot({ hotspots: mapHotspots, onComplete }: MapHotspotProps) {
   const [current, setCurrent] = useState(0);
@@ -62,7 +61,10 @@ export default function MapHotspot({ hotspots: mapHotspots, onComplete }: MapHot
     setCompleted(Array(mapHotspots.length).fill(false));
   };
 
-  const earnedXp = hits * POINTS_PER_HIT;
+  // Proporcional al XP real que otorga este paso (STEP_TYPE_XP.map). Acá sí
+  // puede quedar por debajo del máximo si fallás algún punto del mapa.
+  const pointsPerHit = Math.max(1, Math.round(STEP_TYPE_XP.map / mapHotspots.length));
+  const earnedXp = Math.round((hits / mapHotspots.length) * STEP_TYPE_XP.map);
 
   return (
     <div className="flex h-full flex-col">
@@ -172,7 +174,7 @@ export default function MapHotspot({ hotspots: mapHotspots, onComplete }: MapHot
               result === 'correct' ? 'text-jade-300' : 'text-ruby-300'
             }`}
           >
-            {result === 'correct' ? `¡Correcto! +${POINTS_PER_HIT} XP` : 'Incorrecto — intenta de nuevo'}
+            {result === 'correct' ? `¡Correcto! +${pointsPerHit} XP` : 'Incorrecto — intenta de nuevo'}
           </p>
           <p className="mt-1 font-terminal text-base leading-snug text-slate2-300">
             {hotspot.explanation}

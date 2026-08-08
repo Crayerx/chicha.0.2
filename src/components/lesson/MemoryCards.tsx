@@ -1,13 +1,12 @@
 import { useState, useCallback } from 'react';
 import { RotateCcw, Trophy, Check, Brain } from 'lucide-react';
 import type { MemoryCardData } from '@/data/lessonArgentina';
+import { STEP_TYPE_XP } from '@/data/lessons';
 
 interface MemoryCardsProps {
   cards: MemoryCardData[];
   onComplete: () => void;
 }
-
-const POINTS_PER_PAIR = 30;
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -77,8 +76,13 @@ export default function MemoryCards({ cards: memoryCards, onComplete }: MemoryCa
     setShowVictory(false);
   };
 
-  const earnedXp = (matched.size * POINTS_PER_PAIR) - (moves - matched.size) * 5;
-  const finalXp = Math.max(earnedXp, matched.size * POINTS_PER_PAIR - 30);
+  // Proporcional al XP real que otorga este paso (STEP_TYPE_XP.memory), con
+  // una pequeña penalización por jugadas de más — nunca baja de la mitad.
+  const totalPairs = memoryCards.length / 2;
+  const proportional = (matched.size / totalPairs) * STEP_TYPE_XP.memory;
+  const penalty = Math.max(0, moves - matched.size) * (STEP_TYPE_XP.memory / totalPairs) * 0.3;
+  const earnedXp = Math.max(Math.round(proportional - penalty), Math.round(proportional * 0.5));
+  const finalXp = earnedXp;
 
   return (
     <div className="flex h-full flex-col">
