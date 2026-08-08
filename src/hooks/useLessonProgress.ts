@@ -1,21 +1,38 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase, isSupabaseConfigured, type LessonProgress } from '@/lib/supabase';
+import { useAuth } from '@/contexts/AuthContext';
 
-const EMPTY: LessonProgress = {
-  lesson_id: 'argentina',
-  current_step: 1,
-  total_xp: 0,
-  completed_steps: [],
-  is_finished: false,
-  quiz_score: 0,
-};
+function emptyProgress(userId: string, lessonId: string): LessonProgress {
+  return {
+    user_id: userId,
+    lesson_id: lessonId,
+    current_step: 1,
+    total_xp: 0,
+    completed_steps: [],
+    is_finished: false,
+    quiz_score: 0,
+  };
+}
 
+/**
+ * Per-lesson progress, scoped to the signed-in user. Without a session there
+ * is no row to read or write (RLS would reject it anyway), so the hook just
+ * returns a fresh, unsaved, in-memory progress object — enough to preview a
+ * lesson, but nothing persists until the user signs in.
+ */
 export function useLessonProgress(lessonId: string = 'argentina') {
-  const [progress, setProgress] = useState<LessonProgress>({ ...EMPTY, lesson_id: lessonId });
+  const { user } = useAuth();
+  const userId = user?.id ?? null;
+
+  const [progress, setProgress] = useState<LessonProgress>(
+    emptyProgress(userId ?? 'anonymous', lessonId),
+  );
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (!isSupabaseConfigured || !supabase) {
+    setProgress(emptyProgress(userId ?? 'anonymous', lessonId));
+
+    if (!userId || !isSupabaseConfigured || !supabase) {
       setLoaded(true);
       return;
     }
@@ -23,7 +40,8 @@ export function useLessonProgress(lessonId: string = 'argentina') {
     (async () => {
       const { data, error } = await supabase
         .from('lesson_progress')
-        .select('lesson_id, current_step, total_xp, completed_steps, is_finished, quiz_score')
+        .select('user_id, lesson_id, current_step, total_xp, completed_steps, is_finished, quiz_score')
+        .eq('user_id', userId)
         .eq('lesson_id', lessonId)
         .maybeSingle();
 
@@ -38,17 +56,20 @@ export function useLessonProgress(lessonId: string = 'argentina') {
       }
       setLoaded(true);
     })();
-    return () => { cancelled = true; };
-  }, [lessonId]);
+    return () => {
+      cancelled = true;
+    };
+  }, [lessonId, userId]);
 
   const save = useCallback(
     async (partial: Partial<LessonProgress>) => {
       setProgress((prev) => {
-        const next = { ...prev, ...partial, lesson_id: lessonId };
-        if (isSupabaseConfigured && supabase) {
+        const next = { ...prev, ...partial, lesson_id: lessonId, user_id: userId ?? prev.user_id };
+        if (userId && isSupabaseConfigured && supabase) {
           supabase
             .from('lesson_progress')
             .upsert({
+              user_id: userId,
               lesson_id: lessonId,
               current_step: next.current_step,
               total_xp: next.total_xp,
@@ -64,25 +85,24 @@ export function useLessonProgress(lessonId: string = 'argentina') {
         return next;
       });
     },
-    [lessonId],
+    [lessonId, userId],
   );
 
   const reset = useCallback(async () => {
-    setProgress({ ...EMPTY, lesson_id: lessonId });
-    if (isSupabaseConfigured && supabase) {
-      await supabase
-        .from('lesson_progress')
-        .upsert({
-          lesson_id: lessonId,
-          current_step: 1,
-          total_xp: 0,
-          completed_steps: [],
-          is_finished: false,
-          quiz_score: 0,
-          updated_at: new Date().toISOString(),
-        });
+    setProgress(emptyProgress(userId ?? 'anonymous', lessonId));
+    if (userId && isSupabaseConfigured && supabase) {
+      await supabase.from('lesson_progress').upsert({
+        user_id: userId,
+        lesson_id: lessonId,
+        current_step: 1,
+        total_xp: 0,
+        completed_steps: [],
+        is_finished: false,
+        quiz_score: 0,
+        updated_at: new Date().toISOString(),
+      });
     }
-  }, [lessonId]);
+  }, [lessonId, userId]);
 
-  return { progress, loaded, save, reset };
+  return { progress, loaded, save, reset, isAuthenticated: !!userId };
 }

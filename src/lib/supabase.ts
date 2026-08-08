@@ -10,6 +10,7 @@ export const supabase: SupabaseClient | null = isSupabaseConfigured
   : null;
 
 export interface LessonProgress {
+  user_id: string;
   lesson_id: string;
   current_step: number;
   total_xp: number;
@@ -19,7 +20,7 @@ export interface LessonProgress {
 }
 
 export interface UserStats {
-  id: string;
+  user_id: string;
   current_streak: number;
   longest_streak: number;
   last_active_date: string | null;

@@ -1,9 +1,23 @@
 import { useState } from 'react';
-import { Hourglass, Menu, X, UserCircle } from 'lucide-react';
+import { Hourglass, Menu, X, UserCircle, LogIn, LogOut } from 'lucide-react';
 
 const NAV_LINKS = [{ label: 'Cursos', href: '#cursos' }];
 
-export default function Navbar({ onProfile }: { onProfile?: () => void }) {
+interface NavbarProps {
+  isAuthenticated?: boolean;
+  userEmail?: string | null;
+  onProfile?: () => void;
+  onSignIn?: () => void;
+  onSignOut?: () => void;
+}
+
+export default function Navbar({
+  isAuthenticated = false,
+  userEmail,
+  onProfile,
+  onSignIn,
+  onSignOut,
+}: NavbarProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -34,13 +48,37 @@ export default function Navbar({ onProfile }: { onProfile?: () => void }) {
 
         {/* Desktop actions */}
         <div className="hidden items-center gap-3 md:flex">
-          <button
-            onClick={onProfile}
-            className="flex items-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-0.5 hover:bg-gold-300 hover:shadow-pixel"
-          >
-            <UserCircle className="h-4 w-4" />
-            Perfil
-          </button>
+          {isAuthenticated ? (
+            <>
+              {userEmail && (
+                <span className="max-w-[160px] truncate font-mono text-xs uppercase tracking-widest text-slate2-400">
+                  {userEmail}
+                </span>
+              )}
+              <button
+                onClick={onProfile}
+                className="flex items-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-0.5 hover:bg-gold-300 hover:shadow-pixel"
+              >
+                <UserCircle className="h-4 w-4" />
+                Perfil
+              </button>
+              <button
+                onClick={onSignOut}
+                aria-label="Cerrar sesión"
+                className="grid h-9 w-9 place-items-center border-2 border-ink-500 bg-ink-700 text-slate2-300 transition-all hover:border-ruby-400 hover:text-ruby-300"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={onSignIn}
+              className="flex items-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-0.5 hover:bg-gold-300 hover:shadow-pixel"
+            >
+              <LogIn className="h-4 w-4" />
+              Iniciar sesión
+            </button>
+          )}
         </div>
 
         {/* Mobile toggle */}
@@ -69,16 +107,46 @@ export default function Navbar({ onProfile }: { onProfile?: () => void }) {
             ))}
           </nav>
           <div className="mt-3 flex flex-col gap-2">
-            <button
-              onClick={() => {
-                setOpen(false);
-                onProfile?.();
-              }}
-              className="flex items-center justify-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ink-900"
-            >
-              <UserCircle className="h-4 w-4" />
-              Perfil
-            </button>
+            {isAuthenticated ? (
+              <>
+                {userEmail && (
+                  <p className="truncate px-1 font-mono text-[10px] uppercase tracking-widest text-slate2-500">
+                    {userEmail}
+                  </p>
+                )}
+                <button
+                  onClick={() => {
+                    setOpen(false);
+                    onProfile?.();
+                  }}
+                  className="flex items-center justify-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ink-900"
+                >
+                  <UserCircle className="h-4 w-4" />
+                  Perfil
+                </button>
+                <button
+                  onClick={() => {
+                    setOpen(false);
+                    onSignOut?.();
+                  }}
+                  className="flex items-center justify-center gap-2 border-2 border-ink-500 bg-ink-700 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-slate2-300"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Cerrar sesión
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  onSignIn?.();
+                }}
+                className="flex items-center justify-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ink-900"
+              >
+                <LogIn className="h-4 w-4" />
+                Iniciar sesión
+              </button>
+            )}
           </div>
         </div>
       )}

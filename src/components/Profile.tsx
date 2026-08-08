@@ -1,10 +1,12 @@
-import { ArrowLeft, Flame, Sparkles, Trophy, Star, Award } from 'lucide-react';
+import { ArrowLeft, Flame, Sparkles, Trophy, Star, Award, LogOut, LogIn } from 'lucide-react';
 import { courses } from '@/data/courses';
 import { getLesson } from '@/data/lessons';
 import { useAllProgress } from '@/hooks/useAllProgress';
 import { useUserStats } from '@/hooks/useUserStats';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Profile({ onBack }: { onBack: () => void }) {
+  const { user, isAuthenticated, signOut } = useAuth();
   const { byLesson, loaded: progressLoaded } = useAllProgress();
   const { stats, loaded: statsLoaded } = useUserStats();
 
@@ -31,6 +33,27 @@ export default function Profile({ onBack }: { onBack: () => void }) {
 
   const loading = !progressLoaded || !statsLoaded;
 
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-ink-900 text-slate2-300">
+        <div className="grid min-h-screen place-items-center px-4">
+          <div className="max-w-sm border-4 border-gold-400 bg-ink-800 p-6 text-center shadow-pixel-xl">
+            <p className="font-terminal text-lg text-slate2-300">
+              Necesitás iniciar sesión para ver tu perfil.
+            </p>
+            <button
+              onClick={onBack}
+              className="mt-5 flex w-full items-center justify-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold"
+            >
+              <LogIn className="h-4 w-4" />
+              Volver al inicio
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-ink-900 text-slate2-300">
       {/* Header */}
@@ -46,6 +69,20 @@ export default function Profile({ onBack }: { onBack: () => void }) {
           <h1 className="font-pixel text-sm text-gold-300 text-shadow-pixel sm:text-base">
             MI PERFIL
           </h1>
+          <div className="ml-auto flex items-center gap-3">
+            {user?.email && (
+              <span className="hidden max-w-[180px] truncate font-mono text-[10px] uppercase tracking-widest text-slate2-500 sm:inline">
+                {user.email}
+              </span>
+            )}
+            <button
+              onClick={() => signOut()}
+              className="flex shrink-0 items-center gap-1.5 border-2 border-ink-500 bg-ink-800 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-widest text-slate2-300 transition-all hover:border-ruby-400 hover:text-ruby-300"
+            >
+              <LogOut className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Salir</span>
+            </button>
+          </div>
         </div>
       </div>
 

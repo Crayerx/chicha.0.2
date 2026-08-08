@@ -1,23 +1,78 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Courses from '@/components/Courses';
 import Footer from '@/components/Footer';
 import Profile from '@/components/Profile';
+import AuthModal from '@/components/AuthModal';
 import LessonView from '@/components/lesson/LessonView';
+import { useAuth } from '@/contexts/AuthContext';
 
 type View = 'home' | 'lesson' | 'profile';
 
 export default function App() {
+  const { isAuthenticated, user, signOut } = useAuth();
+
   const [view, setView] = useState<View>('home');
   const [lessonId, setLessonId] = useState<string>('argentina');
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [pendingView, setPendingView] = useState<Exclude<View, 'home'> | null>(null);
+  const [pendingLessonId, setPendingLessonId] = useState<string | null>(null);
 
   const goHome = useCallback(() => setView('home'), []);
-  const goLesson = useCallback((id: string) => {
-    setLessonId(id);
-    setView('lesson');
+
+  const closeAuthModal = useCallback(() => {
+    setAuthModalOpen(false);
+    setPendingView(null);
+    setPendingLessonId(null);
   }, []);
-  const goProfile = useCallback(() => setView('profile'), []);
+
+  const goLesson = useCallback(
+    (id: string) => {
+      if (!isAuthenticated) {
+        setPendingView('lesson');
+        setPendingLessonId(id);
+        setAuthModalOpen(true);
+        return;
+      }
+      setLessonId(id);
+      setView('lesson');
+    },
+    [isAuthenticated],
+  );
+
+  const goProfile = useCallback(() => {
+    if (!isAuthenticated) {
+      setPendingView('profile');
+      setPendingLessonId(null);
+      setAuthModalOpen(true);
+      return;
+    }
+    setView('profile');
+  }, [isAuthenticated]);
+
+  // Una vez que el login (magic link o Google) resuelve, retomamos a dónde
+  // el usuario quería ir antes de que le pidiéramos iniciar sesión.
+  useEffect(() => {
+    if (isAuthenticated && pendingView) {
+      if (pendingView === 'lesson' && pendingLessonId) setLessonId(pendingLessonId);
+      setView(pendingView);
+      setPendingView(null);
+      setPendingLessonId(null);
+      setAuthModalOpen(false);
+    }
+  }, [isAuthenticated, pendingView, pendingLessonId]);
+
+  // Si cierra sesión estando en una vista que requiere cuenta, volvemos al home.
+  useEffect(() => {
+    if (!isAuthenticated && view !== 'home') {
+      setView('home');
+    }
+  }, [isAuthenticated, view]);
+
+  const handleSignOut = useCallback(async () => {
+    await signOut();
+  }, [signOut]);
 
   if (view === 'lesson') {
     return (
@@ -33,12 +88,19 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-ink-900 text-slate2-300">
-      <Navbar onProfile={goProfile} />
+      <Navbar
+        isAuthenticated={isAuthenticated}
+        userEmail={user?.email ?? null}
+        onProfile={goProfile}
+        onSignIn={() => setAuthModalOpen(true)}
+        onSignOut={handleSignOut}
+      />
       <main>
         <Hero onStart={() => goLesson('argentina')} />
         <Courses onPlay={goLesson} />
       </main>
       <Footer />
+      {authModalOpen && <AuthModal onClose={closeAuthModal} />}
     </div>
   );
 }
