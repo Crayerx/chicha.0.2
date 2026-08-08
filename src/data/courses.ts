@@ -29,7 +29,7 @@ export const courses: Course[] = [
     icon: Flag,
     accent: 'ember',
     era: '1930 – 1946',
-    lessons: 12,
+    lessons: 10,
     lessonId: 'argentina',
   },
   {
@@ -43,7 +43,7 @@ export const courses: Course[] = [
     icon: Factory,
     accent: 'gold',
     era: '1946 – 1953',
-    lessons: 3,
+    lessons: 10,
     lessonId: 'peronista',
   },
   {
@@ -57,7 +57,7 @@ export const courses: Course[] = [
     icon: HeartHandshake,
     accent: 'ruby',
     era: '1946 – 1955',
-    lessons: 3,
+    lessons: 10,
     lessonId: 'bienestar',
   },
   {
@@ -71,7 +71,7 @@ export const courses: Course[] = [
     icon: Scale,
     accent: 'jade',
     era: '1946 – 1955',
-    lessons: 3,
+    lessons: 10,
     lessonId: 'politica',
   },
   {
@@ -85,7 +85,7 @@ export const courses: Course[] = [
     icon: ShieldAlert,
     accent: 'ember',
     era: '1955 – 1958',
-    lessons: 3,
+    lessons: 10,
     lessonId: 'resistencia',
   },
   {

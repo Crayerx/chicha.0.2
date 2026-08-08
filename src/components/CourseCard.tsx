@@ -132,7 +132,7 @@ export default function CourseCard({
         </span>
         <span className="inline-flex items-center gap-1.5">
           <BookOpen className="h-3.5 w-3.5 text-gold-400" />
-          {course.lessons} lecciones
+          {course.lessons} pasos
         </span>
       </div>
 
