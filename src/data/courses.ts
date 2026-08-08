@@ -1,4 +1,4 @@
-import { Lock, Clock as Unlock, Pyramid, Shield, Swords, Flame, Flag, Factory } from 'lucide-react';
+import { Lock, Clock as Unlock, Pyramid, Shield, Swords, Flame, Flag, Factory, HeartHandshake } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 export type CourseStatus = 'unlocked' | 'locked';
@@ -45,6 +45,20 @@ export const courses: Course[] = [
     era: '1946 – 1953',
     lessons: 3,
     lessonId: 'peronista',
+  },
+  {
+    id: 'bienestar',
+    title: 'Estado de Bienestar',
+    category: 'SIGLO XX',
+    description:
+      'Derechos sociales, salud, educación y cultura: la Fundación Eva Perón, Ramón Carrillo y la gratuidad universitaria.',
+    hours: 4,
+    status: 'unlocked',
+    icon: HeartHandshake,
+    accent: 'ruby',
+    era: '1946 – 1955',
+    lessons: 3,
+    lessonId: 'bienestar',
   },
   {
     id: 'rome',

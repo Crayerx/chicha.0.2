@@ -69,6 +69,24 @@ import {
   sliderQuestionsPeronista,
 } from './lessonPeronista';
 
+import {
+  loreSlidesBienestar,
+  timelineEventsBienestar,
+  quizQuestionsBienestar,
+  lessonArtifactBienestar,
+  lessonMetaBienestar,
+  stepXpBienestar,
+  matchPairsBienestar,
+  fillBlankExerciseBienestar,
+  categoriesBienestar,
+  categoryItemsBienestar,
+  trueFalseGridBienestar,
+  mapHotspotsBienestar,
+  memoryPairsBienestar,
+  memoryCardsBienestar,
+  sliderQuestionsBienestar,
+} from './lessonBienestar';
+
 export type StepType = 'lore' | 'timeline' | 'match' | 'fill' | 'categorize' | 'truefalse' | 'map' | 'memory' | 'slider' | 'quiz';
 
 export interface LessonConfig {
@@ -142,6 +160,29 @@ export const lessons: Record<string, LessonConfig> = {
     memoryPairs: memoryPairsPeronista,
     memoryCards: memoryCardsPeronista,
     sliderQuestions: sliderQuestionsPeronista,
+  },
+  bienestar: {
+    id: 'bienestar',
+    module: lessonMetaBienestar.module,
+    title: lessonMetaBienestar.title,
+    subtitle: lessonMetaBienestar.subtitle,
+    totalXp: lessonMetaBienestar.totalXp,
+    steps: lessonMetaBienestar.steps,
+    stepTypes: ['lore', 'timeline', 'match', 'fill', 'categorize', 'truefalse', 'map', 'memory', 'slider', 'quiz'] as StepType[],
+    stepXp: stepXpBienestar,
+    lore: loreSlidesBienestar,
+    timeline: timelineEventsBienestar,
+    quiz: quizQuestionsBienestar,
+    artifact: lessonArtifactBienestar,
+    matchPairs: matchPairsBienestar,
+    fillBlank: fillBlankExerciseBienestar,
+    categories: categoriesBienestar,
+    categoryItems: categoryItemsBienestar,
+    trueFalseGrid: trueFalseGridBienestar,
+    mapHotspots: mapHotspotsBienestar,
+    memoryPairs: memoryPairsBienestar,
+    memoryCards: memoryCardsBienestar,
+    sliderQuestions: sliderQuestionsBienestar,
   },
 };
 
