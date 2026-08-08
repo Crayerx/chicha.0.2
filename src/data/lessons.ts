@@ -105,6 +105,24 @@ import {
   sliderQuestionsPolitica,
 } from './lessonPolitica';
 
+import {
+  loreSlidesResistencia,
+  timelineEventsResistencia,
+  quizQuestionsResistencia,
+  lessonArtifactResistencia,
+  lessonMetaResistencia,
+  stepXpResistencia,
+  matchPairsResistencia,
+  fillBlankExerciseResistencia,
+  categoriesResistencia,
+  categoryItemsResistencia,
+  trueFalseGridResistencia,
+  mapHotspotsResistencia,
+  memoryPairsResistencia,
+  memoryCardsResistencia,
+  sliderQuestionsResistencia,
+} from './lessonResistencia';
+
 export type StepType = 'lore' | 'timeline' | 'match' | 'fill' | 'categorize' | 'truefalse' | 'map' | 'memory' | 'slider' | 'quiz';
 
 export interface LessonConfig {
@@ -224,6 +242,29 @@ export const lessons: Record<string, LessonConfig> = {
     memoryPairs: memoryPairsPolitica,
     memoryCards: memoryCardsPolitica,
     sliderQuestions: sliderQuestionsPolitica,
+  },
+  resistencia: {
+    id: 'resistencia',
+    module: lessonMetaResistencia.module,
+    title: lessonMetaResistencia.title,
+    subtitle: lessonMetaResistencia.subtitle,
+    totalXp: lessonMetaResistencia.totalXp,
+    steps: lessonMetaResistencia.steps,
+    stepTypes: ['lore', 'timeline', 'match', 'fill', 'categorize', 'truefalse', 'map', 'memory', 'slider', 'quiz'] as StepType[],
+    stepXp: stepXpResistencia,
+    lore: loreSlidesResistencia,
+    timeline: timelineEventsResistencia,
+    quiz: quizQuestionsResistencia,
+    artifact: lessonArtifactResistencia,
+    matchPairs: matchPairsResistencia,
+    fillBlank: fillBlankExerciseResistencia,
+    categories: categoriesResistencia,
+    categoryItems: categoryItemsResistencia,
+    trueFalseGrid: trueFalseGridResistencia,
+    mapHotspots: mapHotspotsResistencia,
+    memoryPairs: memoryPairsResistencia,
+    memoryCards: memoryCardsResistencia,
+    sliderQuestions: sliderQuestionsResistencia,
   },
 };
 

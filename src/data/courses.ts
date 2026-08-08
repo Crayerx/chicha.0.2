@@ -1,4 +1,4 @@
-import { Lock, Clock as Unlock, Pyramid, Shield, Swords, Flame, Flag, Factory, HeartHandshake, Scale } from 'lucide-react';
+import { Lock, Clock as Unlock, Pyramid, Shield, Swords, Flame, Flag, Factory, HeartHandshake, Scale, ShieldAlert } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 export type CourseStatus = 'unlocked' | 'locked';
@@ -73,6 +73,20 @@ export const courses: Course[] = [
     era: '1946 – 1955',
     lessons: 3,
     lessonId: 'politica',
+  },
+  {
+    id: 'resistencia',
+    title: 'La Resistencia Peronista',
+    category: 'SIGLO XX',
+    description:
+      'El golpe de 1955, la Revolución Libertadora, la proscripción del peronismo y la resistencia clandestina que surgió frente a la represión.',
+    hours: 4,
+    status: 'unlocked',
+    icon: ShieldAlert,
+    accent: 'ember',
+    era: '1955 – 1958',
+    lessons: 3,
+    lessonId: 'resistencia',
   },
   {
     id: 'rome',
