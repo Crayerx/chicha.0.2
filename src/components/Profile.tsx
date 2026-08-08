@@ -1,10 +1,18 @@
-import { ArrowLeft, Flame, Sparkles, Trophy, Star, Award, LogOut, LogIn, Snowflake, Lock, RotateCcw } from 'lucide-react';
+import { ArrowLeft, Flame, Sparkles, Trophy, Star, Award, LogOut, LogIn, Snowflake, Lock, RotateCcw, Target } from 'lucide-react';
 import { courses } from '@/data/courses';
 import { getLesson } from '@/data/lessons';
 import { useAllProgress } from '@/hooks/useAllProgress';
 import { useUserStats } from '@/hooks/useUserStats';
 import { useAchievements } from '@/hooks/useAchievements';
 import { useAuth } from '@/contexts/AuthContext';
+import DailyGoalBar from './DailyGoalBar';
+
+/** Opciones de meta diaria: minutos aproximados de estudio -> XP objetivo. */
+const DAILY_GOAL_OPTIONS = [
+  { minutes: 10, xp: 80 },
+  { minutes: 20, xp: 160 },
+  { minutes: 30, xp: 240 },
+];
 
 export default function Profile({
   onBack,
@@ -15,7 +23,7 @@ export default function Profile({
 }) {
   const { user, isAuthenticated, signOut } = useAuth();
   const { byLesson, loaded: progressLoaded } = useAllProgress();
-  const { stats, loaded: statsLoaded } = useUserStats();
+  const { stats, xpToday, loaded: statsLoaded, setDailyGoal } = useUserStats();
   const { achievements, unlockedCount, totalCount, loaded: achievementsLoaded } = useAchievements();
 
   const trackedCourses = courses.filter((c) => c.lessonId);
@@ -146,6 +154,34 @@ export default function Profile({
                   </span>{' '}
                   — perdona un día salteado sin cortar la racha
                 </p>
+              </div>
+
+              {/* Objetivo diario */}
+              <div className="mt-4 border-2 border-gold-400/40 bg-ink-800/50 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <h2 className="flex items-center gap-2 font-pixel text-xs text-gold-300 text-shadow-pixel">
+                    <Target className="h-3.5 w-3.5" />
+                    OBJETIVO DIARIO
+                  </h2>
+                  <div className="flex gap-1.5">
+                    {DAILY_GOAL_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.minutes}
+                        onClick={() => setDailyGoal(opt.xp)}
+                        className={`border-2 px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-widest transition-all ${
+                          stats.daily_goal_xp === opt.xp
+                            ? 'border-gold-400 bg-gold-400 text-ink-900'
+                            : 'border-ink-500 bg-ink-700 text-slate2-300 hover:border-gold-400/60 hover:text-gold-200'
+                        }`}
+                      >
+                        {opt.minutes} min
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <DailyGoalBar xpToday={xpToday} goalXp={stats.daily_goal_xp} compact />
+                </div>
               </div>
 
               {/* Artifacts collection */}

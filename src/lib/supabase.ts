@@ -27,5 +27,8 @@ export interface UserStats {
   last_active_date: string | null;
   freeze_available: boolean;
   freeze_week_start: string | null;
+  daily_goal_xp: number;
+  xp_today: number;
+  xp_today_date: string | null;
   updated_at?: string;
 }

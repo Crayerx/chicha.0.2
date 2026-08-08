@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Hourglass, Menu, X, UserCircle, LogIn, LogOut } from 'lucide-react';
+import { useUserStats } from '@/hooks/useUserStats';
+import DailyGoalBar from './DailyGoalBar';
 
 const NAV_LINKS = [{ label: 'Cursos', href: '#cursos' }];
 
@@ -19,6 +21,8 @@ export default function Navbar({
   onSignOut,
 }: NavbarProps) {
   const [open, setOpen] = useState(false);
+  const { stats, xpToday, loaded: statsLoaded } = useUserStats();
+  const showGoalBar = isAuthenticated && statsLoaded;
 
   return (
     <header className="sticky top-0 z-50 border-b-2 border-ink-600 bg-ink-900/95 backdrop-blur-sm">
@@ -47,7 +51,8 @@ export default function Navbar({
         </nav>
 
         {/* Desktop actions */}
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-4 md:flex">
+          {showGoalBar && <DailyGoalBar xpToday={xpToday} goalXp={stats.daily_goal_xp} />}
           {isAuthenticated ? (
             <>
               {userEmail && (
@@ -107,6 +112,11 @@ export default function Navbar({
             ))}
           </nav>
           <div className="mt-3 flex flex-col gap-2">
+            {showGoalBar && (
+              <div className="mb-1 px-1">
+                <DailyGoalBar xpToday={xpToday} goalXp={stats.daily_goal_xp} compact />
+              </div>
+            )}
             {isAuthenticated ? (
               <>
                 {userEmail && (

@@ -74,7 +74,8 @@ export default function LessonView({ lessonId = 'argentina', onExit, reviewMode 
     ) => {
       if (isReviewing) {
         // Solo navegación local: no persiste XP/pasos ni marca victoria de
-        // nuevo, para no pisar el progreso ya guardado de esta lección.
+        // nuevo, para no pisar el progreso ya guardado de esta lección. No
+        // se gana XP repasando, así que el objetivo diario no se mueve.
         recordActivity();
         setStep(nextStep);
         return;
@@ -83,6 +84,9 @@ export default function LessonView({ lessonId = 'argentina', onExit, reviewMode 
         if (prev.includes(completedStep)) return prev;
         const next = [...prev, completedStep];
         const newXp = Math.min(maxXp, xp + extraXp);
+        // El XP realmente ganado en este paso (puede ser menor a extraXp si
+        // ya estábamos cerca del tope de la lección).
+        const gainedXp = newXp - xp;
         save({
           current_step: nextStep,
           total_xp: newXp,
@@ -90,7 +94,7 @@ export default function LessonView({ lessonId = 'argentina', onExit, reviewMode 
           is_finished: extra?.finished ?? false,
           quiz_score: extra?.quizScore ?? quizScore,
         });
-        recordActivity();
+        recordActivity(gainedXp);
         return next;
       });
       setXp((prev) => Math.min(maxXp, prev + extraXp));

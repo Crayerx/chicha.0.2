@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase, isSupabaseConfigured, type UserStats } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 
+const DEFAULT_DAILY_GOAL_XP = 80; // ≈ 10 min de estudio (1 paso de lección)
+
 function emptyStats(userId: string): UserStats {
   return {
     user_id: userId,
@@ -10,6 +12,9 @@ function emptyStats(userId: string): UserStats {
     last_active_date: null,
     freeze_available: true,
     freeze_week_start: null,
+    daily_goal_xp: DEFAULT_DAILY_GOAL_XP,
+    xp_today: 0,
+    xp_today_date: null,
   };
 }
 
@@ -65,7 +70,9 @@ export function useUserStats() {
     (async () => {
       const { data, error } = await supabase
         .from('user_stats')
-        .select('user_id, current_streak, longest_streak, last_active_date, freeze_available, freeze_week_start')
+        .select(
+          'user_id, current_streak, longest_streak, last_active_date, freeze_available, freeze_week_start, daily_goal_xp, xp_today, xp_today_date',
+        )
         .eq('user_id', userId)
         .maybeSingle();
 
@@ -95,6 +102,9 @@ export function useUserStats() {
             last_active_date: next.last_active_date,
             freeze_available: next.freeze_available,
             freeze_week_start: next.freeze_week_start,
+            daily_goal_xp: next.daily_goal_xp,
+            xp_today: next.xp_today,
+            xp_today_date: next.xp_today_date,
             updated_at: new Date().toISOString(),
           })
           .then(({ error }) => {
@@ -105,48 +115,94 @@ export function useUserStats() {
     [userId],
   );
 
-  const recordActivity = useCallback(() => {
-    if (!userId) return; // sin cuenta no hay dónde guardar la racha
-    const today = todayStr();
-    const currentWeek = mondayOf(today);
+  /**
+   * Registra actividad del día (para la racha) y, opcionalmente, XP ganado
+   * en el momento (para el objetivo diario). `xpDelta` es el XP de ESTE
+   * evento, no un acumulado — se suma a `xp_today` si es el mismo día
+   * calendario, o resetea el contador si es un día nuevo.
+   */
+  const recordActivity = useCallback(
+    (xpDelta: number = 0) => {
+      if (!userId) return; // sin cuenta no hay dónde guardar la racha
+      const today = todayStr();
+      const currentWeek = mondayOf(today);
 
-    setStats((prev) => {
-      if (prev.last_active_date === today) {
-        return prev; // ya se registró actividad hoy
-      }
+      setStats((prev) => {
+        const xpToday = prev.xp_today_date === today ? prev.xp_today + xpDelta : xpDelta;
 
-      // El freeze se repone una vez por semana calendario.
-      const freezeAvailable =
-        prev.freeze_week_start === currentWeek ? prev.freeze_available : true;
+        if (prev.last_active_date === today) {
+          // Ya se registró actividad hoy: la racha no cambia, pero el XP
+          // del día sí puede seguir sumando.
+          if (xpDelta === 0) return prev;
+          const next: UserStats = { ...prev, xp_today: xpToday, xp_today_date: today };
+          persist(next);
+          return next;
+        }
 
-      const gap = prev.last_active_date ? daysBetween(prev.last_active_date, today) : null;
+        // El freeze se repone una vez por semana calendario.
+        const freezeAvailable =
+          prev.freeze_week_start === currentWeek ? prev.freeze_available : true;
 
-      let nextStreak: number;
-      let freezeAfter = freezeAvailable;
-      if (gap === 1) {
-        nextStreak = prev.current_streak + 1;
-      } else if (gap === 2 && freezeAvailable) {
-        nextStreak = prev.current_streak + 1; // se perdona el día salteado
-        freezeAfter = false;
-        setFreezeJustUsed(true);
-      } else {
-        nextStreak = 1;
-      }
+        const gap = prev.last_active_date ? daysBetween(prev.last_active_date, today) : null;
 
-      const next: UserStats = {
-        user_id: userId,
-        current_streak: nextStreak,
-        longest_streak: Math.max(prev.longest_streak, nextStreak),
-        last_active_date: today,
-        freeze_available: freezeAfter,
-        freeze_week_start: currentWeek,
-      };
-      persist(next);
-      return next;
-    });
-  }, [userId, persist]);
+        let nextStreak: number;
+        let freezeAfter = freezeAvailable;
+        if (gap === 1) {
+          nextStreak = prev.current_streak + 1;
+        } else if (gap === 2 && freezeAvailable) {
+          nextStreak = prev.current_streak + 1; // se perdona el día salteado
+          freezeAfter = false;
+          setFreezeJustUsed(true);
+        } else {
+          nextStreak = 1;
+        }
+
+        const next: UserStats = {
+          user_id: userId,
+          current_streak: nextStreak,
+          longest_streak: Math.max(prev.longest_streak, nextStreak),
+          last_active_date: today,
+          freeze_available: freezeAfter,
+          freeze_week_start: currentWeek,
+          daily_goal_xp: prev.daily_goal_xp,
+          xp_today: xpToday,
+          xp_today_date: today,
+        };
+        persist(next);
+        return next;
+      });
+    },
+    [userId, persist],
+  );
+
+  const setDailyGoal = useCallback(
+    (goalXp: number) => {
+      if (!userId) return;
+      setStats((prev) => {
+        const next: UserStats = { ...prev, daily_goal_xp: goalXp };
+        persist(next);
+        return next;
+      });
+    },
+    [userId, persist],
+  );
 
   const clearFreezeNotice = useCallback(() => setFreezeJustUsed(false), []);
 
-  return { stats, loaded, recordActivity, isAuthenticated: !!userId, freezeJustUsed, clearFreezeNotice };
+  // xp_today guardado puede ser de un día anterior si todavía no hubo
+  // actividad hoy — para mostrar en UI lo normalizamos a 0 en ese caso, sin
+  // tocar lo persistido (recordActivity ya se encarga de resetearlo cuando
+  // corresponde).
+  const xpToday = stats.xp_today_date === todayStr() ? stats.xp_today : 0;
+
+  return {
+    stats,
+    xpToday,
+    loaded,
+    recordActivity,
+    setDailyGoal,
+    isAuthenticated: !!userId,
+    freezeJustUsed,
+    clearFreezeNotice,
+  };
 }
