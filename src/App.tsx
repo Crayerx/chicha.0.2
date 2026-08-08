@@ -51,16 +51,19 @@ export default function App() {
     setView('profile');
   }, [isAuthenticated]);
 
-  // Una vez que el login (magic link o Google) resuelve, retomamos a dónde
-  // el usuario quería ir antes de que le pidiéramos iniciar sesión.
+  // Una vez que el login resuelve (magic link, Google o email+contraseña),
+  // cerramos el modal siempre. Si había una acción pendiente (empezar una
+  // lección o entrar al perfil), la retomamos; si el login se abrió suelto
+  // desde el navbar, simplemente se cierra y el usuario sigue en el home.
   useEffect(() => {
-    if (isAuthenticated && pendingView) {
+    if (!isAuthenticated) return;
+    if (pendingView) {
       if (pendingView === 'lesson' && pendingLessonId) setLessonId(pendingLessonId);
       setView(pendingView);
-      setPendingView(null);
-      setPendingLessonId(null);
-      setAuthModalOpen(false);
     }
+    setPendingView(null);
+    setPendingLessonId(null);
+    setAuthModalOpen(false);
   }, [isAuthenticated, pendingView, pendingLessonId]);
 
   // Si cierra sesión estando en una vista que requiere cuenta, volvemos al home.
