@@ -26,9 +26,10 @@ export const phaModules: CourseModuleGroup[] = [
   {
     id: 'modulo-2',
     title: 'Módulo 2',
-    description: 'Próximamente.',
-    status: 'locked',
-    courseIds: [],
+    description:
+      'La última dictadura cívico-militar (1976-1983): el golpe, el plan económico neoliberal, el terrorismo de Estado, la sociedad y la Guerra de Malvinas.',
+    status: 'unlocked',
+    courseIds: ['golpe76', 'planeconomico', 'terrorismo', 'sociedaddictadura', 'malvinas'],
   },
   {
     id: 'modulo-3',

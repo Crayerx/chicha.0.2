@@ -119,6 +119,42 @@ import {
   sliderQuestionsResistencia,
 } from './lessonResistencia';
 
+// ── Módulo 2 — apartados (formato simple: contexto + quiz) ─────────
+import {
+  loreSlidesGolpe76,
+  quizQuestionsGolpe76,
+  lessonArtifactGolpe76,
+  lessonMetaGolpe76,
+} from './lessonGolpe76';
+
+import {
+  loreSlidesPlanEconomico,
+  quizQuestionsPlanEconomico,
+  lessonArtifactPlanEconomico,
+  lessonMetaPlanEconomico,
+} from './lessonPlanEconomico';
+
+import {
+  loreSlidesTerrorismo,
+  quizQuestionsTerrorismo,
+  lessonArtifactTerrorismo,
+  lessonMetaTerrorismo,
+} from './lessonTerrorismo';
+
+import {
+  loreSlidesSociedadDictadura,
+  quizQuestionsSociedadDictadura,
+  lessonArtifactSociedadDictadura,
+  lessonMetaSociedadDictadura,
+} from './lessonSociedadDictadura';
+
+import {
+  loreSlidesMalvinas,
+  quizQuestionsMalvinas,
+  lessonArtifactMalvinas,
+  lessonMetaMalvinas,
+} from './lessonMalvinas';
+
 export type StepType = 'lore' | 'timeline' | 'match' | 'fill' | 'categorize' | 'truefalse' | 'map' | 'memory' | 'slider' | 'quiz';
 
 /**
@@ -166,6 +202,14 @@ function buildStepXp(sequence: StepType[] = STEP_SEQUENCE): Record<number, numbe
 
 const DEFAULT_STEP_XP = buildStepXp();
 const DEFAULT_LESSON_TOTAL_XP = Object.values(DEFAULT_STEP_XP).reduce((a, b) => a + b, 0);
+
+/**
+ * Secuencia simplificada para los apartados del Módulo 2: solo contexto
+ * (lore) + quiz final de 6 preguntas, sin los demás minijuegos.
+ */
+const MODULO2_STEP_SEQUENCE: StepType[] = ['lore', 'quiz'];
+const MODULO2_STEP_XP = buildStepXp(MODULO2_STEP_SEQUENCE);
+const MODULO2_TOTAL_XP = Object.values(MODULO2_STEP_XP).reduce((a, b) => a + b, 0);
 
 export interface LessonConfig {
   id: string;
@@ -307,6 +351,77 @@ export const lessons: Record<string, LessonConfig> = {
     memoryPairs: memoryPairsResistencia,
     memoryCards: memoryCardsResistencia,
     sliderQuestions: sliderQuestionsResistencia,
+  },
+  // ── Módulo 2 — apartados (contexto + quiz) ─────────────────────
+  golpe76: {
+    id: 'golpe76',
+    module: lessonMetaGolpe76.module,
+    title: lessonMetaGolpe76.title,
+    subtitle: lessonMetaGolpe76.subtitle,
+    totalXp: MODULO2_TOTAL_XP,
+    steps: lessonMetaGolpe76.steps,
+    stepTypes: MODULO2_STEP_SEQUENCE,
+    stepXp: MODULO2_STEP_XP,
+    lore: loreSlidesGolpe76,
+    timeline: [],
+    quiz: quizQuestionsGolpe76,
+    artifact: lessonArtifactGolpe76,
+  },
+  planeconomico: {
+    id: 'planeconomico',
+    module: lessonMetaPlanEconomico.module,
+    title: lessonMetaPlanEconomico.title,
+    subtitle: lessonMetaPlanEconomico.subtitle,
+    totalXp: MODULO2_TOTAL_XP,
+    steps: lessonMetaPlanEconomico.steps,
+    stepTypes: MODULO2_STEP_SEQUENCE,
+    stepXp: MODULO2_STEP_XP,
+    lore: loreSlidesPlanEconomico,
+    timeline: [],
+    quiz: quizQuestionsPlanEconomico,
+    artifact: lessonArtifactPlanEconomico,
+  },
+  terrorismo: {
+    id: 'terrorismo',
+    module: lessonMetaTerrorismo.module,
+    title: lessonMetaTerrorismo.title,
+    subtitle: lessonMetaTerrorismo.subtitle,
+    totalXp: MODULO2_TOTAL_XP,
+    steps: lessonMetaTerrorismo.steps,
+    stepTypes: MODULO2_STEP_SEQUENCE,
+    stepXp: MODULO2_STEP_XP,
+    lore: loreSlidesTerrorismo,
+    timeline: [],
+    quiz: quizQuestionsTerrorismo,
+    artifact: lessonArtifactTerrorismo,
+  },
+  sociedaddictadura: {
+    id: 'sociedaddictadura',
+    module: lessonMetaSociedadDictadura.module,
+    title: lessonMetaSociedadDictadura.title,
+    subtitle: lessonMetaSociedadDictadura.subtitle,
+    totalXp: MODULO2_TOTAL_XP,
+    steps: lessonMetaSociedadDictadura.steps,
+    stepTypes: MODULO2_STEP_SEQUENCE,
+    stepXp: MODULO2_STEP_XP,
+    lore: loreSlidesSociedadDictadura,
+    timeline: [],
+    quiz: quizQuestionsSociedadDictadura,
+    artifact: lessonArtifactSociedadDictadura,
+  },
+  malvinas: {
+    id: 'malvinas',
+    module: lessonMetaMalvinas.module,
+    title: lessonMetaMalvinas.title,
+    subtitle: lessonMetaMalvinas.subtitle,
+    totalXp: MODULO2_TOTAL_XP,
+    steps: lessonMetaMalvinas.steps,
+    stepTypes: MODULO2_STEP_SEQUENCE,
+    stepXp: MODULO2_STEP_XP,
+    lore: loreSlidesMalvinas,
+    timeline: [],
+    quiz: quizQuestionsMalvinas,
+    artifact: lessonArtifactMalvinas,
   },
 };
 

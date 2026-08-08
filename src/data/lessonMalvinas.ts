@@ -1,0 +1,126 @@
+import {
+  Flag,
+  Landmark,
+  Globe,
+  Vote,
+  ShieldAlert,
+  type LucideIcon,
+} from 'lucide-react';
+import type { LoreSlide, QuizQuestion, Artifact } from './lessonArgentina';
+
+export const loreSlidesMalvinas: LoreSlide[] = [
+  {
+    id: 1,
+    title: 'La Dictadura en su Etapa Final',
+    icon: ShieldAlert,
+    tag: '1981-1982',
+    accent: 'ember',
+    body: 'Hacia 1981, la dictadura atravesaba una fuerte crisis de legitimidad: la crisis económica, las denuncias por violaciones a los derechos humanos y las protestas sociales debilitaban al régimen. Leopoldo Fortunato Galtieri asumió la presidencia de facto en diciembre de 1981.',
+  },
+  {
+    id: 2,
+    title: 'El Desembarco en las Malvinas',
+    icon: Flag,
+    tag: '2 ABR 1982',
+    accent: 'gold',
+    body: 'El 2 de abril de 1982, fuerzas argentinas desembarcaron en las Islas Malvinas, ocupadas por el Reino Unido desde 1833, e iniciaron su recuperación. La medida generó una ola de apoyo popular inicial, incluso entre sectores que se habían opuesto a la dictadura.',
+  },
+  {
+    id: 3,
+    title: 'El Conflicto Bélico',
+    icon: Globe,
+    tag: 'ABR-JUN 1982',
+    accent: 'jade',
+    body: 'El Reino Unido respondió enviando una flota militar al Atlántico Sur. Durante más de dos meses se combatió en tierra, mar y aire. Las tropas argentinas, muchas de ellas soldados conscriptos jóvenes y con escaso entrenamiento, enfrentaron a fuerzas británicas mejor equipadas.',
+  },
+  {
+    id: 4,
+    title: 'La Rendición y sus Consecuencias',
+    icon: ShieldAlert,
+    tag: '14 JUN 1982',
+    accent: 'ruby',
+    body: 'El 14 de junio de 1982, Argentina se rindió tras la derrota militar. Casi 650 soldados argentinos murieron en el conflicto. La derrota profundizó el descrédito de la dictadura y aceleró su caída, al desnudar la incompetencia y el costo humano de la aventura militar.',
+  },
+  {
+    id: 5,
+    title: 'El Retorno a la Democracia',
+    icon: Landmark,
+    tag: '1983',
+    accent: 'gold',
+    body: 'Tras Malvinas, la Junta Militar quedó muy debilitada y debió convocar a elecciones. El 30 de octubre de 1983, Raúl Alfonsín ganó los comicios y asumió la presidencia el 10 de diciembre de ese año, poniendo fin a la dictadura y abriendo una nueva etapa democrática en Argentina.',
+  },
+];
+
+export const quizQuestionsMalvinas: QuizQuestion[] = [
+  {
+    id: 1,
+    type: 'multiple',
+    question: '¿Qué presidente de facto ordenó el desembarco en las Islas Malvinas?',
+    options: ['Jorge Rafael Videla', 'Roberto Viola', 'Leopoldo Galtieri', 'Reynaldo Bignone'],
+    correctIndex: 2,
+    explanation: 'Leopoldo Fortunato Galtieri, presidente de facto desde diciembre de 1981, ordenó la operación de recuperación de las Malvinas.',
+    accent: 'gold',
+  },
+  {
+    id: 2,
+    type: 'truefalse',
+    question: 'La Guerra de Malvinas comenzó el 2 de abril de 1982 con el desembarco argentino en las islas.',
+    options: ['Verdadero', 'Falso'],
+    correctIndex: 0,
+    explanation: 'Verdadero. El 2 de abril de 1982 las fuerzas argentinas desembarcaron e iniciaron la ocupación de las islas.',
+    accent: 'ember',
+  },
+  {
+    id: 3,
+    type: 'multiple',
+    question: '¿Contra qué país se combatió en la Guerra de Malvinas?',
+    options: ['Estados Unidos', 'Reino Unido', 'Francia', 'Chile'],
+    correctIndex: 1,
+    explanation: 'El conflicto se libró contra el Reino Unido, que ocupaba las islas desde 1833.',
+    accent: 'jade',
+  },
+  {
+    id: 4,
+    type: 'flashcard',
+    question: '¿Qué consecuencia política tuvo la derrota argentina en Malvinas?',
+    answer: 'Profundizó el descrédito de la dictadura, aceleró su caída y precipitó la transición hacia la democracia.',
+    explanation: 'La derrota desnudó el costo humano y la incompetencia militar del régimen, apurando el llamado a elecciones.',
+    accent: 'ruby',
+  },
+  {
+    id: 5,
+    type: 'truefalse',
+    question: 'Tras la derrota en Malvinas, la dictadura se mantuvo en el poder varios años más.',
+    options: ['Verdadero', 'Falso'],
+    correctIndex: 1,
+    explanation: 'Falso. La derrota debilitó tanto al régimen que debió convocar a elecciones el año siguiente, en 1983.',
+    accent: 'gold',
+  },
+  {
+    id: 6,
+    type: 'multiple',
+    question: '¿En qué año se realizaron las elecciones que devolvieron la democracia a la Argentina?',
+    options: ['1981', '1982', '1983', '1985'],
+    correctIndex: 2,
+    explanation: 'Las elecciones se realizaron el 30 de octubre de 1983 y Raúl Alfonsín asumió la presidencia el 10 de diciembre.',
+    accent: 'ember',
+  },
+];
+
+export const lessonArtifactMalvinas: Artifact = {
+  name: 'Bandera de Malvinas',
+  rarity: 'LEGENDARIO',
+  era: '2 ABR – 14 JUN 1982',
+  icon: Flag,
+  description: 'Conmemora el conflicto del Atlántico Sur y el fin de la dictadura que precipitó el retorno a la democracia en 1983.',
+};
+
+export const lessonMetaMalvinas = {
+  module: 'Módulo 2',
+  title: 'La Guerra de Malvinas y el Final de la Dictadura',
+  subtitle: 'El conflicto de 1982 y el retorno a la democracia',
+  steps: [
+    { id: 1, label: 'Contexto', icon: Landmark as LucideIcon },
+    { id: 2, label: 'Quiz', icon: Vote as LucideIcon },
+  ],
+};

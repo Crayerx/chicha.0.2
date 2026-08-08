@@ -1,4 +1,4 @@
-import { Lock, Clock as Unlock, Pyramid, Shield, Swords, Flame, Flag, Factory, HeartHandshake, Scale, ShieldAlert } from 'lucide-react';
+import { Lock, Clock as Unlock, Pyramid, Shield, Swords, Flame, Flag, Factory, HeartHandshake, Scale, ShieldAlert, Landmark, DollarSign } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 export type CourseStatus = 'unlocked' | 'locked';
@@ -97,6 +97,79 @@ export const phaCourses: Course[] = [
   },
 ];
 
+/**
+ * Cursos que viven adentro del Módulo 2 de PHA: la última dictadura
+ * cívico-militar (1976-1983). Formato simple: contexto + quiz de 6
+ * preguntas (ver `src/data/modules.ts` y `src/data/lessons.ts`).
+ */
+export const phaCoursesModulo2: Course[] = [
+  {
+    id: 'golpe76',
+    title: 'El Golpe de 1976',
+    category: 'SIGLO XX',
+    description: 'Causas y objetivos del golpe de Estado del 24 de marzo de 1976 que instauró la dictadura cívico-militar.',
+    hours: 1,
+    status: 'unlocked',
+    icon: Landmark,
+    accent: 'ember',
+    era: '24 MAR 1976',
+    lessons: 2,
+    lessonId: 'golpe76',
+  },
+  {
+    id: 'planeconomico',
+    title: 'Plan Económico Neoliberal',
+    category: 'SIGLO XX',
+    description: 'Apertura financiera, endeudamiento externo y desindustrialización durante la gestión de Martínez de Hoz.',
+    hours: 1,
+    status: 'unlocked',
+    icon: DollarSign,
+    accent: 'gold',
+    era: '1976 – 1981',
+    lessons: 2,
+    lessonId: 'planeconomico',
+  },
+  {
+    id: 'terrorismo',
+    title: 'Terrorismo de Estado',
+    category: 'SIGLO XX',
+    description: 'Represión clandestina, desaparición forzada, apropiación de bebés y los primeros pasos hacia verdad y justicia.',
+    hours: 1,
+    status: 'unlocked',
+    icon: Scale,
+    accent: 'ruby',
+    era: '1976 – 1983',
+    lessons: 2,
+    lessonId: 'terrorismo',
+  },
+  {
+    id: 'sociedaddictadura',
+    title: 'La Sociedad durante la Dictadura',
+    category: 'SIGLO XX',
+    description: 'Censura, vida cotidiana bajo vigilancia, el Mundial 78 y las primeras resistencias como las Madres de Plaza de Mayo.',
+    hours: 1,
+    status: 'unlocked',
+    icon: ShieldAlert,
+    accent: 'jade',
+    era: '1976 – 1983',
+    lessons: 2,
+    lessonId: 'sociedaddictadura',
+  },
+  {
+    id: 'malvinas',
+    title: 'Guerra de Malvinas y Final de la Dictadura',
+    category: 'SIGLO XX',
+    description: 'El conflicto del Atlántico Sur de 1982 y su impacto en la caída de la dictadura y el retorno a la democracia en 1983.',
+    hours: 1,
+    status: 'unlocked',
+    icon: Flag,
+    accent: 'ember',
+    era: '1982 – 1983',
+    lessons: 2,
+    lessonId: 'malvinas',
+  },
+];
+
 export const courses: Course[] = [
   {
     id: 'pha',
@@ -182,7 +255,7 @@ export const statusIcon: Record<CourseStatus, LucideIcon> = {
  * lista para calcular XP total, logros, etc. — así los cursos de PHA siguen
  * contando aunque ya no aparezcan sueltos en el catálogo principal.
  */
-export const allCourses: Course[] = [...courses, ...phaCourses];
+export const allCourses: Course[] = [...courses, ...phaCourses, ...phaCoursesModulo2];
 
 /**
  * Derived catalog stats — computed from `courses` so the Hero banner and the

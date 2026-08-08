@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, Layers, Lock, Unlock } from 'lucide-react';
-import { phaCourses } from '@/data/courses';
+import { phaCourses, phaCoursesModulo2 } from '@/data/courses';
 import { phaModules } from '@/data/modules';
 import { getLesson } from '@/data/lessons';
 import { useAllProgress } from '@/hooks/useAllProgress';
@@ -22,7 +22,8 @@ export default function PhaView({
 
   // Vista de detalle: cursos dentro del módulo seleccionado.
   if (selectedModule) {
-    const moduleCourses = phaCourses.filter((c) => selectedModule.courseIds.includes(c.id));
+    const allModuleCourses = [...phaCourses, ...phaCoursesModulo2];
+    const moduleCourses = allModuleCourses.filter((c) => selectedModule.courseIds.includes(c.id));
 
     return (
       <section className="relative min-h-screen border-b-2 border-ink-600 bg-ink-900">
