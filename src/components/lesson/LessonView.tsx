@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { getLesson, type LessonConfig, type StepType } from '@/data/lessons';
 import { useLessonProgress } from '@/hooks/useLessonProgress';
-import { useUserStats } from '@/hooks/useUserStats';
+import { useUserStats } from '@/contexts/UserStatsContext';
 import { useWeeklyLeaderboard } from '@/hooks/useWeeklyLeaderboard';
 import XPBar from './XPBar';
 import LoreSlides from './LoreSlides';

@@ -2,7 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase, isSupabaseConfigured, type UserStats } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 
-const DEFAULT_DAILY_GOAL_XP = 80; // ≈ 10 min de estudio (1 paso de lección)
+// Con el XP por ejercicio en el rango 5-20 (ver STEP_TYPE_XP en data/lessons.ts),
+// ≈ 10 min de estudio equivalen a completar unos 2-3 pasos de una lección.
+const DEFAULT_DAILY_GOAL_XP = 30;
 
 function emptyStats(userId: string): UserStats {
   return {
@@ -50,8 +52,16 @@ function mondayOf(dateStr: string): string {
  * automatically the first time `recordActivity()` runs in a new week.
  * Signed-out visitors get a static zeroed object and recordActivity() is a
  * no-op — there is no row to attach the streak to without an account.
+ *
+ * IMPORTANTE: este hook guarda su propio estado local (useState). Si lo
+ * llamás directamente desde varios componentes, cada uno tiene su copia
+ * independiente y no se enteran entre sí de los cambios (ej: el Navbar no
+ * se actualizaba cuando LessonView sumaba XP). Por eso este hook NO se
+ * exporta para uso directo — se usa una sola vez dentro de
+ * `UserStatsProvider` (ver `@/contexts/UserStatsContext`) y todos los
+ * componentes consumen ese estado compartido vía `useUserStats()` desde ahí.
  */
-export function useUserStats() {
+export function useUserStatsState() {
   const { user } = useAuth();
   const userId = user?.id ?? null;
 

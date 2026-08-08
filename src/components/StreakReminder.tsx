@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Flame, Snowflake, X } from 'lucide-react';
-import { useUserStats } from '@/hooks/useUserStats';
+import { useUserStats } from '@/contexts/UserStatsContext';
 
 /**
  * Banner que aparece cuando el usuario tiene una racha activa pero todavía

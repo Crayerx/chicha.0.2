@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Hourglass, Menu, X, UserCircle, LogIn, LogOut } from 'lucide-react';
-import { useUserStats } from '@/hooks/useUserStats';
+import { useUserStats } from '@/contexts/UserStatsContext';
 import DailyGoalBar from './DailyGoalBar';
 
 const NAV_LINKS = [{ label: 'Cursos', href: '#cursos' }];

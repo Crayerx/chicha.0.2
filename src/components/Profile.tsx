@@ -2,7 +2,7 @@ import { ArrowLeft, Flame, Sparkles, Trophy, Star, Award, LogOut, LogIn, Snowfla
 import { courses } from '@/data/courses';
 import { getLesson } from '@/data/lessons';
 import { useAllProgress } from '@/hooks/useAllProgress';
-import { useUserStats } from '@/hooks/useUserStats';
+import { useUserStats } from '@/contexts/UserStatsContext';
 import { useAchievements } from '@/hooks/useAchievements';
 import { useAuth } from '@/contexts/AuthContext';
 import DailyGoalBar from './DailyGoalBar';
@@ -10,10 +10,13 @@ import Leaderboard from './Leaderboard';
 import UsernameEditor from './UsernameEditor';
 
 /** Opciones de meta diaria: minutos aproximados de estudio -> XP objetivo. */
+// El XP por ejercicio va de 5 a 20 (ver STEP_TYPE_XP en data/lessons.ts),
+// así que estos objetivos se calibran en pasos completados, no en el viejo
+// XP fijo de 80/paso.
 const DAILY_GOAL_OPTIONS = [
-  { minutes: 10, xp: 80 },
-  { minutes: 20, xp: 160 },
-  { minutes: 30, xp: 240 },
+  { minutes: 10, xp: 30 },
+  { minutes: 20, xp: 60 },
+  { minutes: 30, xp: 90 },
 ];
 
 export default function Profile({

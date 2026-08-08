@@ -3,7 +3,7 @@ import { courses } from '@/data/courses';
 import { getLesson } from '@/data/lessons';
 import { achievementDefs } from '@/data/achievements';
 import { useAllProgress } from './useAllProgress';
-import { useUserStats } from './useUserStats';
+import { useUserStats } from '../contexts/UserStatsContext';
 
 /**
  * Deriva qué logros están desbloqueados a partir del progreso guardado y la

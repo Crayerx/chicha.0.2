@@ -57,7 +57,6 @@ import {
   quizQuestionsPeronista,
   lessonArtifactPeronista,
   lessonMetaPeronista,
-  stepXpPeronista,
   matchPairsPeronista,
   fillBlankExercisePeronista,
   categoriesPeronista,
@@ -75,7 +74,6 @@ import {
   quizQuestionsBienestar,
   lessonArtifactBienestar,
   lessonMetaBienestar,
-  stepXpBienestar,
   matchPairsBienestar,
   fillBlankExerciseBienestar,
   categoriesBienestar,
@@ -93,7 +91,6 @@ import {
   quizQuestionsPolitica,
   lessonArtifactPolitica,
   lessonMetaPolitica,
-  stepXpPolitica,
   matchPairsPolitica,
   fillBlankExercisePolitica,
   categoriesPolitica,
@@ -111,7 +108,6 @@ import {
   quizQuestionsResistencia,
   lessonArtifactResistencia,
   lessonMetaResistencia,
-  stepXpResistencia,
   matchPairsResistencia,
   fillBlankExerciseResistencia,
   categoriesResistencia,
@@ -124,6 +120,52 @@ import {
 } from './lessonResistencia';
 
 export type StepType = 'lore' | 'timeline' | 'match' | 'fill' | 'categorize' | 'truefalse' | 'map' | 'memory' | 'slider' | 'quiz';
+
+/**
+ * XP por tipo de ejercicio, según su dificultad relativa. Rango 5-20:
+ * - 5   → "Contexto" (lore): solo lectura, sin desafío.
+ * - 20  → "Quiz": desafío final, combina todo lo aprendido en la lección.
+ * El resto se ubica entre medio según cuánto razonamiento/memoria exige.
+ * Las 5 lecciones comparten la misma secuencia de 10 pasos, así que esta
+ * tabla única define el XP de cada paso en todas ellas.
+ */
+export const STEP_TYPE_XP: Record<StepType, number> = {
+  lore: 5, // leer slides de contexto
+  timeline: 12, // ordenar eventos cronológicamente
+  match: 10, // emparejar conceptos
+  fill: 13, // completar espacios de memoria
+  categorize: 12, // clasificar ítems en categorías
+  truefalse: 8, // verdadero/falso
+  map: 9, // ubicar puntos en el mapa
+  memory: 9, // juego de memoria (pares)
+  slider: 11, // estimar un valor numérico
+  quiz: 20, // desafío final de opción múltiple / V-F / flashcards
+};
+
+const STEP_SEQUENCE: StepType[] = [
+  'lore',
+  'timeline',
+  'match',
+  'fill',
+  'categorize',
+  'truefalse',
+  'map',
+  'memory',
+  'slider',
+  'quiz',
+];
+
+/** Arma el `stepXp` (por número de paso 1..10) a partir de `STEP_TYPE_XP`. */
+function buildStepXp(sequence: StepType[] = STEP_SEQUENCE): Record<number, number> {
+  const entries: Record<number, number> = {};
+  sequence.forEach((type, i) => {
+    entries[i + 1] = STEP_TYPE_XP[type];
+  });
+  return entries;
+}
+
+const DEFAULT_STEP_XP = buildStepXp();
+const DEFAULT_LESSON_TOTAL_XP = Object.values(DEFAULT_STEP_XP).reduce((a, b) => a + b, 0);
 
 export interface LessonConfig {
   id: string;
@@ -156,10 +198,10 @@ export const lessons: Record<string, LessonConfig> = {
     module: lessonMeta.module,
     title: lessonMeta.title,
     subtitle: lessonMeta.subtitle,
-    totalXp: lessonMeta.totalXp,
+    totalXp: DEFAULT_LESSON_TOTAL_XP,
     steps: lessonMeta.steps,
-    stepTypes: ['lore', 'timeline', 'match', 'fill', 'categorize', 'truefalse', 'map', 'memory', 'slider', 'quiz'] as StepType[],
-    stepXp: { 1: 50, 2: 90, 3: 90, 4: 90, 5: 90, 6: 90, 7: 75, 8: 75, 9: 80, 10: 170 },
+    stepTypes: STEP_SEQUENCE,
+    stepXp: DEFAULT_STEP_XP,
     lore: loreSlides,
     timeline: timelineEvents,
     quiz: quizQuestions,
@@ -179,10 +221,10 @@ export const lessons: Record<string, LessonConfig> = {
     module: lessonMetaPeronista.module,
     title: lessonMetaPeronista.title,
     subtitle: lessonMetaPeronista.subtitle,
-    totalXp: lessonMetaPeronista.totalXp,
+    totalXp: DEFAULT_LESSON_TOTAL_XP,
     steps: lessonMetaPeronista.steps,
-    stepTypes: ['lore', 'timeline', 'match', 'fill', 'categorize', 'truefalse', 'map', 'memory', 'slider', 'quiz'] as StepType[],
-    stepXp: stepXpPeronista,
+    stepTypes: STEP_SEQUENCE,
+    stepXp: DEFAULT_STEP_XP,
     lore: loreSlidesPeronista,
     timeline: timelineEventsPeronista,
     quiz: quizQuestionsPeronista,
@@ -202,10 +244,10 @@ export const lessons: Record<string, LessonConfig> = {
     module: lessonMetaBienestar.module,
     title: lessonMetaBienestar.title,
     subtitle: lessonMetaBienestar.subtitle,
-    totalXp: lessonMetaBienestar.totalXp,
+    totalXp: DEFAULT_LESSON_TOTAL_XP,
     steps: lessonMetaBienestar.steps,
-    stepTypes: ['lore', 'timeline', 'match', 'fill', 'categorize', 'truefalse', 'map', 'memory', 'slider', 'quiz'] as StepType[],
-    stepXp: stepXpBienestar,
+    stepTypes: STEP_SEQUENCE,
+    stepXp: DEFAULT_STEP_XP,
     lore: loreSlidesBienestar,
     timeline: timelineEventsBienestar,
     quiz: quizQuestionsBienestar,
@@ -225,10 +267,10 @@ export const lessons: Record<string, LessonConfig> = {
     module: lessonMetaPolitica.module,
     title: lessonMetaPolitica.title,
     subtitle: lessonMetaPolitica.subtitle,
-    totalXp: lessonMetaPolitica.totalXp,
+    totalXp: DEFAULT_LESSON_TOTAL_XP,
     steps: lessonMetaPolitica.steps,
-    stepTypes: ['lore', 'timeline', 'match', 'fill', 'categorize', 'truefalse', 'map', 'memory', 'slider', 'quiz'] as StepType[],
-    stepXp: stepXpPolitica,
+    stepTypes: STEP_SEQUENCE,
+    stepXp: DEFAULT_STEP_XP,
     lore: loreSlidesPolitica,
     timeline: timelineEventsPolitica,
     quiz: quizQuestionsPolitica,
@@ -248,10 +290,10 @@ export const lessons: Record<string, LessonConfig> = {
     module: lessonMetaResistencia.module,
     title: lessonMetaResistencia.title,
     subtitle: lessonMetaResistencia.subtitle,
-    totalXp: lessonMetaResistencia.totalXp,
+    totalXp: DEFAULT_LESSON_TOTAL_XP,
     steps: lessonMetaResistencia.steps,
-    stepTypes: ['lore', 'timeline', 'match', 'fill', 'categorize', 'truefalse', 'map', 'memory', 'slider', 'quiz'] as StepType[],
-    stepXp: stepXpResistencia,
+    stepTypes: STEP_SEQUENCE,
+    stepXp: DEFAULT_STEP_XP,
     lore: loreSlidesResistencia,
     timeline: timelineEventsResistencia,
     quiz: quizQuestionsResistencia,
