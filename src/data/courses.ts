@@ -1,4 +1,4 @@
-import { Lock, Clock as Unlock, Pyramid, Shield, Swords, Flame, Flag, Factory, HeartHandshake } from 'lucide-react';
+import { Lock, Clock as Unlock, Pyramid, Shield, Swords, Flame, Flag, Factory, HeartHandshake, Scale } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 export type CourseStatus = 'unlocked' | 'locked';
@@ -59,6 +59,20 @@ export const courses: Course[] = [
     era: '1946 – 1955',
     lessons: 3,
     lessonId: 'bienestar',
+  },
+  {
+    id: 'politica',
+    title: 'Constitución de 1949 y Polarización',
+    category: 'SIGLO XX',
+    description:
+      'La reforma constitucional de 1949, el voto femenino y la creciente polarización entre peronismo y antiperonismo hasta la caída de Perón.',
+    hours: 4,
+    status: 'unlocked',
+    icon: Scale,
+    accent: 'jade',
+    era: '1946 – 1955',
+    lessons: 3,
+    lessonId: 'politica',
   },
   {
     id: 'rome',

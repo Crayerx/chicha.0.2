@@ -87,6 +87,24 @@ import {
   sliderQuestionsBienestar,
 } from './lessonBienestar';
 
+import {
+  loreSlidesPolitica,
+  timelineEventsPolitica,
+  quizQuestionsPolitica,
+  lessonArtifactPolitica,
+  lessonMetaPolitica,
+  stepXpPolitica,
+  matchPairsPolitica,
+  fillBlankExercisePolitica,
+  categoriesPolitica,
+  categoryItemsPolitica,
+  trueFalseGridPolitica,
+  mapHotspotsPolitica,
+  memoryPairsPolitica,
+  memoryCardsPolitica,
+  sliderQuestionsPolitica,
+} from './lessonPolitica';
+
 export type StepType = 'lore' | 'timeline' | 'match' | 'fill' | 'categorize' | 'truefalse' | 'map' | 'memory' | 'slider' | 'quiz';
 
 export interface LessonConfig {
@@ -183,6 +201,29 @@ export const lessons: Record<string, LessonConfig> = {
     memoryPairs: memoryPairsBienestar,
     memoryCards: memoryCardsBienestar,
     sliderQuestions: sliderQuestionsBienestar,
+  },
+  politica: {
+    id: 'politica',
+    module: lessonMetaPolitica.module,
+    title: lessonMetaPolitica.title,
+    subtitle: lessonMetaPolitica.subtitle,
+    totalXp: lessonMetaPolitica.totalXp,
+    steps: lessonMetaPolitica.steps,
+    stepTypes: ['lore', 'timeline', 'match', 'fill', 'categorize', 'truefalse', 'map', 'memory', 'slider', 'quiz'] as StepType[],
+    stepXp: stepXpPolitica,
+    lore: loreSlidesPolitica,
+    timeline: timelineEventsPolitica,
+    quiz: quizQuestionsPolitica,
+    artifact: lessonArtifactPolitica,
+    matchPairs: matchPairsPolitica,
+    fillBlank: fillBlankExercisePolitica,
+    categories: categoriesPolitica,
+    categoryItems: categoryItemsPolitica,
+    trueFalseGrid: trueFalseGridPolitica,
+    mapHotspots: mapHotspotsPolitica,
+    memoryPairs: memoryPairsPolitica,
+    memoryCards: memoryCardsPolitica,
+    sliderQuestions: sliderQuestionsPolitica,
   },
 };
 
