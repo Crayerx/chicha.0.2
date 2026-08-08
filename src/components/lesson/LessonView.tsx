@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { getLesson, type LessonConfig, type StepType } from '@/data/lessons';
 import { useLessonProgress } from '@/hooks/useLessonProgress';
+import { useUserStats } from '@/hooks/useUserStats';
 import XPBar from './XPBar';
 import LoreSlides from './LoreSlides';
 import TimelineGame from './TimelineGame';
@@ -28,6 +29,7 @@ interface LessonViewProps {
 export default function LessonView({ lessonId = 'argentina', onExit }: LessonViewProps) {
   const lesson: LessonConfig = getLesson(lessonId) ?? getLesson('argentina')!;
   const { progress, loaded, save, reset: resetProgress } = useLessonProgress(lessonId);
+  const { recordActivity } = useUserStats();
   const [step, setStep] = useState(1);
   const [xp, setXp] = useState(0);
   const [quizScore, setQuizScore] = useState(0);
@@ -65,6 +67,7 @@ export default function LessonView({ lessonId = 'argentina', onExit }: LessonVie
           is_finished: extra?.finished ?? false,
           quiz_score: extra?.quizScore ?? quizScore,
         });
+        recordActivity();
         return next;
       });
       setXp((prev) => Math.min(maxXp, prev + extraXp));
@@ -72,7 +75,7 @@ export default function LessonView({ lessonId = 'argentina', onExit }: LessonVie
       if (extra?.finished) setShowVictory(true);
       if (extra?.quizScore !== undefined) setQuizScore(extra.quizScore);
     },
-    [xp, quizScore, maxXp, save],
+    [xp, quizScore, maxXp, save, recordActivity],
   );
 
   const stepType = (s: number): StepType | undefined => lesson.stepTypes[s - 1];

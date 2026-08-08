@@ -3,9 +3,10 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Courses from '@/components/Courses';
 import Footer from '@/components/Footer';
+import Profile from '@/components/Profile';
 import LessonView from '@/components/lesson/LessonView';
 
-type View = 'home' | 'lesson';
+type View = 'home' | 'lesson' | 'profile';
 
 export default function App() {
   const [view, setView] = useState<View>('home');
@@ -16,6 +17,7 @@ export default function App() {
     setLessonId(id);
     setView('lesson');
   }, []);
+  const goProfile = useCallback(() => setView('profile'), []);
 
   if (view === 'lesson') {
     return (
@@ -25,9 +27,13 @@ export default function App() {
     );
   }
 
+  if (view === 'profile') {
+    return <Profile onBack={goHome} />;
+  }
+
   return (
     <div className="min-h-screen bg-ink-900 text-slate2-300">
-      <Navbar />
+      <Navbar onProfile={goProfile} />
       <main>
         <Hero />
         <Courses onPlay={goLesson} />

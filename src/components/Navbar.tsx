@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Hourglass, Menu, X, LogIn, UserPlus } from 'lucide-react';
+import { Hourglass, Menu, X, LogIn, UserPlus, UserCircle } from 'lucide-react';
 
 const NAV_LINKS = [
   { label: 'Cursos', href: '#cursos' },
@@ -7,7 +7,7 @@ const NAV_LINKS = [
   { label: 'Comunidad', href: '#comunidad' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ onProfile }: { onProfile?: () => void }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -38,6 +38,13 @@ export default function Navbar() {
 
         {/* Desktop actions */}
         <div className="hidden items-center gap-3 md:flex">
+          <button
+            onClick={onProfile}
+            className="flex items-center gap-2 border-2 border-ink-500 bg-ink-700 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-slate2-300 shadow-pixel-sm transition-all hover:-translate-y-0.5 hover:border-gold-400 hover:text-gold-200 hover:shadow-pixel-gold"
+          >
+            <UserCircle className="h-4 w-4" />
+            Perfil
+          </button>
           <button className="flex items-center gap-2 border-2 border-ink-500 bg-ink-700 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-slate2-300 shadow-pixel-sm transition-all hover:-translate-y-0.5 hover:border-gold-400 hover:text-gold-200 hover:shadow-pixel-gold">
             <LogIn className="h-4 w-4" />
             Login
@@ -74,6 +81,16 @@ export default function Navbar() {
             ))}
           </nav>
           <div className="mt-3 flex flex-col gap-2">
+            <button
+              onClick={() => {
+                setOpen(false);
+                onProfile?.();
+              }}
+              className="flex items-center justify-center gap-2 border-2 border-ink-500 bg-ink-700 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-slate2-300"
+            >
+              <UserCircle className="h-4 w-4" />
+              Perfil
+            </button>
             <button className="flex items-center justify-center gap-2 border-2 border-ink-500 bg-ink-700 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-slate2-300">
               <LogIn className="h-4 w-4" />
               Login

@@ -55,15 +55,19 @@ const accentMap = {
 
 export default function CourseCard({
   course,
+  progressPct = 0,
   onPlay,
 }: {
   course: Course;
+  /** Real progress (0-100), computed from saved lesson progress. Defaults to 0. */
+  progressPct?: number;
   onPlay?: (lessonId: string) => void;
 }) {
   const a = accentMap[course.accent];
   const StatusIcon = statusIcon[course.status];
   const Icon = course.icon;
   const locked = course.status === 'locked';
+  const pct = locked ? 0 : Math.max(0, Math.min(100, Math.round(progressPct)));
 
   return (
     <article
@@ -114,12 +118,12 @@ export default function CourseCard({
       <div className="mt-5">
         <div className="mb-1.5 flex items-center justify-between font-mono text-[9px] uppercase tracking-widest text-slate2-400">
           <span>Progreso</span>
-          <span className={locked ? 'text-slate2-500' : a.text}>0%</span>
+          <span className={locked ? 'text-slate2-500' : a.text}>{pct}%</span>
         </div>
         <div className="h-2 w-full border border-ink-500 bg-ink-700">
           <div
-            className={`h-full ${locked ? 'bg-ink-500' : a.bar} opacity-80`}
-            style={{ width: '0%' }}
+            className={`h-full ${locked ? 'bg-ink-500' : a.bar} opacity-80 transition-all duration-500`}
+            style={{ width: `${pct}%` }}
           />
         </div>
       </div>

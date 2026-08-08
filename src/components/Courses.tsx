@@ -1,8 +1,12 @@
 import { courses } from '@/data/courses';
+import { getLesson } from '@/data/lessons';
+import { useAllProgress } from '@/hooks/useAllProgress';
 import CourseCard from './CourseCard';
 import { Library } from 'lucide-react';
 
 export default function Courses({ onPlay }: { onPlay?: (lessonId: string) => void }) {
+  const { byLesson } = useAllProgress();
+
   return (
     <section id="cursos" className="relative border-b-2 border-ink-600 bg-ink-900">
       <div className="absolute inset-0 bg-dots opacity-50" />
@@ -27,9 +31,17 @@ export default function Courses({ onPlay }: { onPlay?: (lessonId: string) => voi
 
         {/* Grid */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {courses.map((course) => (
-            <CourseCard key={course.id} course={course} onPlay={onPlay} />
-          ))}
+          {courses.map((course) => {
+            const saved = course.lessonId ? byLesson[course.lessonId] : undefined;
+            const totalSteps = course.lessonId ? getLesson(course.lessonId)?.steps.length : undefined;
+            const progressPct =
+              saved && totalSteps
+                ? (saved.is_finished ? 100 : (saved.completed_steps?.length ?? 0) / totalSteps * 100)
+                : 0;
+            return (
+              <CourseCard key={course.id} course={course} progressPct={progressPct} onPlay={onPlay} />
+            );
+          })}
         </div>
 
         {/* Hint */}

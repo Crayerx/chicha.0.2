@@ -17,3 +17,11 @@ export interface LessonProgress {
   is_finished: boolean;
   quiz_score: number;
 }
+
+export interface UserStats {
+  id: string;
+  current_streak: number;
+  longest_streak: number;
+  last_active_date: string | null;
+  updated_at?: string;
+}
