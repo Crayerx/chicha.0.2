@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { courses } from '@/data/courses';
+import { allCourses } from '@/data/courses';
 import { getLesson } from '@/data/lessons';
 import { achievementDefs } from '@/data/achievements';
 import { useAllProgress } from './useAllProgress';
@@ -15,7 +15,7 @@ export function useAchievements() {
   const { stats, loaded: statsLoaded } = useUserStats();
 
   const unlocked = useMemo(() => {
-    const trackedCourses = courses.filter((c) => c.lessonId);
+    const trackedCourses = allCourses.filter((c) => c.lessonId);
     const ids = new Set<string>();
 
     const bestStreak = Math.max(stats.current_streak, stats.longest_streak);

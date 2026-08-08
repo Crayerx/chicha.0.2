@@ -7,9 +7,11 @@ import { Library } from 'lucide-react';
 export default function Courses({
   onPlay,
   onReview,
+  onOpenGroup,
 }: {
   onPlay?: (lessonId: string) => void;
   onReview?: (lessonId: string) => void;
+  onOpenGroup?: (courseId: string) => void;
 }) {
   const { byLesson } = useAllProgress();
 
@@ -52,6 +54,7 @@ export default function Courses({
                 isFinished={!!saved?.is_finished}
                 onPlay={onPlay}
                 onReview={onReview}
+                onOpenGroup={onOpenGroup}
               />
             );
           })}

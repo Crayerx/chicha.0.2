@@ -7,9 +7,10 @@ import Profile from '@/components/Profile';
 import AuthModal from '@/components/AuthModal';
 import StreakReminder from '@/components/StreakReminder';
 import LessonView from '@/components/lesson/LessonView';
+import PhaView from '@/components/PhaView';
 import { useAuth } from '@/contexts/AuthContext';
 
-type View = 'home' | 'lesson' | 'profile';
+type View = 'home' | 'lesson' | 'profile' | 'pha';
 
 export default function App() {
   const { isAuthenticated, user, signOut } = useAuth();
@@ -22,6 +23,7 @@ export default function App() {
   const [pendingLessonId, setPendingLessonId] = useState<string | null>(null);
 
   const goHome = useCallback(() => setView('home'), []);
+  const goPha = useCallback(() => setView('pha'), []);
 
   const closeAuthModal = useCallback(() => {
     setAuthModalOpen(false);
@@ -72,8 +74,10 @@ export default function App() {
   }, [isAuthenticated, pendingView, pendingLessonId]);
 
   // Si cierra sesión estando en una vista que requiere cuenta, volvemos al home.
+  // 'pha' no requiere cuenta para navegar (solo para jugar una lección, que ya
+  // pasa por el gate de goLesson), así que queda afuera de este reset.
   useEffect(() => {
-    if (!isAuthenticated && view !== 'home') {
+    if (!isAuthenticated && view !== 'home' && view !== 'pha') {
       setView('home');
     }
   }, [isAuthenticated, view]);
@@ -94,6 +98,10 @@ export default function App() {
     return <Profile onBack={goHome} onReview={goReview} />;
   }
 
+  if (view === 'pha') {
+    return <PhaView onPlay={goLesson} onReview={goReview} onBack={goHome} />;
+  }
+
   return (
     <div className="min-h-screen bg-ink-900 text-slate2-300">
       <Navbar
@@ -106,7 +114,7 @@ export default function App() {
       {isAuthenticated && <StreakReminder onPlay={() => goLesson('argentina')} />}
       <main>
         <Hero onStart={() => goLesson('argentina')} />
-        <Courses onPlay={goLesson} onReview={goReview} />
+        <Courses onPlay={goLesson} onReview={goReview} onOpenGroup={goPha} />
       </main>
       <Footer />
       {authModalOpen && <AuthModal onClose={closeAuthModal} />}

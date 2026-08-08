@@ -1,5 +1,5 @@
 import { ArrowLeft, Flame, Sparkles, Trophy, Star, Award, LogOut, LogIn, Snowflake, Lock, RotateCcw, Target } from 'lucide-react';
-import { courses } from '@/data/courses';
+import { allCourses } from '@/data/courses';
 import { getLesson } from '@/data/lessons';
 import { useAllProgress } from '@/hooks/useAllProgress';
 import { useUserStats } from '@/contexts/UserStatsContext';
@@ -31,7 +31,7 @@ export default function Profile({
   const { stats, xpToday, loaded: statsLoaded, setDailyGoal } = useUserStats();
   const { achievements, unlockedCount, totalCount, loaded: achievementsLoaded } = useAchievements();
 
-  const trackedCourses = courses.filter((c) => c.lessonId);
+  const trackedCourses = allCourses.filter((c) => c.lessonId);
 
   const totalXp = trackedCourses.reduce((sum, c) => {
     const saved = c.lessonId ? byLesson[c.lessonId] : undefined;
@@ -50,7 +50,7 @@ export default function Profile({
       if (!saved?.is_finished || !lesson) return null;
       return { course: c, artifact: lesson.artifact };
     })
-    .filter((x): x is { course: (typeof courses)[number]; artifact: NonNullable<ReturnType<typeof getLesson>>['artifact'] } => x !== null);
+    .filter((x): x is { course: (typeof allCourses)[number]; artifact: NonNullable<ReturnType<typeof getLesson>>['artifact'] } => x !== null);
 
   const loading = !progressLoaded || !statsLoaded || !achievementsLoaded;
 

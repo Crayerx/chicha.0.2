@@ -1,4 +1,4 @@
-import { Clock, BookOpen, ArrowRight, Play, RotateCcw } from 'lucide-react';
+import { Clock, BookOpen, ArrowRight, Play, RotateCcw, Layers } from 'lucide-react';
 import type { Course } from '@/data/courses';
 import { statusLabel, statusIcon } from '@/data/courses';
 
@@ -59,6 +59,7 @@ export default function CourseCard({
   isFinished = false,
   onPlay,
   onReview,
+  onOpenGroup,
 }: {
   course: Course;
   /** Real progress (0-100), computed from saved lesson progress. Defaults to 0. */
@@ -67,6 +68,8 @@ export default function CourseCard({
   isFinished?: boolean;
   onPlay?: (lessonId: string) => void;
   onReview?: (lessonId: string) => void;
+  /** Para tarjetas con `isModuleGroup`: abre la vista de módulos en vez de una lección. */
+  onOpenGroup?: (courseId: string) => void;
 }) {
   const a = accentMap[course.accent];
   const StatusIcon = statusIcon[course.status];
@@ -149,7 +152,12 @@ export default function CourseCard({
       <button
         disabled={locked}
         onClick={() => {
-          if (locked || !course.lessonId) return;
+          if (locked) return;
+          if (course.isModuleGroup) {
+            onOpenGroup?.(course.id);
+            return;
+          }
+          if (!course.lessonId) return;
           if (isFinished) onReview?.(course.lessonId);
           else onPlay?.(course.lessonId);
         }}
@@ -159,9 +167,19 @@ export default function CourseCard({
             : `${a.border} bg-ink-700 ${a.cta} hover:bg-ink-600`
         }`}
       >
-        {locked ? 'Bloqueado' : isFinished ? 'Repasar' : course.lessonId ? 'Jugar' : 'Comenzar'}
+        {locked
+          ? 'Bloqueado'
+          : course.isModuleGroup
+            ? 'Ver módulos'
+            : isFinished
+              ? 'Repasar'
+              : course.lessonId
+                ? 'Jugar'
+                : 'Comenzar'}
         {!locked &&
-          (isFinished ? (
+          (course.isModuleGroup ? (
+            <Layers className="h-3.5 w-3.5" />
+          ) : isFinished ? (
             <RotateCcw className="h-3.5 w-3.5" />
           ) : course.lessonId ? (
             <Play className="h-3.5 w-3.5 fill-current" />

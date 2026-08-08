@@ -15,9 +15,16 @@ export interface Course {
   era: string;
   lessons: number;
   lessonId?: string;
+  /** Si es true, la tarjeta no lleva a una lección: abre la vista de módulos (ver PhaView). */
+  isModuleGroup?: boolean;
 }
 
-export const courses: Course[] = [
+/**
+ * Cursos que viven adentro del módulo PHA (Problemas de Historia Argentina).
+ * Ya no aparecen sueltos en el catálogo principal: se listan dentro de
+ * PHA → Módulo 1 (ver `src/data/modules.ts`).
+ */
+export const phaCourses: Course[] = [
   {
     id: 'argentina',
     title: 'Argentina 1930-46',
@@ -88,6 +95,23 @@ export const courses: Course[] = [
     lessons: 10,
     lessonId: 'resistencia',
   },
+];
+
+export const courses: Course[] = [
+  {
+    id: 'pha',
+    title: 'PHA',
+    category: 'SIGLO XX',
+    description:
+      'Problemas de Historia Argentina: recorré el siglo XX en tres módulos temáticos, del peronismo clásico a la actualidad.',
+    hours: phaCourses.reduce((sum, c) => sum + c.hours, 0),
+    status: 'unlocked',
+    icon: Flag,
+    accent: 'ember',
+    era: '1930 – 1955',
+    lessons: phaCourses.reduce((sum, c) => sum + c.lessons, 0),
+    isModuleGroup: true,
+  },
   {
     id: 'rome',
     title: 'Estrategia Romana',
@@ -151,6 +175,14 @@ export const statusIcon: Record<CourseStatus, LucideIcon> = {
   unlocked: Unlock,
   locked: Lock,
 };
+
+/**
+ * Todos los cursos "reales" (con lección jugable), estén o no agrupados
+ * dentro de un módulo en el catálogo. Profile y useAchievements usan esta
+ * lista para calcular XP total, logros, etc. — así los cursos de PHA siguen
+ * contando aunque ya no aparezcan sueltos en el catálogo principal.
+ */
+export const allCourses: Course[] = [...courses, ...phaCourses];
 
 /**
  * Derived catalog stats — computed from `courses` so the Hero banner and the
