@@ -1,10 +1,15 @@
 import { useState, type FormEvent } from 'react';
-import { X, Mail, Loader2, CheckCircle2, Hourglass } from 'lucide-react';
+import { X, Mail, Lock, Loader2, CheckCircle2, Hourglass, KeyRound } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
+type Mode = 'magic' | 'password';
+
 export default function AuthModal({ onClose }: { onClose: () => void }) {
-  const { signInWithMagicLink, signInWithGoogle } = useAuth();
+  const { signInWithMagicLink, signInWithGoogle, signInWithPassword } = useAuth();
+  const [mode, setMode] = useState<Mode>('magic');
+
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [googleLoading, setGoogleLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -23,6 +28,20 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
     }
   };
 
+  const handlePasswordLogin = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!email.trim() || !password) return;
+    setStatus('sending');
+    setErrorMsg('');
+    try {
+      await signInWithPassword(email.trim(), password);
+      // Al resolver, el AuthContext detecta la sesión y App.tsx navega solo.
+    } catch (err) {
+      setStatus('error');
+      setErrorMsg(err instanceof Error ? err.message : 'Email o contraseña incorrectos.');
+    }
+  };
+
   const handleGoogle = async () => {
     setGoogleLoading(true);
     setErrorMsg('');
@@ -33,6 +52,12 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
       setGoogleLoading(false);
       setErrorMsg(err instanceof Error ? err.message : 'No se pudo iniciar con Google.');
     }
+  };
+
+  const switchMode = (next: Mode) => {
+    setMode(next);
+    setStatus('idle');
+    setErrorMsg('');
   };
 
   return (
@@ -95,28 +120,73 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
               <div className="h-px flex-1 bg-ink-600" />
             </div>
 
-            <form onSubmit={handleMagicLink} className="flex flex-col gap-3">
-              <div className="flex items-center gap-2 border-2 border-ink-500 bg-ink-900 px-3 py-2.5 focus-within:border-gold-400">
-                <Mail className="h-4 w-4 shrink-0 text-slate2-500" />
-                <input
-                  type="email"
-                  required
-                  autoFocus
-                  placeholder="tu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-transparent font-terminal text-lg text-slate2-200 placeholder:text-slate2-600 focus:outline-none"
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={status === 'sending'}
-                className="flex items-center justify-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-0.5 hover:bg-gold-300 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {status === 'sending' && <Loader2 className="h-4 w-4 animate-spin" />}
-                Enviar enlace mágico
-              </button>
-            </form>
+            {mode === 'magic' ? (
+              <form onSubmit={handleMagicLink} className="flex flex-col gap-3">
+                <div className="flex items-center gap-2 border-2 border-ink-500 bg-ink-900 px-3 py-2.5 focus-within:border-gold-400">
+                  <Mail className="h-4 w-4 shrink-0 text-slate2-500" />
+                  <input
+                    type="email"
+                    required
+                    autoFocus
+                    placeholder="tu@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-transparent font-terminal text-lg text-slate2-200 placeholder:text-slate2-600 focus:outline-none"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={status === 'sending'}
+                  className="flex items-center justify-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-0.5 hover:bg-gold-300 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {status === 'sending' && <Loader2 className="h-4 w-4 animate-spin" />}
+                  Enviar enlace mágico
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handlePasswordLogin} className="flex flex-col gap-3">
+                <div className="flex items-center gap-2 border-2 border-ink-500 bg-ink-900 px-3 py-2.5 focus-within:border-gold-400">
+                  <Mail className="h-4 w-4 shrink-0 text-slate2-500" />
+                  <input
+                    type="email"
+                    required
+                    autoFocus
+                    placeholder="tu@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-transparent font-terminal text-lg text-slate2-200 placeholder:text-slate2-600 focus:outline-none"
+                  />
+                </div>
+                <div className="flex items-center gap-2 border-2 border-ink-500 bg-ink-900 px-3 py-2.5 focus-within:border-gold-400">
+                  <Lock className="h-4 w-4 shrink-0 text-slate2-500" />
+                  <input
+                    type="password"
+                    required
+                    placeholder="Contraseña"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full bg-transparent font-terminal text-lg text-slate2-200 placeholder:text-slate2-600 focus:outline-none"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={status === 'sending'}
+                  className="flex items-center justify-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-0.5 hover:bg-gold-300 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {status === 'sending' && <Loader2 className="h-4 w-4 animate-spin" />}
+                  Entrar
+                </button>
+              </form>
+            )}
+
+            <button
+              type="button"
+              onClick={() => switchMode(mode === 'magic' ? 'password' : 'magic')}
+              className="mt-3 flex w-full items-center justify-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-slate2-500 transition-colors hover:text-gold-300"
+            >
+              <KeyRound className="h-3 w-3" />
+              {mode === 'magic' ? 'Iniciar con email y contraseña' : 'Prefiero el enlace mágico'}
+            </button>
 
             {errorMsg && (
               <p className="mt-3 border-2 border-ruby-400/50 bg-ruby-400/10 px-3 py-2 text-center font-mono text-[11px] text-ruby-300">

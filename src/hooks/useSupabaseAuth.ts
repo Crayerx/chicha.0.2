@@ -51,6 +51,14 @@ export function useSupabaseAuth() {
     if (error) throw error;
   }, []);
 
+  const signInWithPassword = useCallback(async (email: string, password: string) => {
+    if (!isSupabaseConfigured || !supabase) {
+      throw new Error('Supabase no está configurado en este entorno.');
+    }
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+  }, []);
+
   const signOut = useCallback(async () => {
     if (!isSupabaseConfigured || !supabase) return;
     await supabase.auth.signOut();
@@ -65,6 +73,7 @@ export function useSupabaseAuth() {
     initializing,
     signInWithMagicLink,
     signInWithGoogle,
+    signInWithPassword,
     signOut,
   };
 }
