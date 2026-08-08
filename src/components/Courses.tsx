@@ -4,7 +4,13 @@ import { useAllProgress } from '@/hooks/useAllProgress';
 import CourseCard from './CourseCard';
 import { Library } from 'lucide-react';
 
-export default function Courses({ onPlay }: { onPlay?: (lessonId: string) => void }) {
+export default function Courses({
+  onPlay,
+  onReview,
+}: {
+  onPlay?: (lessonId: string) => void;
+  onReview?: (lessonId: string) => void;
+}) {
   const { byLesson } = useAllProgress();
 
   return (
@@ -39,7 +45,14 @@ export default function Courses({ onPlay }: { onPlay?: (lessonId: string) => voi
                 ? (saved.is_finished ? 100 : (saved.completed_steps?.length ?? 0) / totalSteps * 100)
                 : 0;
             return (
-              <CourseCard key={course.id} course={course} progressPct={progressPct} onPlay={onPlay} />
+              <CourseCard
+                key={course.id}
+                course={course}
+                progressPct={progressPct}
+                isFinished={!!saved?.is_finished}
+                onPlay={onPlay}
+                onReview={onReview}
+              />
             );
           })}
         </div>

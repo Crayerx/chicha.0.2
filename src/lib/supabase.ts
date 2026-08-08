@@ -17,6 +17,7 @@ export interface LessonProgress {
   completed_steps: number[];
   is_finished: boolean;
   quiz_score: number;
+  updated_at?: string;
 }
 
 export interface UserStats {
@@ -24,5 +25,7 @@ export interface UserStats {
   current_streak: number;
   longest_streak: number;
   last_active_date: string | null;
+  freeze_available: boolean;
+  freeze_week_start: string | null;
   updated_at?: string;
 }

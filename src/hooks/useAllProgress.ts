@@ -23,7 +23,7 @@ export function useAllProgress() {
     }
     const { data, error } = await supabase
       .from('lesson_progress')
-      .select('user_id, lesson_id, current_step, total_xp, completed_steps, is_finished, quiz_score')
+      .select('user_id, lesson_id, current_step, total_xp, completed_steps, is_finished, quiz_score, updated_at')
       .eq('user_id', userId);
 
     if (error) {

@@ -1,4 +1,4 @@
-import { Clock, BookOpen, ArrowRight, Play } from 'lucide-react';
+import { Clock, BookOpen, ArrowRight, Play, RotateCcw } from 'lucide-react';
 import type { Course } from '@/data/courses';
 import { statusLabel, statusIcon } from '@/data/courses';
 
@@ -56,12 +56,17 @@ const accentMap = {
 export default function CourseCard({
   course,
   progressPct = 0,
+  isFinished = false,
   onPlay,
+  onReview,
 }: {
   course: Course;
   /** Real progress (0-100), computed from saved lesson progress. Defaults to 0. */
   progressPct?: number;
+  /** Si ya se completó la era — cambia el CTA a "Repasar" en vez de "Jugar". */
+  isFinished?: boolean;
   onPlay?: (lessonId: string) => void;
+  onReview?: (lessonId: string) => void;
 }) {
   const a = accentMap[course.accent];
   const StatusIcon = statusIcon[course.status];
@@ -144,7 +149,9 @@ export default function CourseCard({
       <button
         disabled={locked}
         onClick={() => {
-          if (!locked && course.lessonId) onPlay?.(course.lessonId);
+          if (locked || !course.lessonId) return;
+          if (isFinished) onReview?.(course.lessonId);
+          else onPlay?.(course.lessonId);
         }}
         className={`mt-4 flex items-center justify-center gap-2 border-2 px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-widest transition-all ${
           locked
@@ -152,8 +159,15 @@ export default function CourseCard({
             : `${a.border} bg-ink-700 ${a.cta} hover:bg-ink-600`
         }`}
       >
-        {locked ? 'Bloqueado' : course.lessonId ? 'Jugar' : 'Comenzar'}
-        {!locked && (course.lessonId ? <Play className="h-3.5 w-3.5 fill-current" /> : <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />)}
+        {locked ? 'Bloqueado' : isFinished ? 'Repasar' : course.lessonId ? 'Jugar' : 'Comenzar'}
+        {!locked &&
+          (isFinished ? (
+            <RotateCcw className="h-3.5 w-3.5" />
+          ) : course.lessonId ? (
+            <Play className="h-3.5 w-3.5 fill-current" />
+          ) : (
+            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+          ))}
       </button>
     </article>
   );

@@ -5,6 +5,7 @@ import Courses from '@/components/Courses';
 import Footer from '@/components/Footer';
 import Profile from '@/components/Profile';
 import AuthModal from '@/components/AuthModal';
+import StreakReminder from '@/components/StreakReminder';
 import LessonView from '@/components/lesson/LessonView';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -15,6 +16,7 @@ export default function App() {
 
   const [view, setView] = useState<View>('home');
   const [lessonId, setLessonId] = useState<string>('argentina');
+  const [reviewMode, setReviewMode] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [pendingView, setPendingView] = useState<Exclude<View, 'home'> | null>(null);
   const [pendingLessonId, setPendingLessonId] = useState<string | null>(null);
@@ -28,7 +30,7 @@ export default function App() {
   }, []);
 
   const goLesson = useCallback(
-    (id: string) => {
+    (id: string, opts?: { review?: boolean }) => {
       if (!isAuthenticated) {
         setPendingView('lesson');
         setPendingLessonId(id);
@@ -36,10 +38,13 @@ export default function App() {
         return;
       }
       setLessonId(id);
+      setReviewMode(!!opts?.review);
       setView('lesson');
     },
     [isAuthenticated],
   );
+
+  const goReview = useCallback((id: string) => goLesson(id, { review: true }), [goLesson]);
 
   const goProfile = useCallback(() => {
     if (!isAuthenticated) {
@@ -80,13 +85,13 @@ export default function App() {
   if (view === 'lesson') {
     return (
       <div className="min-h-screen bg-ink-900 text-slate2-300">
-        <LessonView lessonId={lessonId} onExit={goHome} />
+        <LessonView lessonId={lessonId} onExit={goHome} reviewMode={reviewMode} />
       </div>
     );
   }
 
   if (view === 'profile') {
-    return <Profile onBack={goHome} />;
+    return <Profile onBack={goHome} onReview={goReview} />;
   }
 
   return (
@@ -98,9 +103,10 @@ export default function App() {
         onSignIn={() => setAuthModalOpen(true)}
         onSignOut={handleSignOut}
       />
+      {isAuthenticated && <StreakReminder onPlay={() => goLesson('argentina')} />}
       <main>
         <Hero onStart={() => goLesson('argentina')} />
-        <Courses onPlay={goLesson} />
+        <Courses onPlay={goLesson} onReview={goReview} />
       </main>
       <Footer />
       {authModalOpen && <AuthModal onClose={closeAuthModal} />}

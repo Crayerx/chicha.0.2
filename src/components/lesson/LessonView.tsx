@@ -24,9 +24,16 @@ import VictoryModal from './VictoryModal';
 interface LessonViewProps {
   lessonId?: string;
   onExit: () => void;
+  /**
+   * Modo repaso: la lección ya está terminada y el usuario solo quiere
+   * releer/rejugar el contenido para reforzarlo. En este modo no se
+   * persisten cambios de XP/pasos/is_finished — el progreso guardado queda
+   * intacto — pero sí se registra la actividad del día para la racha.
+   */
+  reviewMode?: boolean;
 }
 
-export default function LessonView({ lessonId = 'argentina', onExit }: LessonViewProps) {
+export default function LessonView({ lessonId = 'argentina', onExit, reviewMode = false }: LessonViewProps) {
   const lesson: LessonConfig = getLesson(lessonId) ?? getLesson('argentina')!;
   const { progress, loaded, save, reset: resetProgress } = useLessonProgress(lessonId);
   const { recordActivity } = useUserStats();
@@ -38,16 +45,25 @@ export default function LessonView({ lessonId = 'argentina', onExit }: LessonVie
 
   const maxXp = lesson.totalXp;
   const totalSteps = lesson.steps.length;
+  const [localReview, setLocalReview] = useState(false);
+  const isReviewing = reviewMode || localReview;
 
   useEffect(() => {
     if (!loaded) return;
-    setStep(progress.current_step);
     setXp(progress.total_xp);
     setQuizScore(progress.quiz_score);
     setCompletedSteps(progress.completed_steps ?? []);
-    if (progress.is_finished) setShowVictory(true);
+    if (reviewMode) {
+      // Arranca desde el principio para poder repasar todo el contenido,
+      // sin tocar el progreso ya guardado.
+      setStep(1);
+      setShowVictory(false);
+    } else {
+      setStep(progress.current_step);
+      if (progress.is_finished) setShowVictory(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loaded]);
+  }, [loaded, reviewMode]);
 
   const completeStep = useCallback(
     (
@@ -56,6 +72,13 @@ export default function LessonView({ lessonId = 'argentina', onExit }: LessonVie
       extraXp: number,
       extra?: { quizScore?: number; finished?: boolean },
     ) => {
+      if (isReviewing) {
+        // Solo navegación local: no persiste XP/pasos ni marca victoria de
+        // nuevo, para no pisar el progreso ya guardado de esta lección.
+        recordActivity();
+        setStep(nextStep);
+        return;
+      }
       setCompletedSteps((prev) => {
         if (prev.includes(completedStep)) return prev;
         const next = [...prev, completedStep];
@@ -75,7 +98,7 @@ export default function LessonView({ lessonId = 'argentina', onExit }: LessonVie
       if (extra?.finished) setShowVictory(true);
       if (extra?.quizScore !== undefined) setQuizScore(extra.quizScore);
     },
-    [xp, quizScore, maxXp, save, recordActivity],
+    [xp, quizScore, maxXp, save, recordActivity, isReviewing],
   );
 
   const stepType = (s: number): StepType | undefined => lesson.stepTypes[s - 1];
@@ -109,6 +132,12 @@ export default function LessonView({ lessonId = 'argentina', onExit }: LessonVie
     setCompletedSteps([]);
   };
 
+  const startReview = () => {
+    setLocalReview(true);
+    setShowVictory(false);
+    setStep(1);
+  };
+
   if (!loaded) {
     return (
       <div className="grid min-h-screen place-items-center bg-ink-900">
@@ -126,6 +155,11 @@ export default function LessonView({ lessonId = 'argentina', onExit }: LessonVie
 
   return (
     <div className="min-h-screen bg-ink-900">
+      {isReviewing && (
+        <div className="flex items-center justify-center gap-2 border-b-2 border-jade-400/40 bg-jade-400/10 px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-widest text-jade-300">
+          Modo repaso — tu XP y progreso ya guardados no se van a modificar
+        </div>
+      )}
       <XPBar
         xp={xp}
         maxXp={maxXp}
@@ -218,7 +252,7 @@ export default function LessonView({ lessonId = 'argentina', onExit }: LessonVie
           </div>
 
           {/* Reset progress */}
-          {completedSteps.length > 0 && (
+          {!isReviewing && completedSteps.length > 0 && (
             <button
               onClick={() => {
                 if (confirm('¿Seguro que quieres reiniciar el progreso de esta lección?')) {
@@ -285,6 +319,7 @@ export default function LessonView({ lessonId = 'argentina', onExit }: LessonVie
           artifact={lesson.artifact}
           onRetry={reset}
           onHome={onExit}
+          onReview={progress.is_finished && !isReviewing ? startReview : undefined}
         />
       )}
     </div>

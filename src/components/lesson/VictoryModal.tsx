@@ -11,6 +11,8 @@ interface VictoryModalProps {
   artifact: Artifact;
   onRetry: () => void;
   onHome: () => void;
+  /** Repasar el contenido sin perder el XP ni el progreso guardado. */
+  onReview?: () => void;
 }
 
 export default function VictoryModal({
@@ -23,6 +25,7 @@ export default function VictoryModal({
   artifact,
   onRetry,
   onHome,
+  onReview,
 }: VictoryModalProps) {
   const pct = Math.round((xp / maxXp) * 100);
 
@@ -93,6 +96,15 @@ export default function VictoryModal({
 
           {/* Actions */}
           <div className="mt-6 space-y-2">
+            {onReview && (
+              <button
+                onClick={onReview}
+                className="flex w-full items-center justify-center gap-2 border-2 border-jade-400/60 bg-jade-400/10 px-4 py-3 font-mono text-xs font-bold uppercase tracking-widest text-jade-300 transition-all hover:bg-jade-400/20"
+              >
+                <RotateCcw className="h-4 w-4" />
+                Repasar (sin perder XP)
+              </button>
+            )}
             <div className="flex gap-3">
               <button
                 onClick={onRetry}

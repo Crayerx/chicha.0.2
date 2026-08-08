@@ -1,14 +1,22 @@
-import { ArrowLeft, Flame, Sparkles, Trophy, Star, Award, LogOut, LogIn } from 'lucide-react';
+import { ArrowLeft, Flame, Sparkles, Trophy, Star, Award, LogOut, LogIn, Snowflake, Lock, RotateCcw } from 'lucide-react';
 import { courses } from '@/data/courses';
 import { getLesson } from '@/data/lessons';
 import { useAllProgress } from '@/hooks/useAllProgress';
 import { useUserStats } from '@/hooks/useUserStats';
+import { useAchievements } from '@/hooks/useAchievements';
 import { useAuth } from '@/contexts/AuthContext';
 
-export default function Profile({ onBack }: { onBack: () => void }) {
+export default function Profile({
+  onBack,
+  onReview,
+}: {
+  onBack: () => void;
+  onReview?: (lessonId: string) => void;
+}) {
   const { user, isAuthenticated, signOut } = useAuth();
   const { byLesson, loaded: progressLoaded } = useAllProgress();
   const { stats, loaded: statsLoaded } = useUserStats();
+  const { achievements, unlockedCount, totalCount, loaded: achievementsLoaded } = useAchievements();
 
   const trackedCourses = courses.filter((c) => c.lessonId);
 
@@ -31,7 +39,7 @@ export default function Profile({ onBack }: { onBack: () => void }) {
     })
     .filter((x): x is { course: (typeof courses)[number]; artifact: NonNullable<ReturnType<typeof getLesson>>['artifact'] } => x !== null);
 
-  const loading = !progressLoaded || !statsLoaded;
+  const loading = !progressLoaded || !statsLoaded || !achievementsLoaded;
 
   if (!isAuthenticated) {
     return (
@@ -129,6 +137,16 @@ export default function Profile({ onBack }: { onBack: () => void }) {
                     : 'Completá un paso de cualquier lección hoy para empezar tu racha.'}
                 </p>
               </div>
+              <div className="mt-2 flex items-center gap-3 border-2 border-jade-400/30 bg-jade-400/5 px-4 py-2.5">
+                <Snowflake className="h-4 w-4 shrink-0 text-jade-300" />
+                <p className="font-mono text-[10px] uppercase tracking-widest text-slate2-400">
+                  Streak freeze:{' '}
+                  <span className={stats.freeze_available ? 'text-jade-300' : 'text-slate2-500'}>
+                    {stats.freeze_available ? 'disponible esta semana' : 'usado esta semana'}
+                  </span>{' '}
+                  — perdona un día salteado sin cortar la racha
+                </p>
+              </div>
 
               {/* Artifacts collection */}
               <section className="mt-10">
@@ -177,6 +195,55 @@ export default function Profile({ onBack }: { onBack: () => void }) {
                 )}
               </section>
 
+              {/* Achievements */}
+              <section className="mt-10">
+                <h2 className="mb-4 flex items-center justify-between font-pixel text-sm text-gold-300 text-shadow-pixel">
+                  <span className="flex items-center gap-2">
+                    <Trophy className="h-4 w-4" />
+                    LOGROS
+                  </span>
+                  <span className="font-mono text-[10px] text-slate2-400">
+                    {unlockedCount} / {totalCount}
+                  </span>
+                </h2>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  {achievements.map((ach) => (
+                    <div
+                      key={ach.id}
+                      className={`flex items-start gap-3 border-2 p-3.5 transition-all ${
+                        ach.unlocked
+                          ? 'border-gold-300 bg-gradient-to-b from-gold-400/10 to-ink-900 shadow-pixel-gold'
+                          : 'border-ink-600 bg-ink-800/40 opacity-60'
+                      }`}
+                    >
+                      <div
+                        className={`grid h-10 w-10 shrink-0 place-items-center border-2 ${
+                          ach.unlocked ? 'border-gold-300 bg-ink-900' : 'border-ink-500 bg-ink-800'
+                        }`}
+                      >
+                        {ach.unlocked ? (
+                          <ach.icon className="h-5 w-5 text-gold-300" />
+                        ) : (
+                          <Lock className="h-4 w-4 text-slate2-500" />
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <h4
+                          className={`font-pixel text-[10px] leading-tight ${
+                            ach.unlocked ? 'text-gold-200' : 'text-slate2-400'
+                          }`}
+                        >
+                          {ach.title}
+                        </h4>
+                        <p className="mt-1.5 font-terminal text-sm leading-snug text-slate2-400">
+                          {ach.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
               {/* Per-course XP breakdown */}
               <section className="mt-10">
                 <h2 className="mb-4 font-pixel text-sm text-gold-300 text-shadow-pixel">
@@ -205,6 +272,15 @@ export default function Profile({ onBack }: { onBack: () => void }) {
                             style={{ width: `${pct}%` }}
                           />
                         </div>
+                        {saved?.is_finished && course.lessonId && onReview && (
+                          <button
+                            onClick={() => onReview(course.lessonId!)}
+                            className="mt-3 flex items-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-widest text-jade-300 transition-colors hover:text-jade-200"
+                          >
+                            <RotateCcw className="h-3 w-3" />
+                            Repasar contenido
+                          </button>
+                        )}
                       </div>
                     );
                   })}
