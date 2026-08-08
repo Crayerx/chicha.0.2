@@ -1,27 +1,65 @@
 import { useEffect, useRef, useState } from 'react';
-import dragonSleeping from '../assets/dragon-sleeping.png';
 
-const WAKE_DURATION_MS = 5000;
+import frameSleep from '../assets/dragon-frames/sleep.png';
+import frameWakeStartle from '../assets/dragon-frames/wake_startle.png';
+import frameWakeAlert from '../assets/dragon-frames/wake_alert.png';
+import frameWakeCalm from '../assets/dragon-frames/wake_calm.png';
+import frameYawn from '../assets/dragon-frames/yawn.png';
+import frameYawn2 from '../assets/dragon-frames/yawn2.png';
+import frameDrowsy from '../assets/dragon-frames/drowsy.png';
+import frameSleepy from '../assets/dragon-frames/sleepy.png';
+import frameClosing from '../assets/dragon-frames/closing.png';
+import frameSettling from '../assets/dragon-frames/settling.png';
+
+// Timeline of poses shown after a tap. Mirrors the reference clip:
+// startled awake -> alert -> calm -> yawn -> drowsy -> back asleep.
+// Total run time is 5s, matching "se vuelve a dormir a los 5 segundos".
+const WAKE_SEQUENCE: { src: string; at: number; label: string }[] = [
+  { src: frameWakeStartle, at: 0, label: '¡despierto!' },
+  { src: frameWakeAlert, at: 350, label: '¡despierto!' },
+  { src: frameWakeCalm, at: 750, label: '¡despierto!' },
+  { src: frameYawn, at: 1600, label: 'bostezando...' },
+  { src: frameYawn2, at: 2000, label: 'bostezando...' },
+  { src: frameDrowsy, at: 2600, label: 'con sueño...' },
+  { src: frameSleepy, at: 3300, label: 'con sueño...' },
+  { src: frameClosing, at: 4000, label: 'durmiendo' },
+  { src: frameSettling, at: 4450, label: 'durmiendo' },
+];
+const TOTAL_WAKE_MS = 5000;
 
 export default function DragonCompanion() {
   const [isAwake, setIsAwake] = useState(false);
+  const [frameSrc, setFrameSrc] = useState(frameSleep);
+  const [label, setLabel] = useState('durmiendo');
   const [burstKey, setBurstKey] = useState(0);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, []);
+  function clearScheduled() {
+    timeoutsRef.current.forEach(clearTimeout);
+    timeoutsRef.current = [];
+  }
+
+  useEffect(() => clearScheduled, []);
 
   function handleWake() {
+    clearScheduled();
     setIsAwake(true);
     setBurstKey((k) => k + 1);
 
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
+    WAKE_SEQUENCE.forEach(({ src, at, label: stepLabel }) => {
+      const id = setTimeout(() => {
+        setFrameSrc(src);
+        setLabel(stepLabel);
+      }, at);
+      timeoutsRef.current.push(id);
+    });
+
+    const sleepId = setTimeout(() => {
+      setFrameSrc(frameSleep);
+      setLabel('durmiendo');
       setIsAwake(false);
-    }, WAKE_DURATION_MS);
+    }, TOTAL_WAKE_MS);
+    timeoutsRef.current.push(sleepId);
   }
 
   return (
@@ -72,12 +110,12 @@ export default function DragonCompanion() {
           ].join(' ')}
         >
           <img
-            src={dragonSleeping}
-            alt="Dragoncito guardián de Chronos, durmiendo sobre un almohadón"
+            src={frameSrc}
+            alt="Dragoncito guardián de Chronos"
             className={[
-              'h-full w-full object-cover transition-transform duration-300',
-              isAwake ? 'animate-dragon-wake scale-105' : 'animate-dragon-sleep',
-              'group-hover:scale-110',
+              'h-full w-full object-cover',
+              isAwake ? '' : 'animate-dragon-sleep',
+              'group-hover:scale-110 transition-transform duration-300',
             ].join(' ')}
             draggable={false}
           />
@@ -98,11 +136,11 @@ export default function DragonCompanion() {
           />
           <span
             className={[
-              'font-mono text-[10px] font-bold uppercase tracking-widest',
+              'font-mono text-[10px] font-bold uppercase tracking-widest whitespace-nowrap',
               isAwake ? 'text-jade-300' : 'text-gold-200',
             ].join(' ')}
           >
-            {isAwake ? '¡despierto!' : 'durmiendo'}
+            {label}
           </span>
         </div>
       </button>
