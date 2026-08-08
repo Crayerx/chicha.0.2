@@ -74,20 +74,20 @@ export default function DragonCompanion() {
         {isAwake && (
           <span
             key={burstKey}
-            className="pointer-events-none absolute top-2 h-16 w-16 animate-ring-pulse rounded-full border-2 border-jade-400"
+            className="pointer-events-none absolute top-4 h-32 w-32 animate-ring-pulse rounded-full border-2 border-jade-400"
           />
         )}
 
         {/* Sparkles on wake */}
         {isAwake && (
           <span key={`s-${burstKey}`} className="pointer-events-none absolute inset-0">
-            <span className="absolute -left-2 top-0 h-2 w-2 animate-sparkle-pop bg-gold-300" />
+            <span className="absolute -left-4 top-0 h-3 w-3 animate-sparkle-pop bg-gold-300" />
             <span
-              className="absolute -right-2 top-3 h-1.5 w-1.5 animate-sparkle-pop bg-ember-400"
+              className="absolute -right-4 top-6 h-2.5 w-2.5 animate-sparkle-pop bg-ember-400"
               style={{ animationDelay: '0.08s' }}
             />
             <span
-              className="absolute left-1/2 -top-3 h-1.5 w-1.5 animate-sparkle-pop bg-jade-300"
+              className="absolute left-1/2 -top-5 h-2.5 w-2.5 animate-sparkle-pop bg-jade-300"
               style={{ animationDelay: '0.15s' }}
             />
           </span>
@@ -95,7 +95,7 @@ export default function DragonCompanion() {
 
         {/* Zzz while sleeping */}
         {!isAwake && (
-          <span className="pointer-events-none absolute -top-3 right-0 font-pixel text-[9px] text-slate2-400">
+          <span className="pointer-events-none absolute -top-5 right-0 font-pixel text-xs text-slate2-400">
             <span className="inline-block animate-zzz-float">z</span>
           </span>
         )}
@@ -103,7 +103,7 @@ export default function DragonCompanion() {
         {/* Dragon portrait */}
         <div
           className={[
-            'h-16 w-16 overflow-hidden rounded-full border-2 shadow-pixel-sm transition-colors duration-300',
+            'h-32 w-32 overflow-hidden rounded-full border-2 shadow-pixel-sm transition-colors duration-300',
             isAwake
               ? 'border-jade-400 shadow-[0_0_14px_rgba(43,201,138,0.55)]'
               : 'border-gold-400',
