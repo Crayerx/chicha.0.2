@@ -1,4 +1,5 @@
 import { Play, Hourglass } from 'lucide-react';
+import DragonCompanion from './DragonCompanion';
 
 export default function Hero() {
   return (
@@ -138,15 +139,7 @@ function PixelPortal() {
         </div>
       </div>
 
-      {/* Status bar */}
-      <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 border-2 border-gold-400 bg-ink-900 px-4 py-1.5 shadow-pixel-sm">
-        <div className="flex items-center gap-2">
-          <span className="h-2 w-2 animate-blink bg-jade-400" />
-          <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-gold-200">
-            SYSTEM ONLINE
-          </span>
-        </div>
-      </div>
+      <DragonCompanion />
     </div>
   );
 }
