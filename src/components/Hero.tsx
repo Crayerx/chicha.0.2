@@ -1,7 +1,8 @@
 import { Play, Hourglass } from 'lucide-react';
 import DragonCompanion from './DragonCompanion';
+import { catalogStats } from '@/data/courses';
 
-export default function Hero() {
+export default function Hero({ onStart }: { onStart?: () => void }) {
   return (
     <section className="relative overflow-hidden border-b-2 border-ink-600">
       {/* Background layers */}
@@ -36,9 +37,12 @@ export default function Hero() {
           </p>
 
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row lg:justify-start">
-            <button className="group relative flex w-full items-center justify-center gap-3 border-2 border-gold-400 bg-gold-400 px-8 py-4 font-mono text-base font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-1 hover:bg-gold-300 hover:shadow-pixel-lg sm:w-auto">
+            <button
+              onClick={onStart}
+              className="group relative flex w-full items-center justify-center gap-3 border-2 border-gold-400 bg-gold-400 px-8 py-4 font-mono text-base font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-1 hover:bg-gold-300 hover:shadow-pixel-lg sm:w-auto"
+            >
               <Play className="h-5 w-5 fill-ink-900" />
-              Get Started
+              Comenzar Ahora
             </button>
             <a
               href="#cursos"
@@ -52,9 +56,9 @@ export default function Hero() {
           {/* Stats */}
           <div className="mt-10 grid grid-cols-3 gap-4 border-t-2 border-ink-600 pt-6">
             {[
-              { num: '04', label: 'Eras' },
-              { num: '120+', label: 'Lecciones' },
-              { num: '60h', label: 'Contenido' },
+              { num: `${String(catalogStats.totalEras).padStart(2, '0')}`, label: 'Eras' },
+              { num: `${catalogStats.totalLessons}`, label: 'Lecciones' },
+              { num: `${catalogStats.totalHours}h`, label: 'Contenido' },
             ].map((s) => (
               <div key={s.label} className="text-center lg:text-left">
                 <div className="font-pixel text-lg text-gold-300 sm:text-xl">{s.num}</div>

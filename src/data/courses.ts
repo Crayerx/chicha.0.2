@@ -151,3 +151,15 @@ export const statusIcon: Record<CourseStatus, LucideIcon> = {
   unlocked: Unlock,
   locked: Lock,
 };
+
+/**
+ * Derived catalog stats — computed from `courses` so the Hero banner and the
+ * catalog header never drift out of sync with the actual course list again.
+ */
+export const catalogStats = {
+  totalEras: courses.length,
+  unlockedEras: courses.filter((c) => c.status === 'unlocked').length,
+  lockedEras: courses.filter((c) => c.status === 'locked').length,
+  totalLessons: courses.reduce((sum, c) => sum + c.lessons, 0),
+  totalHours: courses.reduce((sum, c) => sum + c.hours, 0),
+};

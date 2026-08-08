@@ -1,4 +1,4 @@
-import { courses } from '@/data/courses';
+import { courses, catalogStats } from '@/data/courses';
 import { getLesson } from '@/data/lessons';
 import { useAllProgress } from '@/hooks/useAllProgress';
 import CourseCard from './CourseCard';
@@ -23,9 +23,9 @@ export default function Courses({ onPlay }: { onPlay?: (lessonId: string) => voi
             ELIGE TU <span className="text-ember-400">ERA</span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl font-terminal text-xl leading-snug text-slate2-300">
-            Cinco eras te esperan. Cada curso combina narrativa, decisiones de
-            impacto y mapas interactivos para que aprendas historia como nunca
-            antes.
+            {catalogStats.totalEras} eras te esperan — {catalogStats.unlockedEras} listas para
+            jugar ahora, {catalogStats.lockedEras} por desbloquear. Cada curso combina narrativa,
+            decisiones de impacto y mapas interactivos para que aprendas historia como nunca antes.
           </p>
         </div>
 

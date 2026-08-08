@@ -35,7 +35,7 @@ export default function App() {
     <div className="min-h-screen bg-ink-900 text-slate2-300">
       <Navbar onProfile={goProfile} />
       <main>
-        <Hero />
+        <Hero onStart={() => goLesson('argentina')} />
         <Courses onPlay={goLesson} />
       </main>
       <Footer />

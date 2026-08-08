@@ -1,11 +1,7 @@
 import { useState } from 'react';
-import { Hourglass, Menu, X, LogIn, UserPlus, UserCircle } from 'lucide-react';
+import { Hourglass, Menu, X, UserCircle } from 'lucide-react';
 
-const NAV_LINKS = [
-  { label: 'Cursos', href: '#cursos' },
-  { label: 'Códex', href: '#codex' },
-  { label: 'Comunidad', href: '#comunidad' },
-];
+const NAV_LINKS = [{ label: 'Cursos', href: '#cursos' }];
 
 export default function Navbar({ onProfile }: { onProfile?: () => void }) {
   const [open, setOpen] = useState(false);
@@ -40,18 +36,10 @@ export default function Navbar({ onProfile }: { onProfile?: () => void }) {
         <div className="hidden items-center gap-3 md:flex">
           <button
             onClick={onProfile}
-            className="flex items-center gap-2 border-2 border-ink-500 bg-ink-700 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-slate2-300 shadow-pixel-sm transition-all hover:-translate-y-0.5 hover:border-gold-400 hover:text-gold-200 hover:shadow-pixel-gold"
+            className="flex items-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-0.5 hover:bg-gold-300 hover:shadow-pixel"
           >
             <UserCircle className="h-4 w-4" />
             Perfil
-          </button>
-          <button className="flex items-center gap-2 border-2 border-ink-500 bg-ink-700 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-slate2-300 shadow-pixel-sm transition-all hover:-translate-y-0.5 hover:border-gold-400 hover:text-gold-200 hover:shadow-pixel-gold">
-            <LogIn className="h-4 w-4" />
-            Login
-          </button>
-          <button className="flex items-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-0.5 hover:bg-gold-300 hover:shadow-pixel">
-            <UserPlus className="h-4 w-4" />
-            Register
           </button>
         </div>
 
@@ -86,18 +74,10 @@ export default function Navbar({ onProfile }: { onProfile?: () => void }) {
                 setOpen(false);
                 onProfile?.();
               }}
-              className="flex items-center justify-center gap-2 border-2 border-ink-500 bg-ink-700 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-slate2-300"
+              className="flex items-center justify-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ink-900"
             >
               <UserCircle className="h-4 w-4" />
               Perfil
-            </button>
-            <button className="flex items-center justify-center gap-2 border-2 border-ink-500 bg-ink-700 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-slate2-300">
-              <LogIn className="h-4 w-4" />
-              Login
-            </button>
-            <button className="flex items-center justify-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ink-900">
-              <UserPlus className="h-4 w-4" />
-              Register
             </button>
           </div>
         </div>
