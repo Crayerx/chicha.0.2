@@ -8,6 +8,15 @@ interface TimelineGameProps {
   onComplete: () => void;
 }
 
+/**
+ * Selección activa: un evento del pool o el contenido de un slot que el
+ * usuario tocó y quiere mover. Este modelo de "tocar origen, tocar
+ * destino" reemplaza al drag & drop nativo de HTML5, que no dispara
+ * eventos en dispositivos táctiles (iOS Safari / Chrome Android) sin un
+ * polyfill. Con onClick funciona igual con mouse y con el dedo.
+ */
+type Selection = { from: 'pool'; id: string } | { from: 'slot'; index: number } | null;
+
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -22,28 +31,12 @@ export default function TimelineGame({ events, onComplete }: TimelineGameProps) 
   const [slots, setSlots] = useState<(TimelineEvent | null)[]>(
     Array(events.length).fill(null),
   );
-  const [dragId, setDragId] = useState<string | null>(null);
-  const [dragFromSlot, setDragFromSlot] = useState<number | null>(null);
+  const [selection, setSelection] = useState<Selection>(null);
   const [validated, setValidated] = useState(false);
   const [showVictory, setShowVictory] = useState(false);
 
   const correctOrder = [...events].sort((x, y) => x.year - y.year);
   const allFilled = slots.every((s) => s !== null);
-
-  const placeInSlot = useCallback(
-    (slotIndex: number, event: TimelineEvent) => {
-      setSlots((prev) => {
-        const next = [...prev];
-        if (next[slotIndex]) {
-          returnFromSlot(next, slotIndex);
-        }
-        next[slotIndex] = event;
-        return next;
-      });
-      setPool((prev) => prev.filter((e) => e.id !== event.id));
-    },
-    [],
-  );
 
   const returnFromSlot = (arr: (TimelineEvent | null)[], slotIndex: number) => {
     const item = arr[slotIndex];
@@ -53,37 +46,75 @@ export default function TimelineGame({ events, onComplete }: TimelineGameProps) 
     }
   };
 
-  const handleDropSlot = (slotIndex: number) => {
-    if (dragId === null && dragFromSlot === null) return;
+  const placeInSlot = useCallback((slotIndex: number, event: TimelineEvent) => {
+    setSlots((prev) => {
+      const next = [...prev];
+      if (next[slotIndex]) {
+        returnFromSlot(next, slotIndex);
+      }
+      next[slotIndex] = event;
+      return next;
+    });
+    setPool((prev) => prev.filter((e) => e.id !== event.id));
+  }, []);
 
-    if (dragFromSlot !== null) {
-      setSlots((prev) => {
-        const next = [...prev];
-        const item = next[dragFromSlot];
-        const target = next[slotIndex];
-        next[dragFromSlot] = target;
-        next[slotIndex] = item;
-        return next;
-      });
-      setDragFromSlot(null);
+  const swapSlots = (a: number, b: number) => {
+    setSlots((prev) => {
+      const next = [...prev];
+      [next[a], next[b]] = [next[b], next[a]];
+      return next;
+    });
+  };
+
+  // Tocar un evento del pool: si no había nada seleccionado, lo selecciona;
+  // si ya estaba seleccionado, lo deselecciona; si había otro seleccionado,
+  // cambia la selección a este.
+  const tapPoolItem = (event: TimelineEvent) => {
+    if (validated) return;
+    setSelection((prev) =>
+      prev?.from === 'pool' && prev.id === event.id ? null : { from: 'pool', id: event.id },
+    );
+  };
+
+  // Tocar un slot: coloca la selección activa ahí (desde el pool o desde
+  // otro slot), o si no hay selección y el slot tiene algo, lo devuelve al
+  // pool (toque simple para deshacer).
+  const tapSlot = (slotIndex: number) => {
+    if (validated) return;
+
+    if (selection?.from === 'pool') {
+      const event = pool.find((e) => e.id === selection.id);
+      if (event) placeInSlot(slotIndex, event);
+      setSelection(null);
       return;
     }
 
-    const event = pool.find((e) => e.id === dragId);
-    if (event) placeInSlot(slotIndex, event);
-    setDragId(null);
-  };
+    if (selection?.from === 'slot') {
+      if (selection.index !== slotIndex) {
+        swapSlots(selection.index, slotIndex);
+      }
+      setSelection(null);
+      return;
+    }
 
-  const handleDropPool = () => {
-    if (dragFromSlot !== null) {
+    // Nada seleccionado: tocar un slot lleno lo saca al pool; tocar uno
+    // vacío no hace nada.
+    if (slots[slotIndex]) {
       setSlots((prev) => {
         const next = [...prev];
-        returnFromSlot(next, dragFromSlot);
+        returnFromSlot(next, slotIndex);
         return next;
       });
-      setDragFromSlot(null);
     }
-    setDragId(null);
+  };
+
+  // Tocar el contenido de un slot lleno (en vez del slot vacío alrededor):
+  // arranca a moverlo a otro lugar en vez de sacarlo directo.
+  const tapFilledSlot = (slotIndex: number) => {
+    if (validated) return;
+    setSelection((prev) =>
+      prev?.from === 'slot' && prev.index === slotIndex ? null : { from: 'slot', index: slotIndex },
+    );
   };
 
   const validate = () => {
@@ -91,6 +122,7 @@ export default function TimelineGame({ events, onComplete }: TimelineGameProps) 
       (s, i) => s !== null && s.id === correctOrder[i].id,
     );
     setValidated(true);
+    setSelection(null);
     if (isCorrect) {
       setShowVictory(true);
       setTimeout(() => {
@@ -102,6 +134,7 @@ export default function TimelineGame({ events, onComplete }: TimelineGameProps) 
   const reset = () => {
     setPool(shuffle(events));
     setSlots(Array(events.length).fill(null));
+    setSelection(null);
     setValidated(false);
     setShowVictory(false);
   };
@@ -118,7 +151,7 @@ export default function TimelineGame({ events, onComplete }: TimelineGameProps) 
       </div>
 
       <p className="mb-4 font-terminal text-lg text-slate2-300">
-        Arrastra cada evento al slot correspondiente en orden cronológico.
+        Toca un evento y luego el lugar donde quieras colocarlo, en orden cronológico.
         ¡Completa la línea para ganar <span className="text-gold-300">+{STEP_TYPE_XP.timeline} XP</span>!
       </p>
 
@@ -129,29 +162,27 @@ export default function TimelineGame({ events, onComplete }: TimelineGameProps) 
           {slots.map((slot, i) => {
             const correct = validated && slot?.id === correctOrder[i].id;
             const wrong = validated && slot !== null && slot?.id !== correctOrder[i].id;
+            const isSelected = selection?.from === 'slot' && selection.index === i;
+            const isDropTarget = selection !== null && !isSelected;
             return (
-              <div
+              <button
                 key={i}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={() => handleDropSlot(i)}
-                onClick={() => {
-                  if (slot) {
-                    setSlots((prev) => {
-                      const next = [...prev];
-                      returnFromSlot(next, i);
-                      return next;
-                    });
-                  }
-                }}
-                className={`flex items-center gap-3 border-2 p-2.5 transition-all ${
+                type="button"
+                onClick={() => tapSlot(i)}
+                disabled={validated}
+                className={`flex w-full touch-manipulation items-center gap-3 border-2 p-2.5 text-left transition-all ${
                   correct
                     ? 'border-jade-400 bg-jade-400/10'
                     : wrong
                       ? 'border-ruby-400 bg-ruby-400/10'
-                      : slot
-                        ? 'border-gold-400/60 bg-ink-700'
-                        : 'border-dashed border-ink-500 bg-ink-800/50'
-                }`}
+                      : isSelected
+                        ? 'border-gold-300 bg-gold-400/15 shadow-pixel-gold'
+                        : isDropTarget
+                          ? 'border-gold-400/70 bg-ink-700 ring-2 ring-gold-400/30'
+                          : slot
+                            ? 'border-gold-400/60 bg-ink-700'
+                            : 'border-dashed border-ink-500 bg-ink-800/50'
+                } ${validated ? 'cursor-default' : ''}`}
               >
                 {/* Timeline node */}
                 <div
@@ -167,17 +198,14 @@ export default function TimelineGame({ events, onComplete }: TimelineGameProps) 
                 </div>
 
                 {slot ? (
-                  <div
-                    draggable
-                    onDragStart={() => {
-                      setDragFromSlot(i);
-                      setDragId(null);
+                  <span
+                    onClick={(e) => {
+                      // Tocar el contenido en sí arranca a moverlo, en vez
+                      // de sacarlo directo como hace tocar el slot vacío.
+                      e.stopPropagation();
+                      tapFilledSlot(i);
                     }}
-                    onDragEnd={() => {
-                      setDragFromSlot(null);
-                      setDragId(null);
-                    }}
-                    className="flex flex-1 cursor-grab items-center gap-2 active:cursor-grabbing"
+                    className="flex flex-1 items-center gap-2"
                   >
                     <GripVertical className="h-4 w-4 shrink-0 text-slate2-500" />
                     <span className="flex-1 font-terminal text-base text-slate2-200">
@@ -187,24 +215,20 @@ export default function TimelineGame({ events, onComplete }: TimelineGameProps) 
                       {slot.date}
                     </span>
                     {wrong && <X className="h-4 w-4 text-ruby-400" />}
-                  </div>
+                  </span>
                 ) : (
                   <span className="flex-1 font-mono text-xs uppercase tracking-widest text-slate2-500">
-                    — Suelta aquí —
+                    {isDropTarget ? '— Tocá para colocar aquí —' : '— Vacío —'}
                   </span>
                 )}
-              </div>
+              </button>
             );
           })}
         </div>
       </div>
 
       {/* Pool */}
-      <div
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={handleDropPool}
-        className="mb-4 border-2 border-ink-500 bg-ink-800/70 p-3"
-      >
+      <div className="mb-4 border-2 border-ink-500 bg-ink-800/70 p-3">
         <p className="mb-2 font-mono text-[10px] uppercase tracking-widest text-slate2-400">
           Eventos disponibles
         </p>
@@ -214,25 +238,27 @@ export default function TimelineGame({ events, onComplete }: TimelineGameProps) 
           </p>
         ) : (
           <div className="flex flex-wrap gap-2">
-            {pool.map((event) => (
-              <div
-                key={event.id}
-                draggable
-                onDragStart={() => {
-                  setDragId(event.id);
-                  setDragFromSlot(null);
-                }}
-                onDragEnd={() => {
-                  setDragId(null);
-                }}
-                className="flex cursor-grab items-center gap-2 border-2 border-gold-400/50 bg-ink-700 px-3 py-2 active:cursor-grabbing"
-              >
-                <GripVertical className="h-3.5 w-3.5 text-slate2-500" />
-                <span className="font-terminal text-base text-slate2-200">
-                  {event.label}
-                </span>
-              </div>
-            ))}
+            {pool.map((event) => {
+              const isSelected = selection?.from === 'pool' && selection.id === event.id;
+              return (
+                <button
+                  key={event.id}
+                  type="button"
+                  onClick={() => tapPoolItem(event)}
+                  disabled={validated}
+                  className={`flex touch-manipulation items-center gap-2 border-2 px-3 py-2 transition-all ${
+                    isSelected
+                      ? 'border-gold-300 bg-gold-400/20 shadow-pixel-gold'
+                      : 'border-gold-400/50 bg-ink-700'
+                  }`}
+                >
+                  <GripVertical className="h-3.5 w-3.5 text-slate2-500" />
+                  <span className="font-terminal text-base text-slate2-200">
+                    {event.label}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         )}
       </div>

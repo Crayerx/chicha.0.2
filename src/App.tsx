@@ -1,14 +1,26 @@
-import { useState, useCallback, useEffect, type ReactNode } from 'react';
+import { useState, useCallback, useEffect, Suspense, lazy, type ReactNode } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Courses from '@/components/Courses';
 import Footer from '@/components/Footer';
-import Profile from '@/components/Profile';
-import AuthModal from '@/components/AuthModal';
 import StreakReminder from '@/components/StreakReminder';
-import LessonView from '@/components/lesson/LessonView';
-import PhaView from '@/components/PhaView';
 import { useAuth } from '@/contexts/AuthContext';
+
+// Vistas pesadas: se cargan bajo demanda (code-splitting) para no inflar
+// el bundle inicial. Cada una arrastra sus propios datos/componentes
+// (lecciones, juegos, formularios de auth), que no hacen falta en el home.
+const Profile = lazy(() => import('@/components/Profile'));
+const AuthModal = lazy(() => import('@/components/AuthModal'));
+const LessonView = lazy(() => import('@/components/lesson/LessonView'));
+const PhaView = lazy(() => import('@/components/PhaView'));
+
+function ViewFallback() {
+  return (
+    <div className="min-h-screen bg-ink-900 flex items-center justify-center text-slate2-300">
+      Cargando…
+    </div>
+  );
+}
 
 type View = 'home' | 'lesson' | 'profile' | 'pha';
 
@@ -117,9 +129,9 @@ export default function App() {
   }
 
   return (
-    <>
+    <Suspense fallback={<ViewFallback />}>
       {content}
       {authModalOpen && <AuthModal onClose={closeAuthModal} />}
-    </>
+    </Suspense>
   );
 }
