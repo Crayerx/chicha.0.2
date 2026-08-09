@@ -1,4 +1,4 @@
-import { Lock, Clock as Unlock, Pyramid, Shield, Swords, Flame, Flag, Factory, HeartHandshake, Scale, ShieldAlert, Landmark, DollarSign } from 'lucide-react';
+import { Lock, Clock as Unlock, Pyramid, Swords, Flame, Flag, Factory, HeartHandshake, Scale, ShieldAlert, Landmark, DollarSign, Code } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 export type CourseStatus = 'unlocked' | 'locked';
@@ -187,15 +187,15 @@ export const courses: Course[] = [
   },
   {
     id: 'rome',
-    title: 'Estrategia Romana',
-    category: 'IMPERIO',
+    title: 'Conceptos de C#',
+    category: 'PROGRAMACIÓN',
     description:
-      'Dirige legiones, planifica batallas y expande las fronteras del Imperio. Tú decides el destino de Roma.',
+      'Aprendé los fundamentos de C#: variables, tipos de datos, estructuras de control y programación orientada a objetos, practicando todo en el IDE SharpDevelop.',
     hours: 16,
     status: 'unlocked',
-    icon: Shield,
+    icon: Code,
     accent: 'ruby',
-    era: '753 a.C. – 476 d.C.',
+    era: 'C# · SharpDevelop',
     lessons: 32,
   },
   {

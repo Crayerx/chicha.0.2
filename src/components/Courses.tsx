@@ -28,7 +28,7 @@ export default function Courses({
             </span>
           </div>
           <h2 className="font-pixel text-xl leading-tight text-gold-300 text-shadow-pixel sm:text-2xl md:text-3xl">
-            ELIGE TU <span className="text-ember-400">ERA</span>
+            ELIGE TU <span className="text-ember-400">MATERIA</span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl font-terminal text-xl leading-snug text-slate2-300">
             {catalogStats.totalEras} eras te esperan — {catalogStats.unlockedEras} listas para
