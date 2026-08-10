@@ -529,9 +529,328 @@ class Program
     id: 'csharpclase3',
     number: 3,
     title: 'Condicionales',
-    description: 'Próximamente: if, else if, else y el operador switch para tomar decisiones en el código.',
-    status: 'locked',
-    exercises: [],
+    description: 'Diagramas de flujo, if / if-else / if-else if-else y switch-case para que tu programa tome decisiones.',
+    status: 'unlocked',
+    intro: {
+      title: 'Estructuras de Control: Condicionales',
+      blocks: [
+        {
+          type: 'heading',
+          emoji: '🗺️',
+          text: 'Diagramas de flujo',
+        },
+        {
+          type: 'paragraph',
+          text: 'Un diagrama de flujo es la representación gráfica de un algoritmo: antes de escribir código en C#, dibujar el problema ayuda a ver con claridad qué condiciones hay y qué pasa en cada camino.',
+        },
+        {
+          type: 'list',
+          items: [
+            '⭕ Círculo — inicio o fin del programa.',
+            '▭ Rectángulo — un proceso interno (ej. un cálculo).',
+            '▱ Paralelogramo — entrada o salida (leer teclado, mostrar en pantalla).',
+            '◇ Rombo — una decisión (una pregunta con dos caminos posibles).',
+          ],
+        },
+        {
+          type: 'callout',
+          text: 'La dificultad de los condicionales casi siempre está en escribir el código directamente, sin pensar antes el problema. Si podés dibujar el rombo de la decisión y sus dos caminos, ya tenés medio programa resuelto.',
+        },
+        {
+          type: 'heading',
+          emoji: '❓',
+          text: 'Sentencia if',
+        },
+        {
+          type: 'paragraph',
+          text: 'Es la sentencia condicional más simple: evalúa una condición entre paréntesis y, si es true, ejecuta la sentencia que sigue.',
+        },
+        {
+          type: 'code',
+          code: `int numero = Convert.ToInt32(Console.ReadLine());
+if (numero > 0)
+    Console.WriteLine("El numero es positivo.");`,
+        },
+        {
+          type: 'callout',
+          text: 'Ojo con las llaves: si el if controla una sola sentencia, las llaves son opcionales. Pero apenas querés que ejecute dos o más líneas cuando la condición se cumple, necesitás agruparlas entre { }.',
+        },
+        {
+          type: 'heading',
+          emoji: '🔀',
+          text: 'Sentencia if-else',
+        },
+        {
+          type: 'paragraph',
+          text: 'Permite establecer qué hacer cuando la condición NO se cumple.',
+        },
+        {
+          type: 'code',
+          code: `if (numero > 0)
+    Console.WriteLine("El numero es positivo.");
+else
+    Console.WriteLine("El numero es cero o negativo.");`,
+        },
+        {
+          type: 'heading',
+          emoji: '🔗',
+          text: 'Sentencia if-else if-else',
+        },
+        {
+          type: 'paragraph',
+          text: 'Cuando hay más de dos condiciones excluyentes entre sí, se encadenan con else if. C# evalúa cada condición en orden y ejecuta la primera que dé true; el else final es el "ninguna de las anteriores".',
+        },
+        {
+          type: 'code',
+          code: `if (numero < 0)
+    Console.WriteLine("El numero es negativo.");
+else if (numero == 0)
+    Console.WriteLine("El numero es cero.");
+else
+    Console.WriteLine("El numero es positivo.");`,
+        },
+        {
+          type: 'heading',
+          emoji: '🔁',
+          text: 'Sentencia switch-case',
+        },
+        {
+          type: 'paragraph',
+          text: 'Cuando hay que comparar una misma variable contra muchos valores posibles, encadenar if-else if seguidos es tedioso. La alternativa es switch: compara la expresión contra cada case y ejecuta ese bloque hasta encontrar un break. Si ningún case coincide, se ejecuta default.',
+        },
+        {
+          type: 'code',
+          code: `switch (nombre)
+{
+    case "Juan":
+        Console.WriteLine("Bienvenido, Juan.");
+        break;
+    case "Pedro":
+        Console.WriteLine("Que tal, Pedro.");
+        break;
+    default:
+        Console.WriteLine("Procede con cautela, desconocido.");
+        break;
+}`,
+        },
+        {
+          type: 'callout',
+          text: 'Un case sin break "cae" al siguiente: eso sirve para agrupar varios valores que comparten la misma acción (por ejemplo, case \'1\': case \'2\': case \'3\': ... y recién ahí la sentencia común con su break).',
+        },
+        {
+          type: 'heading',
+          emoji: '🔢',
+          text: 'Repaso: operadores lógicos',
+        },
+        {
+          type: 'list',
+          items: [
+            'A && B (and) — true solo si A y B son ambas true.',
+            'A || B (or) — true si A es true, si B es true, o ambas.',
+            '!A (not) — invierte el valor: !true es false y !false es true.',
+          ],
+        },
+        {
+          type: 'paragraph',
+          text: 'Estos operadores son claves para condiciones compuestas, como "el número es divisible por 4 pero no por 100". Ahora sí, a practicar con ejercicios basados en tu Práctica 3.',
+        },
+      ],
+    },
+    exercises: [
+      {
+        id: 'csharpclase3-1',
+        number: 1,
+        title: 'Positivo, Negativo o Cero',
+        instructions: [
+          'Leé un número entero y mostrá si es positivo, negativo o cero (ejercicio 1 de tu Práctica 3).',
+          'Usá if / else if / else.',
+          'Mostrá exactamente una de estas tres palabras: Positivo, Negativo o Cero.',
+          'Entrada de prueba: -5 → el resultado esperado es Negativo.',
+        ],
+        starterCode: `using System;
+
+class Program
+{
+    static void Main()
+    {
+        int numero = Convert.ToInt32(Console.ReadLine());
+        // Mostrá "Positivo", "Negativo" o "Cero" según corresponda
+
+    }
+}
+`,
+        stdin: '-5',
+        expectedOutput: 'Negativo',
+        hint: 'if (numero > 0) Console.WriteLine("Positivo");\nelse if (numero < 0) Console.WriteLine("Negativo");\nelse Console.WriteLine("Cero");',
+      },
+      {
+        id: 'csharpclase3-2',
+        number: 2,
+        title: 'Divisible por 6',
+        instructions: [
+          'Leé un número entero y mostrá si es divisible por 6 (ejercicio 2 de tu Práctica 3).',
+          'Un número es divisible por 6 si el resto de dividirlo por 6 es cero (usá el operador %).',
+          'Mostrá exactamente: Es divisible por 6  o  No es divisible por 6',
+          'Entrada de prueba: 18 → el resultado esperado es "Es divisible por 6".',
+        ],
+        starterCode: `using System;
+
+class Program
+{
+    static void Main()
+    {
+        int numero = Convert.ToInt32(Console.ReadLine());
+        // Verificá si numero % 6 es cero y mostrá el mensaje correspondiente
+
+    }
+}
+`,
+        stdin: '18',
+        expectedOutput: 'Es divisible por 6',
+        hint: 'if (numero % 6 == 0) Console.WriteLine("Es divisible por 6");\nelse Console.WriteLine("No es divisible por 6");',
+      },
+      {
+        id: 'csharpclase3-3',
+        number: 3,
+        title: 'Mayor y Menor de 4 Números',
+        instructions: [
+          'Leé 4 números y mostrá el mayor y el menor de todos (ejercicio 3 de tu Práctica 3).',
+          'Arrancá suponiendo que el primer número es a la vez el mayor y el menor, y andá comparando contra los otros tres con if.',
+          'Mostrá dos líneas exactamente así: Mayor: X y Menor: Y',
+          'Entrada de prueba: 8, 3, 15 y 1 (uno por línea) → Mayor: 15 y Menor: 1.',
+        ],
+        starterCode: `using System;
+
+class Program
+{
+    static void Main()
+    {
+        int n1 = Convert.ToInt32(Console.ReadLine());
+        int n2 = Convert.ToInt32(Console.ReadLine());
+        int n3 = Convert.ToInt32(Console.ReadLine());
+        int n4 = Convert.ToInt32(Console.ReadLine());
+        // Encontrá el mayor y el menor entre n1, n2, n3 y n4
+
+    }
+}
+`,
+        stdin: '8\n3\n15\n1',
+        expectedOutput: 'Mayor: 15\nMenor: 1',
+        hint: 'int mayor = n1, menor = n1;\nif (n2 > mayor) mayor = n2;\nif (n3 > mayor) mayor = n3;\nif (n4 > mayor) mayor = n4;\nif (n2 < menor) menor = n2;\nif (n3 < menor) menor = n3;\nif (n4 < menor) menor = n4;\nConsole.WriteLine("Mayor: " + mayor);\nConsole.WriteLine("Menor: " + menor);',
+      },
+      {
+        id: 'csharpclase3-4',
+        number: 4,
+        title: 'Año Bisiesto',
+        instructions: [
+          'Leé un año y mostrá si es bisiesto (ejercicio 4 de tu Práctica 3).',
+          'Un año es bisiesto si es divisible por 4 y no por 100 — salvo que también sea divisible por 400, en cuyo caso sí es bisiesto.',
+          'Combiná && (y) y || (o) en una sola condición.',
+          'Mostrá exactamente: Es bisiesto  o  No es bisiesto',
+          'Entrada de prueba: 2024 → el resultado esperado es "Es bisiesto".',
+        ],
+        starterCode: `using System;
+
+class Program
+{
+    static void Main()
+    {
+        int anio = Convert.ToInt32(Console.ReadLine());
+        // Verificá la condición de año bisiesto y mostrá el mensaje
+
+    }
+}
+`,
+        stdin: '2024',
+        expectedOutput: 'Es bisiesto',
+        hint: 'bool bisiesto = (anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0);\nif (bisiesto) Console.WriteLine("Es bisiesto");\nelse Console.WriteLine("No es bisiesto");',
+      },
+      {
+        id: 'csharpclase3-5',
+        number: 5,
+        title: 'Día de la Semana',
+        instructions: [
+          'Dado un número de 1 a 7, mostrá qué día de la semana representa (ejercicio 6 de tu Práctica 3): 1 es Domingo y 7 es Sabado.',
+          'Usá switch-case, con un case por número del 1 al 7.',
+          'Mostrá solo el nombre del día, sin texto extra.',
+          'Entrada de prueba: 3 → el resultado esperado es Martes.',
+        ],
+        starterCode: `using System;
+
+class Program
+{
+    static void Main()
+    {
+        int dia = Convert.ToInt32(Console.ReadLine());
+        switch (dia)
+        {
+            // Completá un case por cada número del 1 al 7
+
+        }
+    }
+}
+`,
+        stdin: '3',
+        expectedOutput: 'Martes',
+        hint: 'case 1: Console.WriteLine("Domingo"); break;\ncase 2: Console.WriteLine("Lunes"); break;\ncase 3: Console.WriteLine("Martes"); break;\n... y así hasta case 7: Console.WriteLine("Sabado"); break;',
+      },
+      {
+        id: 'csharpclase3-6',
+        number: 6,
+        title: 'Mayúscula o Minúscula',
+        instructions: [
+          'Leé un carácter y mostrá si es una letra mayúscula o minúscula (ejercicio 9 de tu Práctica 3).',
+          'Una letra es minúscula si está entre \'a\' y \'z\', y mayúscula si está entre \'A\' y \'Z\'.',
+          'Convertí la entrada a char con Convert.ToChar().',
+          'Mostrá exactamente: Es una MAYUSCULA  o  Es una MINUSCULA',
+          'Entrada de prueba: B → el resultado esperado es "Es una MAYUSCULA".',
+        ],
+        starterCode: `using System;
+
+class Program
+{
+    static void Main()
+    {
+        char letra = Convert.ToChar(Console.ReadLine());
+        // Verificá el rango de la letra y mostrá el mensaje correspondiente
+
+    }
+}
+`,
+        stdin: 'B',
+        expectedOutput: 'Es una MAYUSCULA',
+        hint: "if (letra >= 'a' && letra <= 'z') Console.WriteLine(\"Es una MINUSCULA\");\nelse if (letra >= 'A' && letra <= 'Z') Console.WriteLine(\"Es una MAYUSCULA\");",
+      },
+      {
+        id: 'csharpclase3-7',
+        number: 7,
+        title: '¿Forma un Triángulo?',
+        instructions: [
+          'Dadas 3 longitudes, decí si forman un triángulo (ejercicio 11 de tu Práctica 3).',
+          'Regla: forman un triángulo solo si cada lado es menor que la suma de los otros dos.',
+          'Combiná las 3 comparaciones con && en una sola condición.',
+          'Mostrá exactamente: Forma un triangulo  o  No forma un triangulo',
+          'Entrada de prueba: 3, 4 y 5 (uno por línea) → el resultado esperado es "Forma un triangulo".',
+        ],
+        starterCode: `using System;
+
+class Program
+{
+    static void Main()
+    {
+        double a = Convert.ToDouble(Console.ReadLine());
+        double b = Convert.ToDouble(Console.ReadLine());
+        double c = Convert.ToDouble(Console.ReadLine());
+        // Verificá si a, b y c forman un triángulo, y mostrá el mensaje
+
+    }
+}
+`,
+        stdin: '3\n4\n5',
+        expectedOutput: 'Forma un triangulo',
+        hint: 'bool esTriangulo = (a < b + c) && (b < a + c) && (c < a + b);\nif (esTriangulo) Console.WriteLine("Forma un triangulo");\nelse Console.WriteLine("No forma un triangulo");',
+      },
+    ],
   },
   {
     id: 'csharpclase4',
