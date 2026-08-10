@@ -8,6 +8,13 @@ export interface CSharpExercise {
   instructions: string[];
   /** Código que aparece precargado en el editor. */
   starterCode: string;
+  /**
+   * Texto que se le manda como entrada de teclado al programa (uno por
+   * línea, en el orden en que el código llama a Console.ReadLine()).
+   * Judge0 no permite tipear en vivo, así que la "entrada" es fija y se
+   * muestra al usuario en la UI para que sepa con qué valores se prueba.
+   */
+  stdin?: string;
   /** Se compara contra stdout (recortado) para dar por resuelto el ejercicio. */
   expectedOutput: string;
   hint: string;
@@ -231,9 +238,292 @@ class Program
     id: 'csharpclase2',
     number: 2,
     title: 'Variables y Tipos',
-    description: 'Próximamente: variables, tipos de datos (int, string, bool, double) y conversión entre tipos.',
-    status: 'locked',
-    exercises: [],
+    description: 'Variables, identificadores, tipos de datos (int, double, bool, char, string), operadores y cómo leer datos desde el teclado.',
+    status: 'unlocked',
+    intro: {
+      title: 'Variables y Tipos de Datos',
+      blocks: [
+        {
+          type: 'heading',
+          emoji: '📖',
+          text: 'Sintaxis y semántica',
+        },
+        {
+          type: 'paragraph',
+          text: 'Antes de escribir más código, dos palabras que vas a escuchar seguido: la sintaxis son las reglas gramaticales de un lenguaje (cómo se escribe cada instrucción, dónde van los puntos y coma, las llaves, etc.). La semántica es el significado de esas instrucciones: qué hacen realmente cuando se ejecutan.',
+        },
+        {
+          type: 'callout',
+          text: 'Sintaxis pregunta "¿está bien escrito esto?". Semántica pregunta "¿qué hace este código?". Un programa puede tener sintaxis correcta y aun así hacer algo distinto a lo que vos querías.',
+        },
+        {
+          type: 'heading',
+          emoji: '📦',
+          text: 'Variables',
+        },
+        {
+          type: 'paragraph',
+          text: 'Una variable es un nombre que representa un espacio de memoria donde se guarda un dato. Declararla reserva ese espacio; asignarle un valor lo llena. En C# hay que decir de entrada qué tipo de dato va a guardar esa variable.',
+        },
+        {
+          type: 'code',
+          code: `int primerNumero;      // declaración
+primerNumero = 234;    // asignación
+
+// o las dos cosas juntas ("inicializar"):
+int segundoNumero = 567;`,
+        },
+        {
+          type: 'paragraph',
+          text: 'En C# las mayúsculas y minúsculas son distintas: primerNumero y PrimerNumero son dos variables diferentes para el compilador.',
+        },
+        {
+          type: 'heading',
+          emoji: '🏷️',
+          text: 'Identificadores (nombres de variables)',
+        },
+        {
+          type: 'list',
+          items: [
+            'Solo pueden tener letras, números y guion bajo ( _ ).',
+            'Tienen que empezar con letra o guion bajo, nunca con un número.',
+            'No pueden tener espacios.',
+            'Evitá tildes y la ñ: no son "estándar" en todos los entornos.',
+            'No podés usar palabras reservadas de C# (como int, class, void) como nombre de variable.',
+          ],
+        },
+        {
+          type: 'heading',
+          emoji: '🔢',
+          text: 'Tipos de datos básicos',
+        },
+        {
+          type: 'paragraph',
+          text: 'Un tipo de dato define qué valores puede tomar una variable y qué operaciones son válidas sobre ella. Estos son los que vas a usar todo el tiempo:',
+        },
+        {
+          type: 'list',
+          items: [
+            'int — números enteros (sin decimales). Ej: int edad = 25;',
+            'double — números con decimales, doble precisión. Ej: double precio = 19.99;',
+            'float — números con decimales, menos precisión que double. Ej: float x = 12.56f;',
+            'bool — solo dos valores posibles: true o false.',
+            'char — un único carácter, entre comillas simples. Ej: char inicial = \'A\';',
+            'string — texto, entre comillas dobles. Ej: string nombre = "Ada";',
+          ],
+        },
+        {
+          type: 'heading',
+          emoji: '⌨️',
+          text: 'Leer datos desde el teclado',
+        },
+        {
+          type: 'paragraph',
+          text: 'Console.ReadLine() lee una línea de texto que escribe el usuario y siempre devuelve un string. Si necesitás un número, tenés que convertirlo explícitamente con Convert.ToInt32() (para enteros) o Convert.ToDouble() (para decimales).',
+        },
+        {
+          type: 'code',
+          code: `Console.WriteLine("Ingrese un numero");
+int numero = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("El numero es " + numero);`,
+        },
+        {
+          type: 'callout',
+          text: 'En los ejercicios de este capítulo no vas a poder tipear en vivo: el editor le manda al programa una entrada de prueba ya escrita (la vas a ver marcada como "Entrada de prueba"). Tu Console.ReadLine() la va a leer como si el usuario la hubiera tipeado.',
+        },
+        {
+          type: 'heading',
+          emoji: '➕',
+          text: 'Operadores',
+        },
+        {
+          type: 'list',
+          items: [
+            'Aritméticos: + (suma), - (resta), * (multiplicación), / (división), % (resto o módulo).',
+            'Relacionales: == (igual a), != (distinto de), <, >, <=, >= — siempre devuelven true o false.',
+            'Lógicos de condición: && (Y), || (O), ! (negación) — combinan condiciones booleanas.',
+          ],
+        },
+        {
+          type: 'paragraph',
+          text: 'El operador + también sirve para concatenar (unir) strings: "Hola, " + nombre pega el texto con el valor de la variable.',
+        },
+        {
+          type: 'heading',
+          emoji: '🧱',
+          text: 'Bloques y sentencias',
+        },
+        {
+          type: 'paragraph',
+          text: 'Una sentencia es una instrucción que hace algo (por ejemplo, una línea que termina en punto y coma). Un bloque es un grupo de sentencias agrupadas entre llaves { }. El cuerpo de Main() ya es un bloque, y vas a ver bloques anidados dentro de otros más adelante (en if, for, etc.).',
+        },
+        {
+          type: 'paragraph',
+          text: 'Ahora sí: a practicar con ejercicios reales, basados en tu Práctica 2.',
+        },
+      ],
+    },
+    exercises: [
+      {
+        id: 'csharpclase2-1',
+        number: 1,
+        title: 'Declarar e Inicializar',
+        instructions: [
+          'Declará una variable int llamada edad con el valor 25.',
+          'Declará una variable string llamada nombre con el valor "Ana".',
+          'Mostrá en pantalla exactamente: Ana tiene 25 años',
+          'Pista: podés concatenar con +, mezclando texto y variables.',
+        ],
+        starterCode: `using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Declará "edad" y "nombre", y después imprimí el mensaje
+
+    }
+}
+`,
+        expectedOutput: 'Ana tiene 25 años',
+        hint: 'string nombre = "Ana";\nint edad = 25;\nConsole.WriteLine(nombre + " tiene " + edad + " años");',
+      },
+      {
+        id: 'csharpclase2-2',
+        number: 2,
+        title: 'El Triple de un Número',
+        instructions: [
+          'Solicitá que se ingrese un número entero y mostrá su triple (basado en el ejercicio 2 de tu Práctica 2).',
+          'Leé el número con Console.ReadLine() y convertilo con Convert.ToInt32().',
+          'Mostrá solo el resultado (el número, sin texto extra).',
+          'Entrada de prueba: 4 → el resultado esperado es 12.',
+        ],
+        starterCode: `using System;
+
+class Program
+{
+    static void Main()
+    {
+        int numero = Convert.ToInt32(Console.ReadLine());
+        // Calculá el triple y mostralo
+
+    }
+}
+`,
+        stdin: '4',
+        expectedOutput: '12',
+        hint: 'Console.WriteLine(numero * 3);',
+      },
+      {
+        id: 'csharpclase2-3',
+        number: 3,
+        title: 'Promedio de 3 Notas',
+        instructions: [
+          'Solicitá 3 notas e imprimí el promedio (ejercicio 4 de tu Práctica 2).',
+          'El promedio es la suma de los números dividido la cantidad (3).',
+          'Leé cada nota con Console.ReadLine() + Convert.ToInt32(), una por línea.',
+          'Entrada de prueba: 6, 9 y 12 (una por línea) → el promedio esperado es 9.',
+        ],
+        starterCode: `using System;
+
+class Program
+{
+    static void Main()
+    {
+        int nota1 = Convert.ToInt32(Console.ReadLine());
+        int nota2 = Convert.ToInt32(Console.ReadLine());
+        int nota3 = Convert.ToInt32(Console.ReadLine());
+        // Calculá el promedio (como double) y mostralo
+
+    }
+}
+`,
+        stdin: '6\n9\n12',
+        expectedOutput: '9',
+        hint: 'double promedio = (nota1 + nota2 + nota3) / 3.0;\nConsole.WriteLine(promedio);',
+      },
+      {
+        id: 'csharpclase2-4',
+        number: 4,
+        title: 'División y Resto',
+        instructions: [
+          'Solicitá 2 números y mostrá la división entre ellos y el resto (ejercicio 6 de tu Práctica 2).',
+          'Usá / para la división entera y % para el resto (módulo).',
+          'Mostrá primero el cociente y después el resto, cada uno en su propia línea.',
+          'Entrada de prueba: 17 y 5 → cociente 3, resto 2.',
+        ],
+        starterCode: `using System;
+
+class Program
+{
+    static void Main()
+    {
+        int num1 = Convert.ToInt32(Console.ReadLine());
+        int num2 = Convert.ToInt32(Console.ReadLine());
+        // Mostrá la división (cociente) y el resto (módulo)
+
+    }
+}
+`,
+        stdin: '17\n5',
+        expectedOutput: '3\n2',
+        hint: 'Console.WriteLine(num1 / num2);\nConsole.WriteLine(num1 % num2);',
+      },
+      {
+        id: 'csharpclase2-5',
+        number: 5,
+        title: 'Saludo con Nombre y Apellido',
+        instructions: [
+          'Pedí que se ingrese un nombre y un apellido, e imprimí un saludo (basado en el ejercicio 10 de tu Práctica 2).',
+          'Leé primero el nombre y después el apellido, cada uno en su propia línea.',
+          'Mostrá exactamente: Hola, Juan Perez!',
+          'Entrada de prueba: Juan y Perez (uno por línea).',
+        ],
+        starterCode: `using System;
+
+class Program
+{
+    static void Main()
+    {
+        string nombre = Console.ReadLine();
+        string apellido = Console.ReadLine();
+        // Armá y mostrá el saludo
+
+    }
+}
+`,
+        stdin: 'Juan\nPerez',
+        expectedOutput: 'Hola, Juan Perez!',
+        hint: 'Console.WriteLine("Hola, " + nombre + " " + apellido + "!");',
+      },
+      {
+        id: 'csharpclase2-6',
+        number: 6,
+        title: 'Comparar con Booleanos',
+        instructions: [
+          'Solicitá 2 números y mostrá si el primero es mayor que el segundo (true o false).',
+          'Usá el operador relacional > y guardá el resultado en una variable bool.',
+          'Console.WriteLine() de un bool muestra directamente True o False.',
+          'Entrada de prueba: 8 y 3 → el resultado esperado es True.',
+        ],
+        starterCode: `using System;
+
+class Program
+{
+    static void Main()
+    {
+        int num1 = Convert.ToInt32(Console.ReadLine());
+        int num2 = Convert.ToInt32(Console.ReadLine());
+        // Guardá en una variable bool si num1 es mayor que num2, y mostrala
+
+    }
+}
+`,
+        stdin: '8\n3',
+        expectedOutput: 'True',
+        hint: 'bool esMayor = num1 > num2;\nConsole.WriteLine(esMayor);',
+      },
+    ],
   },
   {
     id: 'csharpclase3',

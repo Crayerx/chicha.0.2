@@ -65,7 +65,7 @@ export default function CSharpExerciseView({
       setRunState('running');
       setErrorMsg(null);
       try {
-        const res = await runCSharp(code);
+        const res = await runCSharp(code, exercise.stdin ?? '');
         setResult(res);
 
         if (!ranSuccessfully(res)) {
@@ -163,6 +163,17 @@ export default function CSharpExerciseView({
               </p>
             ))}
           </div>
+
+          {exercise.stdin !== undefined && (
+            <div className="mt-4 border-2 border-ink-500 bg-ink-900 p-3">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-slate2-400">
+                Entrada de prueba (Console.ReadLine)
+              </p>
+              <pre className="mt-1.5 whitespace-pre-wrap font-mono text-xs text-gold-200">
+                {exercise.stdin === '' ? '(sin entrada)' : exercise.stdin}
+              </pre>
+            </div>
+          )}
 
           <button
             onClick={() => setShowHint((v) => !v)}
