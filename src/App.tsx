@@ -13,6 +13,8 @@ const Profile = lazy(() => import('@/components/Profile'));
 const AuthModal = lazy(() => import('@/components/AuthModal'));
 const LessonView = lazy(() => import('@/components/lesson/LessonView'));
 const PhaView = lazy(() => import('@/components/PhaView'));
+const CSharpView = lazy(() => import('@/components/CSharpView'));
+const CSharpExerciseView = lazy(() => import('@/components/csharp/CSharpExerciseView'));
 
 function ViewFallback() {
   return (
@@ -22,7 +24,7 @@ function ViewFallback() {
   );
 }
 
-type View = 'home' | 'lesson' | 'profile' | 'pha';
+type View = 'home' | 'lesson' | 'profile' | 'pha' | 'csharp' | 'csharp-exercise';
 
 export default function App() {
   const { isAuthenticated, user, signOut } = useAuth();
@@ -30,14 +32,28 @@ export default function App() {
   const [view, setView] = useState<View>('home');
   const [lessonId, setLessonId] = useState<string>('argentina');
   const [reviewMode, setReviewMode] = useState(false);
+  const [csharpChapterId, setCsharpChapterId] = useState<string>('csharpclase1');
+  const [csharpExerciseNumber, setCsharpExerciseNumber] = useState<number>(1);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   // Solo 'profile' necesita retomar una vista pendiente después del login:
   // jugar una lección (goLesson) ya no requiere cuenta, así que no encola nada.
   const [pendingProfile, setPendingProfile] = useState(false);
 
   const goHome = useCallback(() => setView('home'), []);
-  const goPha = useCallback(() => setView('pha'), []);
+  // Tarjetas con `isModuleGroup` llaman a esto con su `course.id`: cada grupo
+  // (PHA, C#, ...) navega a su propia vista de módulos.
+  const goOpenGroup = useCallback((courseId: string) => {
+    if (courseId === 'csharp') setView('csharp');
+    else setView('pha');
+  }, []);
   const openAuthModal = useCallback(() => setAuthModalOpen(true), []);
+
+  const goCSharpExercise = useCallback((chapterId: string, exerciseNumber: number) => {
+    setCsharpChapterId(chapterId);
+    setCsharpExerciseNumber(exerciseNumber);
+    setView('csharp-exercise');
+  }, []);
+  const goCSharpChapters = useCallback(() => setView('csharp'), []);
 
   const closeAuthModal = useCallback(() => {
     setAuthModalOpen(false);
@@ -108,6 +124,17 @@ export default function App() {
     content = <Profile onBack={goHome} onReview={goReview} />;
   } else if (view === 'pha') {
     content = <PhaView onPlay={goLesson} onReview={goReview} onBack={goHome} />;
+  } else if (view === 'csharp') {
+    content = <CSharpView onOpenExercise={goCSharpExercise} onBack={goHome} />;
+  } else if (view === 'csharp-exercise') {
+    content = (
+      <CSharpExerciseView
+        chapterId={csharpChapterId}
+        exerciseNumber={csharpExerciseNumber}
+        onExit={goCSharpChapters}
+        onNavigateExercise={goCSharpExercise}
+      />
+    );
   } else {
     content = (
       <div className="min-h-screen bg-ink-900 text-slate2-300">
@@ -121,7 +148,7 @@ export default function App() {
         {isAuthenticated && <StreakReminder onPlay={() => goLesson('argentina')} />}
         <main>
           <Hero onStart={() => goLesson('argentina')} />
-          <Courses onPlay={goLesson} onReview={goReview} onOpenGroup={goPha} />
+          <Courses onPlay={goLesson} onReview={goReview} onOpenGroup={goOpenGroup} />
         </main>
         <Footer />
       </div>

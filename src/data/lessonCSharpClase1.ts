@@ -1,0 +1,162 @@
+import {
+  Code,
+  Terminal,
+  FileCode,
+  MessageSquare,
+  Braces,
+  Vote,
+  type LucideIcon,
+} from 'lucide-react';
+import type { LoreSlide, QuizQuestion, Artifact } from './lessonArgentina';
+
+export const loreSlidesCSharpClase1: LoreSlide[] = [
+  {
+    id: 1,
+    title: '¿Qué es C#?',
+    icon: Code,
+    tag: 'EL LENGUAJE',
+    accent: 'ruby',
+    body: 'C# (se pronuncia "C Sharp") es un lenguaje de programación creado por Microsoft. Es orientado a objetos, lo que significa que organiza el código en "objetos" que representan cosas del mundo real (un auto, un usuario, un producto). Se usa para crear desde aplicaciones de escritorio hasta juegos (Unity) y páginas web.',
+  },
+  {
+    id: 2,
+    title: '.NET: el motor detrás de C#',
+    icon: Terminal,
+    tag: 'EL ENTORNO',
+    accent: 'gold',
+    body: '.NET es la plataforma que ejecuta el código escrito en C#. Cuando escribís un programa, primero lo tenés que "compilar" (traducirlo a un formato que la computadora entiende) y después lo ejecutás. Para escribir y compilar el código usamos un IDE (entorno de desarrollo), como SharpDevelop o Visual Studio.',
+  },
+  {
+    id: 3,
+    title: 'La Estructura de un Programa',
+    icon: FileCode,
+    tag: 'EL ESQUELETO',
+    accent: 'jade',
+    body: 'Todo programa en C# necesita un punto de partida: el método Main(). El código básico se ve así: "using System;" al principio para poder usar herramientas del lenguaje, una "class" (clase) que contiene el programa, y adentro, "static void Main() { }" con el código que se ejecuta primero.',
+  },
+  {
+    id: 4,
+    title: 'Mostrar Texto en Pantalla',
+    icon: MessageSquare,
+    tag: 'CONSOLE.WRITELINE',
+    accent: 'ember',
+    body: 'Para mostrar un mensaje en la pantalla usamos Console.WriteLine("texto"); — esto escribe el texto y salta a la línea siguiente. Si no querés saltar de línea, usás Console.Write("texto"). El clásico primer programa de cualquier lenguaje es hacer que la pantalla muestre "Hola Mundo".',
+  },
+  {
+    id: 5,
+    title: 'Reglas Básicas de Sintaxis',
+    icon: Braces,
+    tag: 'LA GRAMÁTICA DEL CÓDIGO',
+    accent: 'gold',
+    body: 'C# es un lenguaje estricto con su sintaxis: cada instrucción termina con punto y coma ( ; ), los bloques de código van entre llaves { }, y el lenguaje distingue mayúsculas de minúsculas (Main no es lo mismo que main). Los comentarios, que el programa ignora al ejecutarse, se escriben con // para una línea o /* */ para varias.',
+  },
+];
+
+export const quizQuestionsCSharpClase1: QuizQuestion[] = [
+  {
+    id: 1,
+    type: 'multiple',
+    question: '¿Qué empresa creó el lenguaje C#?',
+    options: ['Google', 'Microsoft', 'Apple', 'Oracle'],
+    correctIndex: 1,
+    explanation: 'C# fue creado por Microsoft y es uno de los lenguajes principales de su plataforma .NET.',
+    accent: 'gold',
+  },
+  {
+    id: 2,
+    type: 'truefalse',
+    question: 'C# es un lenguaje orientado a objetos.',
+    options: ['Verdadero', 'Falso'],
+    correctIndex: 0,
+    explanation: 'Verdadero. C# organiza el código en clases y objetos, siguiendo el paradigma de programación orientada a objetos.',
+    accent: 'ember',
+  },
+  {
+    id: 3,
+    type: 'multiple',
+    question: '¿Cuál es el método que marca el punto de entrada de un programa en C#?',
+    options: ['Start()', 'Main()', 'Run()', 'Begin()'],
+    correctIndex: 1,
+    explanation: 'El método Main() es el punto de partida: es lo primero que se ejecuta cuando corre el programa.',
+    accent: 'jade',
+  },
+  {
+    id: 4,
+    type: 'multiple',
+    question: '¿Qué instrucción usás para mostrar texto en pantalla y saltar a la línea siguiente?',
+    options: ['Console.Write();', 'Console.Print();', 'Console.WriteLine();', 'Console.Show();'],
+    correctIndex: 2,
+    explanation: 'Console.WriteLine() escribe el texto en pantalla y después salta de línea, a diferencia de Console.Write().',
+    accent: 'ruby',
+  },
+  {
+    id: 5,
+    type: 'truefalse',
+    question: 'En C#, cada instrucción debe terminar con punto y coma ( ; ).',
+    options: ['Verdadero', 'Falso'],
+    correctIndex: 0,
+    explanation: 'Verdadero. El punto y coma marca el final de cada instrucción; olvidarlo es uno de los errores más comunes al empezar.',
+    accent: 'gold',
+  },
+  {
+    id: 6,
+    type: 'multiple',
+    question: '¿Qué símbolo se usa para escribir un comentario de una sola línea?',
+    options: ['#', '//', '<!--', '**'],
+    correctIndex: 1,
+    explanation: 'Los comentarios de una línea se escriben con // y el programa los ignora por completo al ejecutarse.',
+    accent: 'ember',
+  },
+  {
+    id: 7,
+    type: 'truefalse',
+    question: 'En C#, "Main" y "main" (escrito distinto) se consideran lo mismo.',
+    options: ['Verdadero', 'Falso'],
+    correctIndex: 1,
+    explanation: 'Falso. C# distingue mayúsculas de minúsculas (es "case-sensitive"), así que Main y main son dos nombres distintos.',
+    accent: 'jade',
+  },
+  {
+    id: 8,
+    type: 'flashcard',
+    question: '¿Qué es .NET?',
+    answer: 'Es la plataforma de Microsoft que ejecuta el código escrito en C#: lo compila y lo corre.',
+    explanation: 'Escribís el código en C#, un IDE lo compila y .NET se encarga de ejecutarlo en la computadora.',
+    accent: 'ruby',
+  },
+  {
+    id: 9,
+    type: 'multiple',
+    question: '¿Qué símbolo agrupa un bloque de código, como el contenido de Main()?',
+    options: ['Paréntesis ( )', 'Corchetes [ ]', 'Llaves { }', 'Comillas " "'],
+    correctIndex: 2,
+    explanation: 'Las llaves { } delimitan un bloque de código, como el cuerpo de un método o una clase.',
+    accent: 'gold',
+  },
+  {
+    id: 10,
+    type: 'flashcard',
+    question: '¿Cuál es tradicionalmente el primer programa que se escribe al aprender un lenguaje nuevo?',
+    answer: 'El programa "Hola Mundo": simplemente muestra ese mensaje en pantalla.',
+    explanation: 'Sirve para comprobar que el entorno de desarrollo está bien configurado y que el programa compila y corre.',
+    accent: 'ember',
+  },
+];
+
+export const lessonArtifactCSharpClase1: Artifact = {
+  name: 'Pergamino "Hola Mundo"',
+  rarity: 'LEGENDARIO',
+  era: 'Clase 1',
+  icon: Code,
+  description: 'Marca tu primer programa compilado y ejecutado con éxito: el comienzo de tu camino en C#.',
+};
+
+export const lessonMetaCSharpClase1 = {
+  module: 'Clase 1',
+  title: 'Primeros Pasos en C#',
+  subtitle: 'Qué es C#, qué es .NET y la estructura básica de un programa',
+  steps: [
+    { id: 1, label: 'Contexto', icon: FileCode as LucideIcon },
+    { id: 2, label: 'Quiz', icon: Vote as LucideIcon },
+  ],
+};

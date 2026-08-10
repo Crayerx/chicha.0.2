@@ -425,6 +425,10 @@ export const lessons: Record<string, LessonConfig> = {
   },
 };
 
+// Nota: la materia de C# ('csharpclase1' en adelante) ya no usa este motor
+// de lore+quiz — ahora es una serie de ejercicios de código real, compilados
+// con Judge0. Ver `src/data/csharpChapters.ts` y `src/components/csharp/`.
+
 export function getLesson(id: string): LessonConfig | undefined {
   return lessons[id];
 }

@@ -1,5 +1,6 @@
 import { Lock, Clock as Unlock, Pyramid, Swords, Flame, Flag, Factory, HeartHandshake, Scale, ShieldAlert, Landmark, DollarSign, Code } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { csharpTotals } from './csharpChapters';
 
 export type CourseStatus = 'unlocked' | 'locked';
 
@@ -186,17 +187,18 @@ export const courses: Course[] = [
     isModuleGroup: true,
   },
   {
-    id: 'rome',
+    id: 'csharp',
     title: 'Conceptos de C#',
     category: 'PROGRAMACIÓN',
     description:
-      'Aprendé los fundamentos de C#: variables, tipos de datos, estructuras de control y programación orientada a objetos, practicando todo en el IDE SharpDevelop.',
-    hours: 16,
+      'Escribí y compilá código C# de verdad, capítulo a capítulo: de tu primer "Hola Mundo" a variables, condicionales, bucles y programación orientada a objetos.',
+    hours: csharpTotals.chapters,
     status: 'unlocked',
     icon: Code,
     accent: 'ruby',
-    era: 'C# · SharpDevelop',
-    lessons: 32,
+    era: 'C#',
+    lessons: csharpTotals.exercises,
+    isModuleGroup: true,
   },
   {
     id: 'feudal',
