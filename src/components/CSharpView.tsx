@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Code2, ChevronDown, Lock, Play, CheckCircle2, RotateCcw, Trophy, Star, User } from 'lucide-react';
+import { ArrowLeft, Code2, ChevronDown, Lock, Play, CheckCircle2, RotateCcw, Trophy, Star, User, BookOpen } from 'lucide-react';
 import { csharpChapters, csharpTotals } from '@/data/csharpChapters';
 import { useAllProgress } from '@/hooks/useAllProgress';
 import { useProfile } from '@/hooks/useProfile';
@@ -7,9 +7,11 @@ import { useAuth } from '@/contexts/AuthContext';
 
 export default function CSharpView({
   onOpenExercise,
+  onOpenIntro,
   onBack,
 }: {
   onOpenExercise: (chapterId: string, exerciseNumber: number) => void;
+  onOpenIntro: (chapterId: string) => void;
   onBack: () => void;
 }) {
   const { isAuthenticated } = useAuth();
@@ -96,6 +98,23 @@ export default function CSharpView({
                         </p>
                       ) : (
                         <ul className="divide-y divide-ink-600">
+                          {chapter.intro && (
+                            <li className="flex items-center gap-4 py-2.5">
+                              <span className="w-20 shrink-0 font-mono text-[10px] uppercase tracking-widest text-slate2-500">
+                                Lectura
+                              </span>
+                              <span className="flex-1 font-terminal text-lg text-slate2-200">
+                                Introducción: {chapter.intro.title}
+                              </span>
+                              <button
+                                onClick={() => onOpenIntro(chapter.id)}
+                                className="inline-flex items-center gap-1.5 border-2 border-jade-400 bg-jade-400/10 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-jade-300 hover:bg-jade-400/20"
+                              >
+                                <BookOpen className="h-3 w-3" />
+                                Leer
+                              </button>
+                            </li>
+                          )}
                           {chapter.exercises.map((ex) => {
                             const done = saved?.completed_steps?.includes(ex.number) ?? false;
                             const unlockedExercise = ex.number === 1 || (saved?.completed_steps?.includes(ex.number - 1) ?? false) || done;

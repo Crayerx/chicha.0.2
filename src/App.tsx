@@ -14,6 +14,7 @@ const AuthModal = lazy(() => import('@/components/AuthModal'));
 const LessonView = lazy(() => import('@/components/lesson/LessonView'));
 const PhaView = lazy(() => import('@/components/PhaView'));
 const CSharpView = lazy(() => import('@/components/CSharpView'));
+const CSharpIntroView = lazy(() => import('@/components/csharp/CSharpIntroView'));
 const CSharpExerciseView = lazy(() => import('@/components/csharp/CSharpExerciseView'));
 
 function ViewFallback() {
@@ -24,7 +25,7 @@ function ViewFallback() {
   );
 }
 
-type View = 'home' | 'lesson' | 'profile' | 'pha' | 'csharp' | 'csharp-exercise';
+type View = 'home' | 'lesson' | 'profile' | 'pha' | 'csharp' | 'csharp-intro' | 'csharp-exercise';
 
 export default function App() {
   const { isAuthenticated, user, signOut } = useAuth();
@@ -52,6 +53,10 @@ export default function App() {
     setCsharpChapterId(chapterId);
     setCsharpExerciseNumber(exerciseNumber);
     setView('csharp-exercise');
+  }, []);
+  const goCSharpIntro = useCallback((chapterId: string) => {
+    setCsharpChapterId(chapterId);
+    setView('csharp-intro');
   }, []);
   const goCSharpChapters = useCallback(() => setView('csharp'), []);
 
@@ -125,7 +130,15 @@ export default function App() {
   } else if (view === 'pha') {
     content = <PhaView onPlay={goLesson} onReview={goReview} onBack={goHome} />;
   } else if (view === 'csharp') {
-    content = <CSharpView onOpenExercise={goCSharpExercise} onBack={goHome} />;
+    content = <CSharpView onOpenExercise={goCSharpExercise} onOpenIntro={goCSharpIntro} onBack={goHome} />;
+  } else if (view === 'csharp-intro') {
+    content = (
+      <CSharpIntroView
+        chapterId={csharpChapterId}
+        onExit={goCSharpChapters}
+        onStartExercises={(chapterId) => goCSharpExercise(chapterId, 1)}
+      />
+    );
   } else if (view === 'csharp-exercise') {
     content = (
       <CSharpExerciseView

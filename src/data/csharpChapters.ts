@@ -13,6 +13,19 @@ export interface CSharpExercise {
   hint: string;
 }
 
+/** Bloques de contenido para la lección de introducción de un capítulo (estilo "lore" de lectura). */
+export type CSharpIntroBlock =
+  | { type: 'heading'; emoji?: string; text: string }
+  | { type: 'paragraph'; text: string }
+  | { type: 'list'; items: string[] }
+  | { type: 'code'; code: string }
+  | { type: 'callout'; text: string };
+
+export interface CSharpChapterIntro {
+  title: string;
+  blocks: CSharpIntroBlock[];
+}
+
 export interface CSharpChapter {
   /** Coincide con el `lesson_id` usado en la tabla `lesson_progress`. */
   id: string;
@@ -20,6 +33,8 @@ export interface CSharpChapter {
   title: string;
   description: string;
   status: 'unlocked' | 'locked';
+  /** Lección de lectura opcional que se muestra antes del primer ejercicio. */
+  intro?: CSharpChapterIntro;
   exercises: CSharpExercise[];
 }
 
@@ -33,6 +48,68 @@ export const csharpChapters: CSharpChapter[] = [
     title: 'Fundamentos',
     description: 'Escribí y compilá tus primeros programas: qué es C#, cómo mostrar texto en pantalla y las reglas básicas de sintaxis.',
     status: 'unlocked',
+    intro: {
+      title: '¿Qué es C#?',
+      blocks: [
+        {
+          type: 'heading',
+          emoji: '⚔️',
+          text: '¿Qué es C#?',
+        },
+        {
+          type: 'paragraph',
+          text: '¡Bienvenido al comienzo de tu viaje como programador! Vamos a aprender C# (se pronuncia "C sharp"), un lenguaje de programación creado por Microsoft en el año 2000, liderado por el ingeniero Anders Hejlsberg.',
+        },
+        {
+          type: 'paragraph',
+          text: 'C# es un lenguaje de propósito general: sirve para crear videojuegos, aplicaciones de escritorio, apps web y hasta apps para celulares. Es potente, prolijo y una excelente puerta de entrada a la programación.',
+        },
+        {
+          type: 'paragraph',
+          text: 'Un programa es simplemente una lista de instrucciones escritas en un lenguaje que la computadora puede entender y ejecutar en orden, de arriba hacia abajo.',
+        },
+        {
+          type: 'paragraph',
+          text: 'C# no funciona solo: forma parte de un ecosistema más grande. Estas son las piezas con las que te vas a cruzar seguido:',
+        },
+        {
+          type: 'list',
+          items: [
+            '⚔️ C# — el lenguaje: la sintaxis y las reglas con las que escribís tu lógica.',
+            '🛡️ .NET — el framework/runtime que ejecuta tu código C# (el motor por detrás).',
+            '🎮 Unity — el motor de videojuegos más usado que usa C# como su lenguaje de scripting.',
+          ],
+        },
+        {
+          type: 'paragraph',
+          text: 'En este curso nos vamos a enfocar en el lenguaje C# en sí: cómo escribir, compilar y ejecutar programas reales, paso a paso.',
+        },
+        {
+          type: 'callout',
+          text: 'Todo programa en C# arranca en el mismo lugar: un método especial llamado Main(). Ahí es donde la computadora empieza a leer tus instrucciones.',
+        },
+        {
+          type: 'paragraph',
+          text: 'Para mostrar texto en pantalla usamos Console.WriteLine(), que imprime lo que le pases entre paréntesis y comillas. Así se ve un programa mínimo en C#:',
+        },
+        {
+          type: 'code',
+          code: `using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Hola Mundo");
+    }
+}`,
+        },
+        {
+          type: 'paragraph',
+          text: 'Tenemos un compilador real esperándote en el próximo ejercicio: vas a escribir tu primer programa y ver el resultado en pantalla al toque.',
+        },
+      ],
+    },
     exercises: [
       {
         id: 'csharpclase1-1',
