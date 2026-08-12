@@ -5,6 +5,7 @@ import Courses from '@/components/Courses';
 import Footer from '@/components/Footer';
 import StreakReminder from '@/components/StreakReminder';
 import { useAuth } from '@/contexts/AuthContext';
+import { CulturalPracticesView } from '@/components/CulturalPracticesView';
 
 // Vistas pesadas: se cargan bajo demanda (code-splitting) para no inflar
 // el bundle inicial. Cada una arrastra sus propios datos/componentes
@@ -25,7 +26,7 @@ function ViewFallback() {
   );
 }
 
-type View = 'home' | 'lesson' | 'profile' | 'pha' | 'csharp' | 'csharp-intro' | 'csharp-exercise';
+type View = 'home' | 'lesson' | 'profile' | 'pha' | 'csharp' | 'csharp-intro' | 'csharp-exercise' | 'cultural-practices';
 
 export default function App() {
   const { isAuthenticated, user, signOut } = useAuth();
@@ -45,6 +46,7 @@ export default function App() {
   // (PHA, C#, ...) navega a su propia vista de módulos.
   const goOpenGroup = useCallback((courseId: string) => {
     if (courseId === 'csharp') setView('csharp');
+    else if (courseId === 'feudal') setView('cultural-practices');
     else setView('pha');
   }, []);
   const openAuthModal = useCallback(() => setAuthModalOpen(true), []);
@@ -59,6 +61,7 @@ export default function App() {
     setView('csharp-intro');
   }, []);
   const goCSharpChapters = useCallback(() => setView('csharp'), []);
+  const goCulturalPractices = useCallback(() => setView('cultural-practices'), []);
 
   const closeAuthModal = useCallback(() => {
     setAuthModalOpen(false);
@@ -148,6 +151,8 @@ export default function App() {
         onNavigateExercise={goCSharpExercise}
       />
     );
+  } else if (view === 'cultural-practices') {
+    content = <CulturalPracticesView onBack={goHome} />;
   } else {
     content = (
       <div className="min-h-screen bg-ink-900 text-slate2-300">
