@@ -40,14 +40,14 @@ export default function Hero({ onStart }: { onStart?: () => void }) {
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row lg:justify-start animate-slide-up" style={{ animationDelay: '0.3s' }}>
             <button
               onClick={onStart}
-              className="group relative flex w-full items-center justify-center gap-3 border-2 border-gold-400 bg-gold-400 px-8 py-4 font-mono text-base font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-1 hover:bg-gold-300 hover:shadow-pixel-lg hover-lift hover-glow-gold sm:w-auto animated-border"
+              className="group relative flex w-full items-center justify-center gap-3 border-2 border-gold-400 bg-gradient-to-r from-gold-400 via-gold-300 to-gold-400 px-8 py-4 font-mono text-base font-bold uppercase tracking-wider text-ink-900 shadow-[0_0_20px_rgba(255,204,51,0.5)] transition-all hover:-translate-y-1 hover:from-gold-300 hover:via-gold-200 hover:to-gold-300 hover:shadow-[0_0_40px_rgba(255,204,51,0.8)] hover-lift sm:w-auto animated-border"
             >
               <Play className="h-5 w-5 fill-ink-900" />
               Comenzar Ahora
             </button>
             <a
               href="#cursos"
-              className="flex w-full items-center justify-center gap-2 border-2 border-ink-500 bg-ink-700 px-6 py-4 font-mono text-base font-bold uppercase tracking-wider text-slate2-300 shadow-pixel-sm transition-all hover:-translate-y-1 hover:border-gold-400 hover:text-gold-200 sm:w-auto hover-lift glass-effect"
+              className="flex w-full items-center justify-center gap-2 border-2 border-gold-400/60 bg-ink-800/90 px-6 py-4 font-mono text-base font-bold uppercase tracking-wider text-gold-200 shadow-[0_0_15px_rgba(255,204,51,0.3)] transition-all hover:-translate-y-1 hover:border-gold-400 hover:bg-ink-700 hover:text-gold-100 hover:shadow-[0_0_25px_rgba(255,204,51,0.5)] sm:w-auto hover-lift glass-effect gradient-border-glow"
             >
               <Hourglass className="h-5 w-5" />
               Ver Cursos
