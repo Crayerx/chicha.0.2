@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, X, RotateCcw, Trophy } from 'lucide-react';
+import { Check, RotateCcw, Trophy } from 'lucide-react';
 import type { FillBlankExercise } from '@/data/lessonArgentina';
 import { STEP_TYPE_XP } from '@/data/lessons';
 

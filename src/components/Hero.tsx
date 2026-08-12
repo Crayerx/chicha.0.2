@@ -4,28 +4,35 @@ import { catalogStats } from '@/data/courses';
 
 export default function Hero({ onStart }: { onStart?: () => void }) {
   return (
-    <section className="relative overflow-hidden border-b-2 border-ink-600">
+    <section className="relative overflow-hidden border-b-2 border-ink-600 bg-animated-gradient">
       {/* Background layers */}
       <div className="absolute inset-0 bg-grid" />
       <div className="absolute inset-0 bg-gradient-to-b from-ink-900/40 via-ink-900/80 to-ink-900" />
 
-      {/* Floating pixel decorations */}
+      {/* Floating pixel decorations - enhanced with more particles */}
       <div className="pointer-events-none absolute left-[8%] top-[22%] hidden h-3 w-3 animate-float-slow bg-gold-400 opacity-70 lg:block" />
       <div className="pointer-events-none absolute right-[12%] top-[30%] hidden h-2 w-2 animate-pulse-glow bg-ember-400 opacity-80 lg:block" />
       <div className="pointer-events-none absolute left-[15%] bottom-[20%] hidden h-2 w-2 animate-float-slow bg-jade-400 opacity-70 lg:block" style={{ animationDelay: '1.5s' }} />
       <div className="pointer-events-none absolute right-[18%] bottom-[28%] hidden h-3 w-3 animate-pulse-glow bg-ruby-400 opacity-70 lg:block" style={{ animationDelay: '0.8s' }} />
+      {/* Additional floating particles */}
+      <div className="particle absolute left-[25%] top-[15%] h-1.5 w-1.5 bg-gold-300 opacity-60" />
+      <div className="particle absolute right-[30%] top-[40%] h-2 w-2 bg-ember-300 opacity-50" style={{ animationDelay: '2s' }} />
+      <div className="particle absolute left-[10%] bottom-[35%] h-1 w-1 bg-jade-300 opacity-70" style={{ animationDelay: '1s' }} />
+      <div className="particle absolute right-[20%] bottom-[15%] h-2.5 w-2.5 bg-ruby-300 opacity-55" style={{ animationDelay: '3s' }} />
+      <div className="particle absolute left-[50%] top-[10%] h-1.5 w-1.5 bg-gold-400 opacity-40" style={{ animationDelay: '0.5s' }} />
+      <div className="particle absolute left-[70%] top-[60%] h-1 w-1 bg-ember-400 opacity-60" style={{ animationDelay: '2.5s' }} />
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:gap-8 lg:px-8 lg:py-24">
         {/* Left — copy */}
         <div className="text-center lg:text-left">
-          <div className="mb-5 inline-flex items-center gap-2 border-2 border-gold-400/40 bg-ink-800/80 px-3 py-1.5">
+          <div className="mb-5 inline-flex items-center gap-2 border-2 border-gold-400/40 bg-ink-800/80 px-3 py-1.5 inner-glow">
             <span className="h-2 w-2 animate-blink bg-jade-400" />
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-gold-200">
               v1.0 · NOW PLAYING
             </span>
           </div>
 
-          <h1 className="font-pixel text-2xl leading-tight text-gold-300 text-shadow-pixel sm:text-3xl md:text-4xl lg:text-5xl">
+          <h1 className="font-pixel text-2xl leading-tight text-gold-300 text-shadow-gold sm:text-3xl md:text-4xl lg:text-5xl">
             COMIENZA TU<br />
             <span className="text-gold-200">AVENTURA</span><br />
             <span className="text-ember-400">POR LA HISTORIA</span>
@@ -39,14 +46,14 @@ export default function Hero({ onStart }: { onStart?: () => void }) {
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row lg:justify-start">
             <button
               onClick={onStart}
-              className="group relative flex w-full items-center justify-center gap-3 border-2 border-gold-400 bg-gold-400 px-8 py-4 font-mono text-base font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-1 hover:bg-gold-300 hover:shadow-pixel-lg sm:w-auto"
+              className="group relative flex w-full items-center justify-center gap-3 border-2 border-gold-400 bg-gold-400 px-8 py-4 font-mono text-base font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-1 hover:bg-gold-300 hover:shadow-pixel-lg card-shine sm:w-auto"
             >
               <Play className="h-5 w-5 fill-ink-900" />
               Comenzar Ahora
             </button>
             <a
               href="#cursos"
-              className="flex w-full items-center justify-center gap-2 border-2 border-ink-500 bg-ink-700 px-6 py-4 font-mono text-base font-bold uppercase tracking-wider text-slate2-300 shadow-pixel-sm transition-all hover:-translate-y-1 hover:border-gold-400 hover:text-gold-200 sm:w-auto"
+              className="flex w-full items-center justify-center gap-2 border-2 border-ink-500 bg-ink-700 px-6 py-4 font-mono text-base font-bold uppercase tracking-wider text-slate2-300 shadow-pixel-sm transition-all hover:-translate-y-1 hover:border-gold-400 hover:text-gold-200 card-shine sm:w-auto"
             >
               <Hourglass className="h-5 w-5" />
               Ver Cursos
@@ -73,6 +80,8 @@ export default function Hero({ onStart }: { onStart?: () => void }) {
         {/* Right — pixel portal */}
         <div className="relative mx-auto flex max-w-md items-center justify-center lg:max-w-none">
           <PixelPortal />
+          {/* Ambient glow effect */}
+          <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-gold-400/20 via-transparent to-ember-400/20 blur-3xl" />
         </div>
       </div>
     </section>

@@ -6,7 +6,6 @@
   Megaphone,
   Vote,
   Globe,
-  Wrench,
   Scroll,
   Scale,
   MapPin,
@@ -14,7 +13,6 @@
   SlidersHorizontal,
   Grid3x3,
   Puzzle,
-  Target,
   Check,
   type LucideIcon,
 } from 'lucide-react';
