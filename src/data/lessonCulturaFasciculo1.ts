@@ -2,180 +2,195 @@ import type { Lesson } from './lessons';
 
 /**
  * Fascículo 1 — Eje Temático Cultura: Prácticas Culturales UNAJ
- * Basado en el contenido original de Cultura Hack pero adaptado al motor
- * de lecciones de Chronos (lore + actividades interactivas).
+ * Contenido extraído y adaptado de Cultura Hack (src/assets/cultura-hack.html)
+ * para el motor de lecciones de Chronos.
  */
 
 export const lessonCulturaIntro: Lesson = {
   id: 'cultura-intro',
-  title: 'Introducción a la Cultura',
+  title: 'Presentación General de la Materia',
   category: 'PRÁCTICAS CULTURALES',
   era: 'FASCÍCULO 1',
-  description: '¿Qué es la cultura? Sentido común, naturalización y prácticas sociales.',
+  description: 'Introducción al eje temático de Cultura según el cuadernillo de Prácticas Culturales UNAJ.',
   steps: [
     {
       type: 'lore',
-      text: `La cultura es todo aquello que creamos los seres humanos para vivir en sociedad. No nacemos sabiendo cómo comportarnos: lo aprendemos de otros, lo transmitimos, lo modificamos.
+      text: `**Idea Central:** Prácticas Culturales es una materia del Ciclo Inicial de la UNAJ que busca abrir preguntas sobre la cultura, desnaturalizar nuestra mirada y reconocer la trama que construye nuestras propias prácticas.
 
-Cuando pensamos en "cultura", a veces imaginamos museos, teatros o libros. Pero la cultura es mucho más que eso: está en cómo saludamos, en qué comemos, en cómo nos vestimos, en qué consideramos "normal" o "raro".
+### Qué dice el cuadernillo
 
-En este fascículo vamos a explorar cómo funciona la cultura, cómo se construye el sentido común y por qué algunas cosas nos parecen "naturales" cuando en realidad fueron inventadas por otras personas en algún momento histórico.`,
+- La materia forma parte del Ciclo Inicial de todas las carreras de la UNAJ.
+- El objetivo es abrir preguntas, no dar definiciones cerradas.
+- Se busca reflexionar sobre las prácticas culturales y sobre nuestro rol como actores sociales.
+- Las sociedades cristalizan prácticas, conceptos y creencias que, en medio de conflictos, constituyen un campo cultural preferencial.
+- Ese campo naturaliza determinadas prácticas en detrimento de otras para establecer un sentido común preferencial.
+- La cultura se aborda como un espacio de construcción colectiva de producción y reproducción de sentido.
+- Se analiza el rol de las instituciones en la conformación de discursos, valores, formas de estar, sentir y vivir.
+- Hay una puja de poder por imponer un sentido construido como si fuera el único, válido y verdadero.
+
+**Concepto clave: desnaturalizar.** Significa dejar de ver algo como "natural" o "obvio" y preguntarse cómo fue construido, por qué y para qué.
+
+**Pregunta para pensar:** ¿Por qué la materia dice que hay que desnaturalizar nuestra mirada?`,
+    },
+    {
+      type: 'quiz',
+      question: '¿Cuál es el objetivo principal de la materia Prácticas Culturales?',
+      options: [
+        'Dar definiciones cerradas sobre cultura',
+        'Abrir preguntas y desnaturalizar nuestra mirada',
+        'Memorizar autores y fechas',
+        'Aprender técnicas de investigación científica',
+      ],
+      correctIndex: 1,
+      explanation: 'La materia busca abrir preguntas sobre la cultura y desnaturalizar nuestra mirada, no dar definiciones cerradas.',
     },
     {
       type: 'lore',
-      text: `El **sentido común** es ese conjunto de ideas que damos por sentadas, que no cuestionamos porque "siempre fueron así". Pero si miramos con atención, descubrimos que lo que es "obvio" para nosotros puede ser completamente extraño para alguien de otra época o lugar.
+      text: `**La cultura como construcción colectiva**
 
-Por ejemplo: ¿es "natural" comer tres veces al día? ¿O es una práctica cultural que aprendimos? ¿Es "natural" usar ropa? ¿O es una invención humana que varía según el clima, la época y el grupo social?
+La cultura no es algo que "tenemos", sino algo que hacemos constantemente en interacción con otros. Es un proceso dinámico de producción y reproducción de sentido.
 
-La antropología nos invita a hacer algo simple pero revolucionario: **poner entre paréntesis** lo que damos por sentado y preguntarnos: ¿por qué esto es así? ¿Quiénes lo decidieron? ¿Podría ser de otra manera?`,
+**Las instituciones** (escuela, familia, medios, Estado, iglesias) juegan un papel fundamental en la conformación de discursos, valores y formas de estar en el mundo.
+
+**El sentido común** no es natural: es el resultado de una puja de poder donde ciertas prácticas se imponen como "únicas", "válidas" y "verdaderas".`,
     },
     {
       type: 'truefalse',
-      question: 'El sentido común es universal y vale para todas las culturas por igual.',
-      isTrue: false,
-      explanationTrue: 'Incorrecto. El sentido común varía según cada cultura, época y grupo social. Lo que es "obvio" en un lugar puede ser extraño en otro.',
-      explanationFalse: '¡Exacto! El sentido común no es universal: cambia según la cultura, la época y el contexto. Lo que parece "natural" en un lugar puede ser completamente diferente en otro.',
-    },
-    {
-      type: 'lore',
-      text: `Las **prácticas culturales** son las acciones concretas que realizamos como parte de nuestra vida en sociedad: saludar, comer, trabajar, celebrar, estudiar, jugar.
-
-Algunas prácticas son muy antiguas y se transmitieron por generaciones. Otras son recientes y surgieron como respuesta a nuevas necesidades. Todas ellas, sin embargo, comparten algo: **no son naturales, son inventadas**.
-
-Esto no significa que sean "falsas" o "artificiales" en sentido negativo. Significa que fueron creadas por personas en contextos históricos específicos, y que podrían haber sido (y pueden ser) de otra manera.`,
-    },
-    {
-      type: 'categorize',
-      instruction: 'Clasificá estas prácticas como "Naturales" o "Culturales"',
-      items: [
-        { text: 'Respirar', correctCategory: 'Naturales' },
-        { text: 'Saludar con la mano', correctCategory: 'Culturales' },
-        { text: 'Dormir', correctCategory: 'Naturales' },
-        { text: 'Usar cubiertos', correctCategory: 'Culturales' },
-        { text: 'Llorar', correctCategory: 'Naturales' },
-        { text: 'Celebrar cumpleaños', correctCategory: 'Culturales' },
-      ],
-      categories: ['Naturales', 'Culturales'],
-      explanation: 'Las prácticas naturales son funciones biológicas que compartimos con otros seres vivos. Las prácticas culturales son invenciones humanas que varían según el contexto social e histórico.',
-    },
-    {
-      type: 'lore',
-      text: `Ahora que entendemos la diferencia entre lo natural y lo cultural, podemos empezar a mirar nuestro mundo con otros ojos.
-
-Vamos a explorar conceptos clave como las **prácticas inventadas**, las **cajas negras** (cosas que usamos sin saber cómo funcionan), las **fronteras simbólicas** (límites que trazamos entre "nosotros" y "los otros") y los **frentes culturales** (espacios donde se disputan sentidos).
-
-Cada uno de estos conceptos nos va a ayudar a comprender mejor cómo funciona la cultura y cuál es nuestro lugar en ella.`,
+      question: 'La naturalización es el proceso mediante el cual algo construido socialmente aparece como si fuera natural.',
+      isTrue: true,
+      explanationTrue: '¡Correcto! La naturalización hace que lo construido socialmente parezca "natural" u "obvio", ocultando su origen histórico y social.',
+      explanationFalse: 'Incorrecto. La naturalización ES precisamente ese proceso: hacer parecer natural algo que fue construido social e históricamente.',
     },
   ],
 };
 
 export const lessonSentidoComun: Lesson = {
   id: 'cultura-sentido',
-  title: 'El Sentido Común',
+  title: 'Cultura, Sentido Común y Naturalización',
   category: 'PRÁCTICAS CULTURALES',
   era: 'FASCÍCULO 1',
-  description: 'Cómo se construye lo que damos por sentado.',
+  description: 'Introducción: cultura como acciones cotidianas, sentido común y naturalización.',
   steps: [
     {
       type: 'lore',
-      text: `El sentido común es esa voz interior que nos dice qué es "lógico", qué es "normal", qué "debería ser así". Pero esta voz no viene de la naturaleza: viene de la cultura.
+      text: `**Idea Central:** La materia propone pensar la cultura como acciones cotidianas que construyen colectivamente sentido, y no solamente como bellas artes o instrucción formal.
 
-Imaginá que estás caminando por la calle y ves a alguien gritando solo. Probablemente pienses: "está loco". Pero, ¿y si estuviera grabando un audio? ¿O hablando por teléfono con auricular invisible? Nuestro juicio depende de lo que conocemos, de lo que nos resulta familiar.
+### Cultura es culturas
 
-El sentido común funciona como un **atajo mental**: nos permite tomar decisiones rápidas sin tener que analizar cada situación desde cero. Pero ese atajo tiene un costo: nos hace creer que nuestras ideas son "evidentes" cuando en realidad son producto de nuestra historia personal y social.`,
-    },
-    {
-      type: 'fillblanks',
-      text: 'El sentido común nos hace creer que nuestras ideas son ________, cuando en realidad son producto de nuestra ________ personal y social.',
-      answers: ['evidentes', 'historia'],
-      hint: 'Pensamos que lo que creemos es obvio, pero viene de nuestro recorrido de vida.',
-      explanation: 'El sentido común nos hace pensar que nuestras creencias son evidentes u obvias, pero en realidad son el resultado de nuestra historia personal y del contexto social en el que vivimos.',
+- No hay una definición monolítica de cultura.
+- La cultura es un espacio dinámico de producción y reproducción colectiva de prácticas.
+- Las prácticas cotidianas están cargadas de sentidos construidos socialmente.
+- Problematizar nuestras prácticas permite identificar los sentidos que guían nuestra vida.
+- Esos sentidos establecen formas "válidas" de estar en el mundo y clasifican lo bueno y lo malo, lo civilizado y lo bárbaro.`,
     },
     {
       type: 'lore',
-      text: `Los **estereotipos** son una forma de sentido común: son ideas simplificadas sobre grupos de personas que tomamos como verdades absolutas.
+      text: `### Jauretche: civilización y barbarie
 
-"Los jóvenes son irresponsables", "las mujeres son más sensibles", "los extranjeros vienen a quitarnos el trabajo": todas estas son generalizaciones que ignoran la complejidad real de las personas.
+- Arturo Jauretche analiza la "madre de todas las zonceras": civilización y barbarie.
+- Esta lógica sigue vigente en expresiones y prácticas actuales.
+- El ejemplo del cuadernillo es "no seas indio", expresión que asocia una acción a barbarie, salvajismo o ignorancia.
+- Reconocer esto muestra una puja por el poder y por validar un sentido común.
 
-Los estereotipos no son "mentiras" en el sentido de que alguien las inventó con mala intención. Son **construcciones culturales** que surgen de repetir ciertas ideas hasta que parecen "obvias". El problema es que nos impiden ver a las personas como individuos únicos.`,
+### Naturalización
+
+- La cultura se presenta como un proceso obvio, omnipresente y universal.
+- Esa aparente universalidad es producto de un proceso social que borra las marcas de enunciación y construcción.
+- A ese proceso lo llamamos naturalización.
+- Lo naturalizado aparece como obvio e inevitable.
+- **La naturalización no es un punto de partida: es un punto de llegada.**`,
     },
     {
       type: 'quiz',
-      question: '¿Cuál de estas afirmaciones describe mejor el sentido común?',
+      question: '¿Qué significa que la naturalización sea un "punto de llegada" y no un "punto de partida"?',
       options: [
-        'Es un conocimiento innato que todos tenemos al nacer',
-        'Es un conjunto de ideas aprendidas que damos por sentadas',
-        'Es la suma de todos los conocimientos científicos',
-        'Es una verdad universal que vale para todas las épocas',
+        'Que nacemos naturalizados culturalmente',
+        'Que es el resultado de un proceso social que oculta su construcción',
+        'Que la naturaleza nos da la cultura al nacer',
+        'Que es algo biológico e instintivo',
       ],
       correctIndex: 1,
-      explanation: 'El sentido común está formado por ideas que aprendemos de nuestra cultura y que luego damos por sentadas, como si fueran "obvias" o "naturales". No es innato ni universal.',
+      explanation: 'La naturalización es un punto de llegada porque es el resultado de un proceso social que hace parecer "natural" lo que en realidad fue construido históricamente.',
     },
     {
       type: 'lore',
-      text: `Desnaturalizar el sentido común es uno de los objetivos principales de las ciencias sociales. Se trata de **hacer extraño lo familiar**, de mirar con ojos nuevos lo que siempre vimos.
+      text: `**Ejemplos del cuadernillo:**
 
-Esto no significa rechazar todo lo que sabemos. Significa preguntarnos: ¿por qué pienso esto? ¿Quién me enseñó que esto es así? ¿Podría ser de otra manera?
+"Pobres hubo siempre", "el matrimonio normal es entre hombre y mujer", "no seas indio", hábitos cotidianos, formas de relacionarnos, pobreza, riqueza, educación, amor, lugares que habitamos.
 
-Cuando logramos hacer este ejercicio, descubrimos que muchas cosas que parecían "inmutables" en realidad cambiaron a lo largo del tiempo, y que podrían seguir cambiando.`,
+### Nietzsche
+
+El cuadernillo menciona a Nietzsche para decir que no hay nada natural en la realidad, sólo interpretaciones que se ponen en tensión hasta que una se impone como si fuera natural o verdadera.`,
+    },
+    {
+      type: 'truefalse',
+      question: 'Según Nietzsche, hay elementos naturales en la realidad que existen independientemente de las interpretaciones humanas.',
+      isTrue: false,
+      explanationTrue: 'Incorrecto. Nietzsche sostiene que no hay nada natural en la realidad, solo interpretaciones que compiten hasta que una se impone como "verdadera".',
+      explanationFalse: '¡Correcto! Para Nietzsche no existe nada naturalmente dado: todo es interpretación, y lo que llamamos "verdad" es simplemente la interpretación que logró imponerse.',
     },
   ],
 };
 
 export const lessonPracticasInventadas: Lesson = {
   id: 'cultura-practicas',
-  title: 'Prácticas Inventadas',
+  title: 'Julio Cortázar: "Qué tal, López"',
   category: 'PRÁCTICAS CULTURALES',
   era: 'FASCÍCULO 1',
-  description: 'Tradiciones que parecen antiguas pero fueron creadas recientemente.',
+  description: 'Cortázar muestra que muchas acciones cotidianas ya están inventadas.',
   steps: [
     {
       type: 'lore',
-      text: `Muchas tradiciones que parecen milenarias en realidad fueron inventadas hace poco tiempo. Los historiadores Eric Hobsbawm y Terence Ranger llamaron a esto **"la invención de la tradición"**.
+      text: `**Idea Central:** Cortázar muestra que muchas acciones cotidianas ya están inventadas. Las repetimos como si fueran propias, pero en realidad nos "calzamos" en prácticas preexistentes.
 
-Un ejemplo clásico: las bodas blancas con vestido blanco y ramo de flores. El vestido blanco se popularizó recién en 1840, cuando la reina Victoria se casó así. Antes, las novias usaban simplemente su mejor vestido, de cualquier color.
+### El saludo inventado
 
-Otro ejemplo: los escudos y himnos nacionales. Muchos países los adoptaron recién en el siglo XIX, durante el auge de los estados-nación. Parecen "eternos", pero tienen una fecha de creación concreta.`,
-    },
-    {
-      type: 'timeline',
-      events: [
-        { year: '1840', event: 'La reina Victoria usa vestido blanco de novia', correct: true },
-        { year: '1500', event: 'Se establece el vestido blanco como tradición', correct: false },
-        { year: '1900', event: 'Se inventa la tradición del ramo de flores', correct: false },
-      ],
-      instruction: 'Ordená cronológicamente estos eventos sobre la tradición del vestido blanco de novia.',
-      explanation: 'El vestido blanco de novia se popularizó en 1840 cuando la reina Victoria lo usó en su boda. Antes de eso, no existía esa "tradición".',
+Un señor saluda a otro dándole la mano e inclinando la cabeza. Cree que lo saluda, pero el saludo ya está inventado: el señor no hace más que calzar en el saludo.
+
+### El tobogán prefabricado
+
+Cuando un señor se refugia bajo una arcada porque llueve, Cortázar dice que resbala por un tobogán prefabricado desde la primera lluvia y la primera arcada. Es una imagen para mostrar que hasta los gestos cotidianos están moldeados.`,
     },
     {
       type: 'lore',
-      text: `¿Por qué se inventan tradiciones? Generalmente para **crear continuidad con un pasado idealizado**, incluso si esa continuidad es ficticia.
+      text: `### Los gestos del amor
 
-Las tradiciones inventadas suelen servir para:
-- **Unificar** a un grupo bajo símbolos comunes
-- **Legitimar** instituciones o relaciones de autoridad
-- **Socializar** a las personas en valores específicos
+Los gestos del amor aparecen como un "dulce museo", una galería de figuras de humo. Incluso lo más íntimo puede estar lleno de formas heredadas.
 
-No hay nada "malo" en que las tradiciones sean inventadas. Todas las tradiciones fueron creadas en algún momento. Lo importante es reconocerlo para no caer en la trampa de pensar que "siempre fue así" y por lo tanto "no puede cambiar".`,
+### Hamlet
+
+Hamlet no duda: busca la solución auténtica y no los caminos ya hechos. Quiere la tangente que triza el misterio, la quinta hoja del trébol.
+
+### Cuando los zapatos aprietan
+
+Cuando los zapatos aprietan, buena señal: algo cambia. Lo verdaderamente nuevo da miedo o maravilla. Los monstruos muestran un posible salto hacia lo otro.`,
     },
     {
-      type: 'matchpairs',
-      pairs: [
-        { term: 'Escudos nacionales', definition: 'Símbolos creados para representar estados-nación' },
-        { term: 'Himnos patrios', definition: 'Canciones oficiales que generan identidad nacional' },
-        { term: 'Ceremonias escolares', definition: 'Rituales que inculcan valores ciudadanos' },
-        { term: 'Fiestas patrias', definition: 'Conmemoraciones que construyen memoria colectiva' },
+      type: 'quiz',
+      question: '¿Qué quiere decir Cortázar con "calzar en el saludo"?',
+      options: [
+        'Que los saludos son cómodos como zapatos',
+        'Que usamos gestos preexistentes como si fueran propios',
+        'Que debemos inventar nuevos saludos',
+        'Que los saludos son naturales e instintivos',
       ],
-      instruction: 'Emparejá cada tradición inventada con su función principal.',
-      explanation: 'Las tradiciones inventadas cumplen funciones específicas: unificar, legitimar, socializar y crear identidad colectiva.',
+      correctIndex: 1,
+      explanation: '"Calzar en el saludo" significa que usamos gestos y prácticas que ya existían antes, repitiéndolos como si fueran nuestros cuando en realidad son culturalmente heredados.',
     },
     {
       type: 'lore',
-      text: `Pensá en tu propia familia: ¿hay alguna "tradición familiar" que en realidad empezó hace pocos años? Quizás un plato especial para Navidad, o una forma particular de celebrar cumpleaños.
+      text: `### Final
 
-Esas tradiciones no son "menos válidas" por ser recientes. Al contrario: muestran cómo **seguimos creando cultura todo el tiempo**, adaptándonos a nuevas circunstancias y dando sentido a nuestras vidas.
+Aparece López: "¿Qué tal, López?" "¿Qué tal, che?" Y así es como creen que se saludan.
 
-La cultura no es un museo: es un taller abierto donde todos participamos, aunque no nos demos cuenta.`,
+**Relación con la materia:** Cortázar sirve para pensar que muchas prácticas cotidianas están culturalmente inventadas y que podemos interrogarlas.`,
+    },
+    {
+      type: 'truefalse',
+      question: 'Según Cortázar, incluso los gestos más íntimos del amor pueden estar llenos de formas heredadas culturalmente.',
+      isTrue: true,
+      explanationTrue: '¡Correcto! Cortázar muestra que hasta lo que sentimos como más personal y auténtico (los gestos del amor) puede estar moldeado por formas culturales preexistentes.',
+      explanationFalse: 'Incorrecto. Para Cortázar, incluso lo más íntimo (los gestos del amor) aparece como un "dulce museo" de figuras heredadas, no como algo puramente natural o espontáneo.',
     },
   ],
 };
