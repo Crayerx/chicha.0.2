@@ -202,10 +202,10 @@ export const courses: Course[] = [
   },
   {
     id: 'feudal',
-    title: 'Feudalismo y Cruzadas',
+    title: 'Prácticas Culturales',
     category: 'EDAD MEDIA',
     description:
-      'Jura vasallaje, gestiona feudos y marcha hacia Tierra Santa en campañas que redefinieron Europa.',
+      'Explora las tradiciones, rituales y costumbres que definieron las sociedades medievales, desde la vida cotidiana hasta las grandes celebraciones.',
     hours: 14,
     status: 'locked',
     icon: Swords,
