@@ -1,10 +1,32 @@
 import { useState } from 'react';
-import { ArrowLeft, Layers, Lock, Unlock } from 'lucide-react';
+import { ArrowLeft, Layers, Lock, Unlock, Brain, BookOpen, ScrollText, Lightbulb, MapPin, Megaphone } from 'lucide-react';
 import { culturaCoursesModulo1 } from '@/data/courses';
 import { culturaModules } from '@/data/modules';
 import { getLesson } from '@/data/lessons';
 import { useAllProgress } from '@/hooks/useAllProgress';
 import CourseCard from './CourseCard';
+import culturaHackHtml from '@/assets/cultura-hack.html?raw';
+
+/**
+ * Submódulo 1 de Prácticas Culturales: la app "Cultura Hack" original del
+ * usuario (Aprender, Misiones, Actividades, Guías, Conceptos, Cartas, Quiz,
+ * Examen, Checklist y Progreso), embebida tal cual en un iframe.
+ *
+ * No pasa por el motor de lecciones (lore+quiz) de PHA/C# porque esta app
+ * tiene su propia lógica, su propio sistema de XP y guarda el progreso en
+ * el localStorage del iframe (`culturaHackFullV1`), igual que en el
+ * archivo .html original.
+ */
+function CulturaHackEmbedded() {
+  return (
+    <iframe
+      title="Cultura Hack — Fascículo 1"
+      srcDoc={culturaHackHtml}
+      className="h-full w-full border-0 bg-white"
+      sandbox="allow-scripts allow-forms allow-downloads allow-modals allow-popups allow-same-origin"
+    />
+  );
+}
 
 export default function CulturaView({
   onPlay,
@@ -52,27 +74,76 @@ export default function CulturaView({
             </p>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            {moduleCourses.map((course) => {
-              const saved = course.lessonId ? byLesson[course.lessonId] : undefined;
-              const totalSteps = course.lessonId ? getLesson(course.lessonId)?.steps.length : undefined;
-              const progressPct =
-                saved && totalSteps
-                  ? saved.is_finished
-                    ? 100
-                    : ((saved.completed_steps?.length ?? 0) / totalSteps) * 100
-                  : 0;
-              return (
-                <CourseCard
-                  key={course.id}
-                  course={course}
-                  progressPct={progressPct}
-                  isFinished={!!saved?.is_finished}
-                  onPlay={onPlay}
-                  onReview={onReview}
-                />
-              );
-            })}
+          <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+            {/* Lista de cursos/actividades del módulo */}
+            <div className="space-y-4">
+              {moduleCourses.map((course) => {
+                const saved = course.lessonId ? byLesson[course.lessonId] : undefined;
+                const totalSteps = course.lessonId ? getLesson(course.lessonId)?.steps.length : undefined;
+                const progressPct =
+                  saved && totalSteps
+                    ? saved.is_finished
+                      ? 100
+                      : ((saved.completed_steps?.length ?? 0) / totalSteps) * 100
+                    : 0;
+                
+                // Para todos los cursos de Cultura, usamos CourseCard estándar
+                return (
+                  <CourseCard
+                    key={course.id}
+                    course={course}
+                    progressPct={progressPct}
+                    isFinished={!!saved?.is_finished}
+                    onPlay={onPlay}
+                    onReview={onReview}
+                  />
+                );
+              })}
+            </div>
+
+            {/* Sidebar informativo */}
+            <aside className="space-y-4">
+              <div className="border-2 border-ink-600 bg-ink-800 p-4">
+                <p className="mb-3 font-mono text-xs font-bold uppercase tracking-widest text-gold-200">
+                  Contenido del módulo
+                </p>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2 font-terminal text-base text-slate2-300">
+                    <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-gold-300" />
+                    <span>Introducción a la Cultura</span>
+                  </li>
+                  <li className="flex items-start gap-2 font-terminal text-base text-slate2-300">
+                    <Brain className="mt-0.5 h-4 w-4 shrink-0 text-gold-300" />
+                    <span>El Sentido Común</span>
+                  </li>
+                  <li className="flex items-start gap-2 font-terminal text-base text-slate2-300">
+                    <ScrollText className="mt-0.5 h-4 w-4 shrink-0 text-gold-300" />
+                    <span>Prácticas Inventadas</span>
+                  </li>
+                  <li className="flex items-start gap-2 font-terminal text-base text-slate2-300">
+                    <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-gold-300" />
+                    <span>Cajas Negras</span>
+                  </li>
+                  <li className="flex items-start gap-2 font-terminal text-base text-slate2-300">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold-300" />
+                    <span>Fronteras Simbólicas</span>
+                  </li>
+                  <li className="flex items-start gap-2 font-terminal text-base text-slate2-300">
+                    <Megaphone className="mt-0.5 h-4 w-4 shrink-0 text-gold-300" />
+                    <span>Frentes Culturales</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="border-2 border-ink-600 bg-ink-800 p-4">
+                <p className="mb-2 font-mono text-xs font-bold uppercase tracking-widest text-gold-200">
+                  Sobre este módulo
+                </p>
+                <p className="font-terminal text-lg leading-snug text-slate2-400">
+                  El Fascículo 1 de Prácticas Culturales explora los conceptos fundamentales de la cultura: sentido común, prácticas inventadas, cajas negras, fronteras simbólicas y frentes culturales.
+                </p>
+              </div>
+            </aside>
           </div>
         </div>
       </section>

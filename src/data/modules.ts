@@ -53,7 +53,7 @@ export const culturaModules: CourseModuleGroup[] = [
     description:
       'Fascículo 1 — Eje Temático Cultura: sentido común, naturalización, prácticas inventadas, cajas negras, fronteras simbólicas y frentes culturales.',
     status: 'unlocked',
-    courseIds: ['culturahack'],
+    courseIds: ['cultura-intro', 'cultura-sentido', 'cultura-practicas', 'cultura-cajas', 'cultura-fronteras', 'cultura-frentes'],
   },
   {
     id: 'cultura-modulo-2',

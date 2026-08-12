@@ -173,26 +173,93 @@ export const phaCoursesModulo2: Course[] = [
 
 /**
  * Cursos que viven adentro del Módulo 1 de Prácticas Culturales (Fascículo 1:
- * Eje Temático Cultura). A diferencia de PHA, este módulo no usa el motor de
- * lore+quiz: `culturahack` es la app interactiva completa (Aprender,
- * Misiones, Actividades, Guías, Conceptos, Cartas, Quiz, Examen, Checklist y
- * Progreso, con su propio sistema de XP) provista por el usuario y embebida
- * tal cual — ver `CulturaHackView.tsx` y el caso especial en `App.tsx`.
+ * Eje Temático Cultura). Cada curso es una lección completa con el motor de
+ * lore+quiz de Chronos, adaptado al contenido del Fascículo 1.
  */
 export const culturaCoursesModulo1: Course[] = [
   {
-    id: 'culturahack',
-    title: 'Cultura Hack — Fascículo 1',
+    id: 'cultura-intro',
+    title: 'Introducción a la Cultura',
     category: 'PRÁCTICAS CULTURALES',
     description:
-      'Sistema completo para estudiar el Fascículo 1 (Eje Temático Cultura): misiones, actividades, guías, conceptos, cartas, quiz, examen y checklist, con su propio sistema de XP.',
-    hours: 3,
+      '¿Qué es la cultura? Sentido común, naturalización y prácticas sociales.',
+    hours: 2,
     status: 'unlocked',
     icon: Brain,
-    accent: 'gold',
+    accent: 'jade',
     era: 'FASCÍCULO 1',
-    lessons: 9,
-    lessonId: 'culturahack',
+    lessons: 6,
+    lessonId: 'cultura-intro',
+  },
+  {
+    id: 'cultura-sentido',
+    title: 'El Sentido Común',
+    category: 'PRÁCTICAS CULTURALES',
+    description:
+      'Cómo se construye lo que damos por sentado.',
+    hours: 2,
+    status: 'unlocked',
+    icon: Brain,
+    accent: 'jade',
+    era: 'FASCÍCULO 1',
+    lessons: 5,
+    lessonId: 'cultura-sentido',
+  },
+  {
+    id: 'cultura-practicas',
+    title: 'Prácticas Inventadas',
+    category: 'PRÁCTICAS CULTURALES',
+    description:
+      'Tradiciones que parecen antiguas pero fueron creadas recientemente.',
+    hours: 2,
+    status: 'unlocked',
+    icon: Brain,
+    accent: 'jade',
+    era: 'FASCÍCULO 1',
+    lessons: 5,
+    lessonId: 'cultura-practicas',
+  },
+  {
+    id: 'cultura-cajas',
+    title: 'Cajas Negras',
+    category: 'PRÁCTICAS CULTURALES',
+    description:
+      'Cosas que usamos sin saber cómo funcionan.',
+    hours: 2,
+    status: 'unlocked',
+    icon: Brain,
+    accent: 'jade',
+    era: 'FASCÍCULO 1',
+    lessons: 5,
+    lessonId: 'cultura-cajas',
+  },
+  {
+    id: 'cultura-fronteras',
+    title: 'Fronteras Simbólicas',
+    category: 'PRÁCTICAS CULTURALES',
+    description:
+      'Los límites que trazamos entre "nosotros" y "los otros".',
+    hours: 2,
+    status: 'unlocked',
+    icon: Brain,
+    accent: 'jade',
+    era: 'FASCÍCULO 1',
+    lessons: 5,
+    lessonId: 'cultura-fronteras',
+  },
+  {
+    id: 'cultura-frentes',
+    title: 'Frentes Culturales',
+    category: 'PRÁCTICAS CULTURALES',
+    description:
+      'Espacios donde se disputan los sentidos de la cultura.',
+    hours: 2,
+    status: 'unlocked',
+    icon: Brain,
+    accent: 'jade',
+    era: 'FASCÍCULO 1',
+    lessons: 5,
+    lessonId: 'cultura-frentes',
   },
 ];
 
