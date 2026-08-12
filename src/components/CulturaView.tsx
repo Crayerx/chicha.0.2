@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Layers, Lock, Unlock, Brain, BookOpen, Map, PenTool, ScrollText, Lightbulb, DeckCards, TestTube, GraduationCap, CheckSquare, BarChart3 } from 'lucide-react';
+import { ArrowLeft, Layers, Lock, Unlock, Brain, BookOpen, Map, PenTool, ScrollText, Lightbulb, PlayingCards, TestTube, GraduationCap, CheckSquare, BarChart3 } from 'lucide-react';
 import { culturaCoursesModulo1 } from '@/data/courses';
 import { culturaModules } from '@/data/modules';
 import { getLesson } from '@/data/lessons';
@@ -200,7 +200,7 @@ export default function CulturaView({
                     <span>Conceptos: definiciones clave</span>
                   </li>
                   <li className="flex items-start gap-2 font-terminal text-base text-slate2-300">
-                    <DeckCards className="mt-0.5 h-4 w-4 shrink-0 text-gold-300" />
+                    <PlayingCards className="mt-0.5 h-4 w-4 shrink-0 text-gold-300" />
                     <span>Cartas: repaso con flashcards</span>
                   </li>
                   <li className="flex items-start gap-2 font-terminal text-base text-slate2-300">
