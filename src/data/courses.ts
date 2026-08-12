@@ -1,4 +1,4 @@
-import { Lock, Clock as Unlock, Pyramid, Flame, Flag, Factory, HeartHandshake, Scale, ShieldAlert, Landmark, DollarSign, Code, Brain, Wrench, MapPin } from 'lucide-react';
+import { Lock, Clock as Unlock, Pyramid, Flame, Flag, Factory, HeartHandshake, Scale, ShieldAlert, Landmark, DollarSign, Code, Brain } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { csharpTotals } from './csharpChapters';
 
@@ -173,48 +173,26 @@ export const phaCoursesModulo2: Course[] = [
 
 /**
  * Cursos que viven adentro del Módulo 1 de Prácticas Culturales (Fascículo 1:
- * Eje Temático Cultura). Formato simple: contexto + quiz, igual que el
- * Módulo 2 de PHA (ver `src/data/modules.ts` y `src/data/lessons.ts`).
+ * Eje Temático Cultura). A diferencia de PHA, este módulo no usa el motor de
+ * lore+quiz: `culturahack` es la app interactiva completa (Aprender,
+ * Misiones, Actividades, Guías, Conceptos, Cartas, Quiz, Examen, Checklist y
+ * Progreso, con su propio sistema de XP) provista por el usuario y embebida
+ * tal cual — ver `CulturaHackView.tsx` y el caso especial en `App.tsx`.
  */
 export const culturaCoursesModulo1: Course[] = [
   {
-    id: 'culturasentido',
-    title: 'Cultura, sentido común y naturalización',
+    id: 'culturahack',
+    title: 'Cultura Hack — Fascículo 1',
     category: 'PRÁCTICAS CULTURALES',
-    description: 'Presentación de la materia y la mirada de Soledad López: la cultura como acción, alta cultura y capital cultural.',
-    hours: 1,
+    description:
+      'Sistema completo para estudiar el Fascículo 1 (Eje Temático Cultura): misiones, actividades, guías, conceptos, cartas, quiz, examen y checklist, con su propio sistema de XP.',
+    hours: 3,
     status: 'unlocked',
     icon: Brain,
     accent: 'gold',
     era: 'FASCÍCULO 1',
-    lessons: 2,
-    lessonId: 'culturasentido',
-  },
-  {
-    id: 'culturainventada',
-    title: 'Prácticas inventadas y cajas negras',
-    category: 'PRÁCTICAS CULTURALES',
-    description: 'Cortázar, Denys Cuche y César Aira: gestos ya inventados, aculturación y la sociedad como caja negra.',
-    hours: 1,
-    status: 'unlocked',
-    icon: Wrench,
-    accent: 'jade',
-    era: 'FASCÍCULO 1',
-    lessons: 2,
-    lessonId: 'culturainventada',
-  },
-  {
-    id: 'culturafronteras',
-    title: 'Fronteras, frentes culturales e imágenes',
-    category: 'PRÁCTICAS CULTURALES',
-    description: 'Alejandro Grimson, Jorge González y Sergio Caggiano: convenciones sociales, hegemonía y lo que las imágenes muestran y ocultan.',
-    hours: 1,
-    status: 'unlocked',
-    icon: MapPin,
-    accent: 'ruby',
-    era: 'FASCÍCULO 1',
-    lessons: 2,
-    lessonId: 'culturafronteras',
+    lessons: 9,
+    lessonId: 'culturahack',
   },
 ];
 

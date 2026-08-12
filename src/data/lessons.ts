@@ -155,28 +155,6 @@ import {
   lessonMetaMalvinas,
 } from './lessonMalvinas';
 
-// ── Prácticas Culturales — Módulo 1 (formato simple: contexto + quiz) ──
-import {
-  loreSlidesCulturaSentido,
-  quizQuestionsCulturaSentido,
-  lessonArtifactCulturaSentido,
-  lessonMetaCulturaSentido,
-} from './lessonCulturaSentido';
-
-import {
-  loreSlidesCulturaInventada,
-  quizQuestionsCulturaInventada,
-  lessonArtifactCulturaInventada,
-  lessonMetaCulturaInventada,
-} from './lessonCulturaInventada';
-
-import {
-  loreSlidesCulturaFronteras,
-  quizQuestionsCulturaFronteras,
-  lessonArtifactCulturaFronteras,
-  lessonMetaCulturaFronteras,
-} from './lessonCulturaFronteras';
-
 export type StepType = 'lore' | 'timeline' | 'match' | 'fill' | 'categorize' | 'truefalse' | 'map' | 'memory' | 'slider' | 'quiz';
 
 /**
@@ -444,49 +422,6 @@ export const lessons: Record<string, LessonConfig> = {
     timeline: [],
     quiz: quizQuestionsMalvinas,
     artifact: lessonArtifactMalvinas,
-  },
-  // ── Prácticas Culturales — Módulo 1 (contexto + quiz) ──────────
-  culturasentido: {
-    id: 'culturasentido',
-    module: lessonMetaCulturaSentido.module,
-    title: lessonMetaCulturaSentido.title,
-    subtitle: lessonMetaCulturaSentido.subtitle,
-    totalXp: MODULO2_TOTAL_XP,
-    steps: lessonMetaCulturaSentido.steps,
-    stepTypes: MODULO2_STEP_SEQUENCE,
-    stepXp: MODULO2_STEP_XP,
-    lore: loreSlidesCulturaSentido,
-    timeline: [],
-    quiz: quizQuestionsCulturaSentido,
-    artifact: lessonArtifactCulturaSentido,
-  },
-  culturainventada: {
-    id: 'culturainventada',
-    module: lessonMetaCulturaInventada.module,
-    title: lessonMetaCulturaInventada.title,
-    subtitle: lessonMetaCulturaInventada.subtitle,
-    totalXp: MODULO2_TOTAL_XP,
-    steps: lessonMetaCulturaInventada.steps,
-    stepTypes: MODULO2_STEP_SEQUENCE,
-    stepXp: MODULO2_STEP_XP,
-    lore: loreSlidesCulturaInventada,
-    timeline: [],
-    quiz: quizQuestionsCulturaInventada,
-    artifact: lessonArtifactCulturaInventada,
-  },
-  culturafronteras: {
-    id: 'culturafronteras',
-    module: lessonMetaCulturaFronteras.module,
-    title: lessonMetaCulturaFronteras.title,
-    subtitle: lessonMetaCulturaFronteras.subtitle,
-    totalXp: MODULO2_TOTAL_XP,
-    steps: lessonMetaCulturaFronteras.steps,
-    stepTypes: MODULO2_STEP_SEQUENCE,
-    stepXp: MODULO2_STEP_XP,
-    lore: loreSlidesCulturaFronteras,
-    timeline: [],
-    quiz: quizQuestionsCulturaFronteras,
-    artifact: lessonArtifactCulturaFronteras,
   },
 };
 

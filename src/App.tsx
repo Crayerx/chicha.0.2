@@ -14,6 +14,7 @@ const AuthModal = lazy(() => import('@/components/AuthModal'));
 const LessonView = lazy(() => import('@/components/lesson/LessonView'));
 const PhaView = lazy(() => import('@/components/PhaView'));
 const CulturaView = lazy(() => import('@/components/CulturaView'));
+const CulturaHackView = lazy(() => import('@/components/CulturaHackView'));
 const CSharpView = lazy(() => import('@/components/CSharpView'));
 const CSharpIntroView = lazy(() => import('@/components/csharp/CSharpIntroView'));
 const CSharpExerciseView = lazy(() => import('@/components/csharp/CSharpExerciseView'));
@@ -26,7 +27,7 @@ function ViewFallback() {
   );
 }
 
-type View = 'home' | 'lesson' | 'profile' | 'pha' | 'cultura' | 'csharp' | 'csharp-intro' | 'csharp-exercise';
+type View = 'home' | 'lesson' | 'profile' | 'pha' | 'cultura' | 'culturahack' | 'csharp' | 'csharp-intro' | 'csharp-exercise';
 
 export default function App() {
   const { isAuthenticated, user, signOut } = useAuth();
@@ -71,6 +72,13 @@ export default function App() {
   // el progreso queda en memoria nomás (useLessonProgress ya lo maneja), y es
   // LessonView el que le avisa a la persona que no se está guardando nada.
   const goLesson = useCallback((id: string, opts?: { review?: boolean }) => {
+    // 'culturahack' no es una lección del motor lore+quiz: es la app
+    // interactiva completa del usuario, embebida tal cual (ver
+    // CulturaHackView). Se abre en su propia vista en vez de LessonView.
+    if (id === 'culturahack') {
+      setView('culturahack');
+      return;
+    }
     setLessonId(id);
     setReviewMode(!!opts?.review);
     setView('lesson');
@@ -133,6 +141,8 @@ export default function App() {
     content = <PhaView onPlay={goLesson} onReview={goReview} onBack={goHome} />;
   } else if (view === 'cultura') {
     content = <CulturaView onPlay={goLesson} onReview={goReview} onBack={goHome} />;
+  } else if (view === 'culturahack') {
+    content = <CulturaHackView onBack={() => setView('cultura')} />;
   } else if (view === 'csharp') {
     content = <CSharpView onOpenExercise={goCSharpExercise} onOpenIntro={goCSharpIntro} onBack={goHome} />;
   } else if (view === 'csharp-intro') {

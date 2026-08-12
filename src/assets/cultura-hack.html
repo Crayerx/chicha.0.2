@@ -1,0 +1,2082 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CULTURA HACK — Versión completa</title>
+<style>
+:root{
+  --bg:#0f0b1e;
+  --card:#1a1430;
+  --card2:#241a42;
+  --txt:#f2eefc;
+  --mut:#b7aed6;
+  --p1:#8b5cf6;
+  --p2:#ec4899;
+  --p3:#22d3ee;
+  --ok:#34d399;
+  --bad:#f87171;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Segoe UI,system-ui,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  line-height:1.5;
+}
+header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(15,11,30,.94);
+  border-bottom:1px solid #332a55;
+  padding:10px 14px;
+}
+.topbar{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.logo{
+  font-weight:900;
+  font-size:1.15rem;
+  background:linear-gradient(90deg,var(--p3),var(--p1),var(--p2));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hud{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-left:auto;
+}
+.bar{
+  width:180px;
+  height:10px;
+  background:#2a2148;
+  border-radius:10px;
+  overflow:hidden;
+}
+#bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--p1),var(--p2),var(--p3));
+  transition:width .4s;
+}
+#xp{font-weight:800;color:var(--p3)}
+#rank{font-size:.85rem;color:var(--mut)}
+nav{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.tabBtn{
+  border:1px solid #332a55;
+  background:var(--card);
+  color:var(--mut);
+  padding:7px 11px;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:.88rem;
+}
+.tabBtn.active,.tabBtn:hover{
+  color:#fff;
+  border-color:var(--p2);
+}
+main{
+  max-width:1150px;
+  margin:0 auto;
+  padding:18px;
+}
+.tab{display:none}
+.tab.active{display:block}
+.card{
+  background:var(--card);
+  border:1px solid #332a55;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:16px;
+}
+h1,h2,h3,h4{line-height:1.25}
+h1{
+  font-size:clamp(1.8rem,5vw,3.2rem);
+  margin:10px 0;
+  background:linear-gradient(90deg,var(--p3),var(--p1),var(--p2));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.sub{color:var(--mut)}
+.grid{
+  display:grid;
+  gap:12px;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+}
+.btn{
+  border:none;
+  border-radius:20px;
+  padding:10px 16px;
+  cursor:pointer;
+  background:linear-gradient(90deg,var(--p1),var(--p2));
+  color:#fff;
+  font-weight:700;
+  margin-top:8px;
+}
+.btn:hover{opacity:.92}
+.btn.small{
+  padding:7px 11px;
+  font-size:.86rem;
+  margin-right:6px;
+}
+.btn.danger{background:#7f1d1d}
+.btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+.mission.done{
+  border-color:var(--ok);
+  box-shadow:0 0 18px rgba(52,211,153,.18);
+}
+.mhead{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-bottom:8px;
+}
+.mhead .em{font-size:1.8rem}
+.xptag{
+  margin-left:auto;
+  background:var(--card2);
+  border:1px solid var(--p1);
+  color:var(--p3);
+  padding:4px 12px;
+  border-radius:20px;
+  font-weight:800;
+  font-size:.85rem;
+}
+ul,ol{
+  margin-left:20px;
+  color:var(--mut);
+}
+li{margin-bottom:4px}
+.bossbox{
+  background:var(--card2);
+  border:1px dashed var(--p2);
+  border-radius:12px;
+  padding:12px;
+  margin:12px 0;
+}
+input,textarea,select{
+  width:100%;
+  background:#160f2b;
+  color:var(--txt);
+  border:1px solid #332a55;
+  border-radius:10px;
+  padding:9px;
+  margin-top:4px;
+}
+textarea{min-height:80px;resize:vertical}
+.field{
+  display:block;
+  font-size:.88rem;
+  color:var(--mut);
+  margin-bottom:8px;
+}
+.rows{display:grid;gap:12px;margin:12px 0}
+.rowCard{
+  background:var(--card2);
+  border:1px solid #332a55;
+  border-radius:12px;
+  padding:12px;
+}
+.btns{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.opt{
+  display:block;
+  width:100%;
+  text-align:left;
+  margin:7px 0;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #332a55;
+  background:var(--card2);
+  color:var(--txt);
+  cursor:pointer;
+}
+.opt:hover{border-color:var(--p3)}
+.opt.correct{
+  background:rgba(52,211,153,.18);
+  border-color:var(--ok);
+  color:var(--ok);
+  font-weight:700;
+}
+.opt.wrong{
+  background:rgba(248,113,113,.15);
+  border-color:var(--bad);
+  color:var(--bad);
+}
+.examLabel{
+  display:block;
+  background:var(--card2);
+  border:1px solid #332a55;
+  border-radius:10px;
+  padding:9px;
+  margin:7px 0;
+  cursor:pointer;
+}
+.examLabel.correct{
+  border-color:var(--ok);
+  background:rgba(52,211,153,.15);
+}
+.examLabel.wrong{
+  border-color:var(--bad);
+  background:rgba(248,113,113,.12);
+}
+.examLabel input{width:auto;margin-right:8px}
+.flip{
+  perspective:900px;
+  cursor:pointer;
+  min-height:180px;
+}
+.flip-inner{
+  position:relative;
+  height:180px;
+  transform-style:preserve-3d;
+  transition:transform .5s;
+}
+.flip.flipped .flip-inner{
+  transform:rotateY(180deg);
+}
+.face{
+  position:absolute;
+  inset:0;
+  backface-visibility:hidden;
+  border-radius:14px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:.92rem;
+}
+.face.front{
+  background:var(--card2);
+  border:1px solid var(--p1);
+  color:var(--p3);
+  font-weight:800;
+}
+.face.back{
+  background:linear-gradient(135deg,var(--p1),var(--p2));
+  color:#fff;
+  transform:rotateY(180deg);
+}
+.badge{
+  background:var(--card);
+  border:1px solid #332a55;
+  border-radius:12px;
+  padding:12px;
+  opacity:.4;
+  filter:grayscale(1);
+}
+.badge.un{
+  opacity:1;
+  filter:none;
+  border-color:var(--p2);
+  box-shadow:0 0 14px rgba(236,72,153,.18);
+}
+.chk{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  background:var(--card);
+  border:1px solid #332a55;
+  border-radius:12px;
+  padding:12px;
+}
+.chk input{
+  width:18px;
+  height:18px;
+  margin-top:3px;
+  accent-color:var(--p2);
+}
+.stat{
+  font-size:1.35rem;
+  font-weight:900;
+}
+.muted{color:var(--mut)}
+#toast{
+  position:fixed;
+  left:50%;
+  bottom:22px;
+  transform:translateX(-50%) translateY(80px);
+  background:linear-gradient(90deg,var(--p1),var(--p2));
+  color:#fff;
+  padding:12px 22px;
+  border-radius:30px;
+  font-weight:800;
+  opacity:0;
+  transition:.35s;
+  z-index:99;
+  max-width:92%;
+  text-align:center;
+}
+#toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+#tab-aprender details{
+  background:var(--card);
+  border:1px solid #332a55;
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:12px;
+}
+#tab-aprender summary{
+  cursor:pointer;
+  font-weight:800;
+  font-size:1.05rem;
+  color:var(--p3);
+}
+#tab-aprender .mini{
+  color:var(--mut);
+  margin-top:6px;
+}
+#tab-aprender .box{
+  background:var(--card2);
+  border:1px solid #332a55;
+  border-radius:10px;
+  padding:10px;
+  margin:8px 0;
+}
+#tab-aprender h4{
+  color:var(--p2);
+  margin:10px 0 4px;
+}
+#tab-aprender ul,#tab-aprender ol{
+  margin-left:20px;
+  color:var(--mut);
+}
+#tab-aprender .q{
+  background:#160f2b;
+  border:1px dashed var(--p2);
+  padding:8px;
+  border-radius:8px;
+  margin:6px 0;
+}
+#tab-aprender .tag{
+  display:inline-block;
+  background:#241a42;
+  border:1px solid var(--p1);
+  color:var(--p3);
+  border-radius:20px;
+  padding:3px 10px;
+  font-size:.8rem;
+  margin:2px;
+}
+@media(max-width:700px){
+  .bar{width:110px}
+}
+@media print{
+  header,.btn,nav,#toast,.btns,.tabBtn{display:none !important}
+  body{background:#fff;color:#000}
+  .card,.rowCard,.bossbox,.opt,.examLabel,.chk{border:1px solid #999}
+  .tab{display:block !important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="logo">🕵️ CULTURA HACK</div>
+    <div class="hud">
+      <span id="xp">0 XP</span>
+      <div class="bar"><div id="bar"></div></div>
+      <span id="rank">Recluta cultural</span>
+      <button class="btn small danger" onclick="resetAll()">Reiniciar todo</button>
+    </div>
+  </div>
+  <nav>
+    <button class="tabBtn active" data-tab="inicio" onclick="showTab('inicio')">🏠 Inicio</button>
+    <button class="tabBtn" data-tab="aprender" onclick="showTab('aprender')">📚 Aprender</button>
+    <button class="tabBtn" data-tab="misiones" onclick="showTab('misiones')">🗺️ Misiones</button>
+    <button class="tabBtn" data-tab="actividades" onclick="showTab('actividades')">✍️ Actividades</button>
+    <button class="tabBtn" data-tab="guias" onclick="showTab('guias')">📖 Guías</button>
+    <button class="tabBtn" data-tab="conceptos" onclick="showTab('conceptos')">🧠 Conceptos</button>
+    <button class="tabBtn" data-tab="cartas" onclick="showTab('cartas')">🃏 Cartas</button>
+    <button class="tabBtn" data-tab="quiz" onclick="showTab('quiz')">🧪 Quiz</button>
+    <button class="tabBtn" data-tab="examen" onclick="showTab('examen')">🎓 Examen</button>
+    <button class="tabBtn" data-tab="checklist" onclick="showTab('checklist')">✅ Checklist</button>
+    <button class="tabBtn" data-tab="progreso" onclick="showTab('progreso')">📈 Progreso</button>
+  </nav>
+</header>
+
+<main>
+
+<section id="tab-inicio" class="tab active">
+  <div class="card">
+    <h1>CULTURA HACK 🕵️‍♀️</h1>
+    <p class="sub">
+      Sistema completo para estudiar el Fascículo 1 de Prácticas Culturales: cultura, sentido común, naturalización,
+      alta/baja cultura, capital cultural, instituciones, Cuche, Cortázar, Aira, Grimson, González y Caggiano.
+    </p>
+    <p><strong>Modo de uso:</strong></p>
+    <ul>
+      <li>Primero estudiá en <strong>📚 Aprender</strong>.</li>
+      <li>Después hacé las <strong>Misiones</strong> y las <strong>Actividades</strong>.</li>
+      <li>Respondé las <strong>Guías</strong>.</li>
+      <li>Repasá con <strong>Conceptos</strong> y <strong>Cartas</strong>.</li>
+      <li>Practicá con <strong>Quiz</strong> y <strong>Examen</strong>.</li>
+      <li>Controlá todo en <strong>Progreso</strong>.</li>
+    </ul>
+    <button class="btn" onclick="showTab('aprender')">📚 Empezar por Aprender</button>
+    <button class="btn" onclick="showTab('misiones')">🚀 Ir a Misiones</button>
+    <button class="btn" onclick="window.print()">🖨️ Imprimir / PDF</button>
+  </div>
+  <div class="grid" id="homeStats"></div>
+</section>
+
+<section id="tab-aprender" class="tab">
+  <div class="card">
+    <h2>📚 Aprender: todo lo que se ve en el cuadernillo</h2>
+    <p class="sub">
+      Este apartado explica el contenido del Fascículo 1: Eje Temático Cultura.
+      Está pensado para estudiar antes de hacer las actividades.
+    </p>
+    <div class="box">
+      <strong>Mapa rápido del eje</strong><br><br>
+      <span class="tag">Cultura = prácticas</span>
+      <span class="tag">Cultura = construcción social</span>
+      <span class="tag">Sentido común</span>
+      <span class="tag">Naturalización</span>
+      <span class="tag">Instituciones</span>
+      <span class="tag">Capital cultural</span>
+      <span class="tag">Hegemonía</span>
+      <span class="tag">Frentes culturales</span>
+      <span class="tag">Imágenes</span>
+      <span class="tag">Cajas negras</span>
+      <span class="tag">Arte</span>
+    </div>
+  </div>
+
+  <details open>
+    <summary>1. Presentación general de la materia</summary>
+    <p><strong>Idea central:</strong> Prácticas Culturales es una materia del Ciclo Inicial de la UNAJ que busca abrir preguntas sobre la cultura, desnaturalizar nuestra mirada y reconocer la trama que construye nuestras propias prácticas.</p>
+    <h4>Qué dice el cuadernillo</h4>
+    <ul>
+      <li>La materia forma parte del Ciclo Inicial de todas las carreras de la UNAJ.</li>
+      <li>El objetivo es abrir preguntas, no dar definiciones cerradas.</li>
+      <li>Se busca reflexionar sobre las prácticas culturales y sobre nuestro rol como actores sociales.</li>
+      <li>Las sociedades cristalizan prácticas, conceptos y creencias que, en medio de conflictos, constituyen un campo cultural preferencial.</li>
+      <li>Ese campo naturaliza determinadas prácticas en detrimento de otras para establecer un sentido común preferencial.</li>
+      <li>La cultura se aborda como un espacio de construcción colectiva de producción y reproducción de sentido.</li>
+      <li>Se analiza el rol de las instituciones en la conformación de discursos, valores, formas de estar, sentir y vivir.</li>
+      <li>Hay una puja de poder por imponer un sentido construido como si fuera el único, válido y verdadero.</li>
+    </ul>
+    <div class="box"><strong>Concepto clave:</strong> desnaturalizar. Significa dejar de ver algo como “natural” o “obvio” y preguntarse cómo fue construido, por qué y para qué.</div>
+    <div class="q">Pregunta para pensar: ¿por qué la materia dice que hay que desnaturalizar nuestra mirada?</div>
+  </details>
+
+  <details>
+    <summary>2. Introducción: cultura, sentido común y naturalización</summary>
+    <p><strong>Idea central:</strong> la materia propone pensar la cultura como acciones cotidianas que construyen colectivamente sentido, y no solamente como bellas artes o instrucción formal.</p>
+    <h4>Cultura es culturas</h4>
+    <ul>
+      <li>No hay una definición monolítica de cultura.</li>
+      <li>La cultura es un espacio dinámico de producción y reproducción colectiva de prácticas.</li>
+      <li>Las prácticas cotidianas están cargadas de sentidos construidos socialmente.</li>
+      <li>Problematizar nuestras prácticas permite identificar los sentidos que guían nuestra vida.</li>
+      <li>Esos sentidos establecen formas “válidas” de estar en el mundo y clasifican lo bueno y lo malo, lo civilizado y lo bárbaro.</li>
+    </ul>
+    <h4>Jauretche: civilización y barbarie</h4>
+    <ul>
+      <li>Arturo Jauretche analiza la “madre de todas las zonceras”: civilización y barbarie.</li>
+      <li>Esta lógica sigue vigente en expresiones y prácticas actuales.</li>
+      <li>El ejemplo del cuadernillo es “no seas indio”, expresión que asocia una acción a barbarie, salvajismo o ignorancia.</li>
+      <li>Reconocer esto muestra una puja por el poder y por validar un sentido común.</li>
+    </ul>
+    <h4>Naturalización</h4>
+    <ul>
+      <li>La cultura se presenta como un proceso obvio, omnipresente y universal.</li>
+      <li>Esa aparente universalidad es producto de un proceso social que borra las marcas de enunciación y construcción.</li>
+      <li>A ese proceso lo llamamos naturalización.</li>
+      <li>Lo naturalizado aparece como obvio e inevitable.</li>
+      <li>La naturalización no es un punto de partida: es un punto de llegada.</li>
+    </ul>
+    <div class="box">
+      <strong>Ejemplos del cuadernillo:</strong><br>
+      “Pobres hubo siempre”, “el matrimonio normal es entre hombre y mujer”, “no seas indio”, hábitos cotidianos, formas de relacionarnos, pobreza, riqueza, educación, amor, lugares que habitamos.
+    </div>
+    <h4>Nietzsche</h4>
+    <p>El cuadernillo menciona a Nietzsche para decir que no hay nada natural en la realidad, sólo interpretaciones que se ponen en tensión hasta que una se impone como si fuera natural o verdadera.</p>
+    <div class="q">Pregunta de estudio: ¿por qué la naturalización no es un punto de partida sino un punto de llegada?</div>
+  </details>
+
+  <details>
+    <summary>3. Soledad López: cultura, culturas, prácticas culturales</summary>
+    <p><strong>Idea central:</strong> la cultura es acción humana, material y simbólica, personal, colectiva, histórica y sensible. No es natural, no es estática y no puede entenderse fuera de las prácticas humanas.</p>
+    <h4>La cultura es acción</h4>
+    <ul>
+      <li>El concepto “cultura” designa diferentes prácticas y estilos de vida.</li>
+      <li>También refiere a procesos de significación: producción, articulación y representación de sentidos.</li>
+      <li>La cultura es una construcción social, no un resultado de procesos naturales.</li>
+      <li>Los seres humanos necesitan alimento, abrigo y descanso, pero los modos de cubrir esas necesidades varían culturalmente.</li>
+      <li>No existe una única manera de comer, beber, dormir, trabajar o relacionarse.</li>
+      <li>Todas esas acciones están cargadas de sentido.</li>
+    </ul>
+    <h4>Prácticas, relaciones y artefactos culturales</h4>
+    <ul>
+      <li>La cultura se verifica en prácticas sociales.</li>
+      <li>También en relaciones sociales.</li>
+      <li>También en artefactos culturales.</li>
+      <li>El lenguaje es el ejemplo por excelencia de artefacto inmaterial.</li>
+      <li>Objetos, aparatos, instrumentos, herramientas e instituciones también son artefactos culturales.</li>
+    </ul>
+    <div class="box"><strong>Frase clave:</strong> la cultura funciona como una dimensión omnipresente de las prácticas y de las relaciones sociales.</div>
+    <h4>¿La cultura se hereda?</h4>
+    <ul>
+      <li>La cultura nunca puede ser individual.</li>
+      <li>Aprendemos prácticas, hábitos y creencias en la familia, la escuela y los medios.</li>
+      <li>Pero no repetimos el pasado mecánicamente.</li>
+      <li>La acción humana puede producir cambios e introducir nuevas formas de estar en el mundo.</li>
+      <li>Los cambios están condicionados por el tiempo, el espacio y las posibilidades materiales y simbólicas.</li>
+    </ul>
+    <h4>Alta y baja cultura</h4>
+    <ul>
+      <li>El sentido común reduce cultura a bellas artes.</li>
+      <li>La “alta cultura” se asocia con museos, galerías, salas de conciertos e instituciones.</li>
+      <li>Se suele hablar de “culto” e “inculto”.</li>
+      <li>Pero si la cultura es inherente a lo humano, no puede haber personas sin cultura.</li>
+      <li>Asociar cultura con civilización encierra a otros sectores en la barbarie.</li>
+    </ul>
+    <h4>Sentido común según Bauman y May</h4>
+    <p>El sentido común es un conocimiento rico pero desorganizado, asistemático y con frecuencia inarticulado, usado para el diario oficio de vivir. Apela a “lo obvio”, “lo natural”, “lo normal” o al “porque sí”.</p>
+    <h4>La cultura en plural</h4>
+    <ul>
+      <li>Los seres humanos se agrupan por nacionalidad, barrio, edad, género, clase y otras pertenencias.</li>
+      <li>No somos sujetos fijos: atravesamos múltiples espacios en un mismo día.</li>
+      <li>Podemos ser sujetos plurales e incluso contradictorios.</li>
+      <li>No se puede asociar para siempre un grupo fijo, un territorio fijo y una única cultura.</li>
+    </ul>
+    <h4>Instituciones y capital cultural</h4>
+    <ul>
+      <li>Medios masivos, Estado, iglesias, escuela, justicia y familias refuerzan jerarquías y sentidos.</li>
+      <li>Pierre Bourdieu habla de capital cultural: valores, creencias, saberes, conocimientos certificados y costumbres.</li>
+      <li>El capital cultural es el piso desde donde miramos, interactuamos y proponemos.</li>
+      <li>El capital cultural nunca es individual: es producto de una comunidad que lo comparte y lo defiende.</li>
+    </ul>
+    <h4>Cambio y resistencia</h4>
+    <ul>
+      <li>Las prácticas cotidianas hablan de luchas, resistencias, triunfos y fracasos.</li>
+      <li>Hay espacios alternativos a la cultura dominante.</li>
+      <li>La transmisión cultural incluye ideas y objetos: es simbólica y material.</li>
+      <li>La cultura es resultado de la lucha entre lo heredado y lo contemporáneo.</li>
+      <li>Raymond Williams permite pensar lo dominante, lo residual y lo emergente.</li>
+    </ul>
+    <div class="q">Pregunta de estudio: ¿por qué el capital cultural nunca es individual?</div>
+    <div class="q">Pregunta de estudio: ¿por qué es problemático decir que alguien es “inculto”?</div>
+  </details>
+
+  <details>
+    <summary>4. Julio Cortázar: “Qué tal, López”</summary>
+    <p><strong>Idea central:</strong> Cortázar muestra que muchas acciones cotidianas ya están inventadas. Las repetimos como si fueran propias, pero en realidad nos “calzamos” en prácticas preexistentes.</p>
+    <h4>El saludo inventado</h4>
+    <p>Un señor saluda a otro dándole la mano e inclinando la cabeza. Cree que lo saluda, pero el saludo ya está inventado: el señor no hace más que calzar en el saludo.</p>
+    <h4>El tobogán prefabricado</h4>
+    <p>Cuando un señor se refugia bajo una arcada porque llueve, Cortázar dice que resbala por un tobogán prefabricado desde la primera lluvia y la primera arcada. Es una imagen para mostrar que hasta los gestos cotidianos están moldeados.</p>
+    <h4>Los gestos del amor</h4>
+    <p>Los gestos del amor aparecen como un “dulce museo”, una galería de figuras de humo. Incluso lo más íntimo puede estar lleno de formas heredadas.</p>
+    <h4>Hamlet</h4>
+    <p>Hamlet no duda: busca la solución auténtica y no los caminos ya hechos. Quiere la tangente que triza el misterio, la quinta hoja del trébol.</p>
+    <h4>Cuando los zapatos aprietan</h4>
+    <p>Cuando los zapatos aprietan, buena señal: algo cambia. Lo verdaderamente nuevo da miedo o maravilla. Los monstruos muestran un posible salto hacia lo otro.</p>
+    <h4>Final</h4>
+    <p>Aparece López: “¿Qué tal, López?” “¿Qué tal, che?” Y así es como creen que se saludan.</p>
+    <div class="box"><strong>Relación con la materia:</strong> Cortázar sirve para pensar que muchas prácticas cotidianas están culturalmente inventadas y que podemos interrogarlas.</div>
+    <div class="q">Pregunta para pensar: ¿qué prácticas cotidianas tuyas podrían verse como gestos ya inventados?</div>
+  </details>
+
+  <details>
+    <summary>5. Denys Cuche: la noción de cultura en ciencias sociales</summary>
+    <p><strong>Idea central:</strong> la cultura permite pensar la unidad de la humanidad en la diversidad sin explicarla en términos biológicos o raciales.</p>
+    <h4>Hominización</h4>
+    <ul>
+      <li>El proceso de hominización implicó pasar de una adaptación genética a una adaptación cultural.</li>
+      <li>Se produjo una regresión de los instintos, reemplazados progresivamente por la cultura.</li>
+      <li>La cultura es más dúctil que la adaptación genética.</li>
+      <li>Se transmite con mayor facilidad y rapidez.</li>
+      <li>La cultura permite transformar la naturaleza.</li>
+    </ul>
+    <h4>Unidad humana, diversidad cultural</h4>
+    <ul>
+      <li>Las poblaciones humanas poseen el mismo bagaje genético.</li>
+      <li>Se diferencian por sus elecciones culturales.</li>
+      <li>Cada grupo inventa soluciones originales.</li>
+      <li>La noción de cultura sirve para terminar con explicaciones naturalistas o racistas.</li>
+    </ul>
+    <h4>No hay nada puramente natural</h4>
+    <ul>
+      <li>La naturaleza en el hombre está totalmente interpretada por la cultura.</li>
+      <li>La división sexual de roles y tareas es un resultado cultural.</li>
+      <li>Funciones como hambre, sueño o deseo sexual tienen formato cultural.</li>
+      <li>Cuando se dice “sé natural”, en realidad se pide actuar según un modelo cultural transmitido.</li>
+    </ul>
+    <h4>Orden simbólico</h4>
+    <p>La cultura penetra directamente en el orden simbólico, en aquello vinculado con el sentido. Por eso es difícil ponerse de acuerdo sobre qué es cultura.</p>
+    <h4>Aculturación</h4>
+    <ul>
+      <li>La aculturación no es un fenómeno ocasional ni necesariamente devastador.</li>
+      <li>Es una modalidad habitual de la evolución cultural.</li>
+      <li>Las culturas no son puras ni estáticas.</li>
+      <li>El encuentro entre culturas es parte de su historia.</li>
+    </ul>
+    <h4>Jerarquías sociales y culturales</h4>
+    <ul>
+      <li>Las jerarquías sociales pueden determinar jerarquías culturales.</li>
+      <li>Pero la cultura dominante no determina totalmente a las culturas dominadas.</li>
+      <li>Las culturas populares tienen autonomía y capacidad de resistencia.</li>
+    </ul>
+    <div class="q">Pregunta de estudio: ¿por qué Cuche dice que “no hay nada puramente natural en el hombre”?</div>
+    <div class="q">Pregunta de estudio: ¿qué es el orden simbólico?</div>
+    <div class="q">Pregunta de estudio: ¿por qué la aculturación renueva el concepto de cultura?</div>
+  </details>
+
+  <details>
+    <summary>6. César Aira: la utilidad del arte</summary>
+    <p><strong>Idea central:</strong> vivimos entre cajas negras: usamos cosas sin saber cómo funcionan. El arte conserva una forma de inteligencia que permite desarmar y rearmar el lenguaje.</p>
+    <h4>Antes: saber cómo funcionan las cosas</h4>
+    <ul>
+      <li>Aira recuerda personas que desarmaban autos, relojes, radios o lavarropas.</li>
+      <li>Eso mantenía una relación comprensiva con las máquinas.</li>
+      <li>Con la electrónica y la automatización, eso se volvió más difícil.</li>
+    </ul>
+    <h4>Cajas negras</h4>
+    <ul>
+      <li>Hoy usamos artefactos como cajas negras.</li>
+      <li>Solo importa el input y el output.</li>
+      <li>Apretamos un botón y esperamos un resultado.</li>
+      <li>Ignoramos qué sucede en el medio.</li>
+    </ul>
+    <h4>La sociedad como caja negra</h4>
+    <p>No solo las máquinas se volvieron cajas negras. La sociedad entera se volvió una caja negra: economía, información, desplazamientos poblacionales, estadísticas, pronósticos. Nadie sabe con certeza qué puede pasar.</p>
+    <h4>El arte</h4>
+    <ul>
+      <li>El arte preserva una vieja inteligencia: la que intenta saber cómo funcionan las cosas.</li>
+      <li>La radicalidad del arte consiste en desarmar por entero el lenguaje con el que opera y volverlo a armar según otras premisas.</li>
+      <li>Si no retrocede hasta el punto de partida, no es arte, aunque lo parezca.</li>
+      <li>El artista puede desarmar y reconstruir enteramente su materia.</li>
+    </ul>
+    <h4>Cultura popular y caja negra</h4>
+    <p>Aira critica el uso de formatos artísticos que se someten a la lógica de la caja negra: se usa un lenguaje artístico sin desarmarlo y se espera éxito o venta.</p>
+    <div class="box"><strong>Concepto clave:</strong> caja negra = dispositivo o sistema que usamos sin comprender su funcionamiento interno.</div>
+    <div class="q">Pregunta de estudio: ¿por qué el arte puede desarmar las cajas negras?</div>
+  </details>
+
+  <details>
+    <summary>7. Alejandro Grimson: los límites de la cultura</summary>
+    <p><strong>Idea central:</strong> todo lo humano es resultado de prácticas sociales. Las construcciones sociales, una vez cristalizadas, son reales. Pero eso no significa que sean naturales o inevitables.</p>
+    <h4>Construcción social</h4>
+    <ul>
+      <li>Edificios, automóviles, instituciones, identidades y músicas son construcciones sociales.</li>
+      <li>Decir que algo es construido no significa que no exista.</li>
+      <li>Cuando las prácticas humanas cristalizan, se vuelven reales.</li>
+      <li>La metáfora de construcción social puede agotarse si se usa solo para denunciar lo ajeno.</li>
+    </ul>
+    <h4>Blancos, negros y convenciones sociales</h4>
+    <ul>
+      <li>El sentido común nos hace creer que hay blancos, negros, mestizos o indios como categorías naturales.</li>
+      <li>Pero “blanco” es una convención social.</li>
+      <li>Las personas clasificadas como blancas o negras tienen tonalidades múltiples.</li>
+      <li>Adquirimos un lenguaje que clasifica personas y deseamos que encajen en esas palabras.</li>
+    </ul>
+    <h4>Fronteras</h4>
+    <ul>
+      <li>Los rasgos físicos existen, pero ningún rasgo físico tiene significado intrínseco.</li>
+      <li>Usamos diferencias para imaginar fronteras entre grupos humanos.</li>
+      <li>Esas fronteras son reales porque nosotros las realizamos.</li>
+      <li>Ocultan su contingencia, historicidad y fragilidad.</li>
+    </ul>
+    <h4>Tipificaciones</h4>
+    <ul>
+      <li>Cuando las prácticas sociales se sedimentan, las sociedades se organizan según tipificaciones.</li>
+      <li>Las tipificaciones rigen vidas, destinos y derechos.</li>
+      <li>Son inventos humanos sedimentados en percepción, significación y acción.</li>
+    </ul>
+    <h4>Searle: ontológicamente subjetivo, epistemológicamente objetivo</h4>
+    <ul>
+      <li>Algo ontológicamente subjetivo existe gracias a prácticas humanas.</li>
+      <li>Pero puede ser epistemológicamente objetivo porque su existencia es empíricamente verificable.</li>
+      <li>Ejemplos: pasaportes, naciones, clasificaciones, derecho a votar, desigualdades.</li>
+    </ul>
+    <h4>Fetichismo de las identidades</h4>
+    <p>Grimson lo compara con el fetichismo de la mercancía de Marx. Las identidades se presentan como cosas, como si tuvieran vida propia, pero ocultan las prácticas humanas que las produjeron.</p>
+    <h4>Configuraciones culturales</h4>
+    <ul>
+      <li>Una configuración cultural es un espacio con tramas simbólicas compartidas.</li>
+      <li>Tiene horizontes de posibilidad.</li>
+      <li>Tiene desigualdades de poder.</li>
+      <li>Tiene historicidad.</li>
+      <li>Sirve contra la idea de culturas esenciales y contra la idea de puros fragmentos desconectados.</li>
+    </ul>
+    <h4>Ladrillos y naturaleza</h4>
+    <p>Los seres humanos colocan ladrillos sobre ladrillos y dejan una pared en pie. Si otros nacen frente a esa pared, pueden vivirla como naturaleza, aunque no lo sea. Los ladrillos pueden ser palabras, gestos, vestimentas, alimentos. Los edificios pueden ser religiones, gobiernos, clases, razas, géneros.</p>
+    <h4>Plusvalor semiótico</h4>
+    <p>El trabajo humano crea un excedente de sentido que oculta el proceso productivo. Vemos el resultado, pero no siempre vemos cómo fue producido.</p>
+    <div class="q">Pregunta de estudio: ¿qué significa que algo sea ontológicamente subjetivo pero epistemológicamente objetivo?</div>
+    <div class="q">Pregunta de estudio: ¿qué es el fetichismo de las identidades?</div>
+    <div class="q">Pregunta de estudio: ¿por qué las fronteras sociales son reales aunque sean construidas?</div>
+  </details>
+
+  <details>
+    <summary>8. Jorge González: frentes culturales</summary>
+    <p><strong>Idea central:</strong> la cultura es una dimensión omnipresente de las relaciones sociales. En ella se disputan las definiciones legítimas de la realidad.</p>
+    <h4>Los mapas de cultura popular</h4>
+    <ul>
+      <li>Antes se imaginaba “lo popular” como algo puro, bucólico, tradicional, indígena o rural.</li>
+      <li>Esa mirada excluía lo industrial, urbano, moderno y masivo.</li>
+      <li>González critica la política del formol: conservar y disecar la cultura popular.</li>
+      <li>También critica la política del avestruz: no querer ver las mezclas con la cultura mercantil.</li>
+    </ul>
+    <h4>Cultura del aluvión</h4>
+    <p>Las culturas populares modernas son mezcladas, emergentes, híbridas y omnipresentes. Ya no se pueden pensar solo como tradiciones rurales puras.</p>
+    <h4>Las culturas: organizar, soñar, recordar, definir, luchar</h4>
+    <ul>
+      <li><strong>Organizar:</strong> la cultura organiza la vida cotidiana.</li>
+      <li><strong>Soñar:</strong> también es fantasía, proyecto, utopía.</li>
+      <li><strong>Recordar:</strong> es memoria selectiva del pasado.</li>
+      <li><strong>Definir:</strong> permite definir nuestra situación social y colectiva.</li>
+      <li><strong>Luchar:</strong> es arena de disputa por el sentido.</li>
+    </ul>
+    <h4>Cultura omnipresente</h4>
+    <p>González plantea que la cultura es una dimensión omnipresente de las relaciones sociales. Eso implica varias ideas:</p>
+    <ol>
+      <li>La cultura es propiedad de toda sociedad concreta e histórica.</li>
+      <li>No es una entidad flotante que solo refleja la economía.</li>
+      <li>Tiene materialidad y soportes sociales objetivos.</li>
+      <li>Su especificidad sígnica o semiótica es integral a todas las prácticas sociales.</li>
+      <li>No se puede ser socialmente y no significar.</li>
+    </ol>
+    <h4>Hegemonía</h4>
+    <ul>
+      <li>La hegemonía ayuda a entender cómo se relacionan las clases desde la construcción de significaciones.</li>
+      <li>Permite leer ideológica y culturalmente la totalidad de relaciones sociales.</li>
+      <li>Responde a la pregunta: ¿cómo se relacionan las clases desde la construcción e interpretación del sentido?</li>
+    </ul>
+    <h4>Frentes culturales</h4>
+    <ul>
+      <li>Los frentes culturales son arenas de lucha.</li>
+      <li>También son fronteras o límites de contacto ideológico.</li>
+      <li>Allí distintos grupos y clases disputan la definición legítima del sentido social de la vida.</li>
+    </ul>
+    <h4>Cuatro problemáticas de los frentes culturales</h4>
+    <ol>
+      <li>La construcción social del sentido.</li>
+      <li>La constitución social de la hegemonía y del poder cultural.</li>
+      <li>La lucha por la legitimidad cultural.</li>
+      <li>Los elementos culturales transclasistas y la vida cotidiana.</li>
+    </ol>
+    <div class="q">Pregunta de estudio: ¿qué son los frentes culturales según Jorge González?</div>
+    <div class="q">Pregunta de estudio: ¿qué relación hay entre cultura y desigualdad?</div>
+  </details>
+
+  <details>
+    <summary>9. Sergio Caggiano: mostrar lo no dicho</summary>
+    <p><strong>Idea central:</strong> las imágenes visuales participan en la construcción del sentido común. No solo muestran: también organizan la percepción, valoran el mundo social y producen formas de ver.</p>
+    <h4>Preguntas sobre imágenes</h4>
+    <ul>
+      <li>¿Quién es quién en los paisajes visuales?</li>
+      <li>¿Qué caras y cuerpos se muestran?</li>
+      <li>¿Cómo se muestran?</li>
+      <li>¿Qué actores sociales aparecen asociados a ciertos espacios?</li>
+      <li>¿Qué vinculaciones se establecen entre política, vida doméstica y trabajo?</li>
+      <li>¿Qué factores estructuran la producción y circulación de imágenes?</li>
+    </ul>
+    <h4>Poole: ver y representar</h4>
+    <p>La cita de Poole dice que ver y representar son actos materiales porque intervienen en el mundo. No vemos simplemente lo que está ahí: la forma en que vemos y representamos determina cómo actuamos y, al actuar, creamos ese mundo.</p>
+    <h4>Mostrar y ocultar</h4>
+    <ul>
+      <li>Trabajar con imágenes implica preguntarse qué se muestra y qué se oculta.</li>
+      <li>Algunos actores muestran más que otros.</li>
+      <li>Algo puede mostrarse en un momento y dejar de mostrarse después.</li>
+      <li>Importa también cómo se muestra.</li>
+    </ul>
+    <h4>Productividad de las imágenes</h4>
+    <p>Las imágenes no solo representan: producen sentido. Actúan con otros lenguajes, pero no se reducen a ellos.</p>
+    <h4>Las imágenes muestran mucho todo junto</h4>
+    <ul>
+      <li>No hay modos de mostrar estructurados solo por clase.</li>
+      <li>Tampoco solo por género, raza o etnia.</li>
+      <li>Las imágenes combinan trazos de diferentes dimensiones.</li>
+      <li>Una imagen puede ser conservadora en clase pero no en género, o viceversa.</li>
+      <li>Incluso imágenes contrahegemónicas pueden filtrar miradas hegemónicas en raza o clase.</li>
+    </ul>
+    <div class="box"><strong>Concepto clave:</strong> “mostrar lo no dicho” significa que las imágenes pueden hacer visible aquello que no se dice explícitamente: valores, jerarquías, exclusiones, estereotipos, deseos y formas de ver el mundo.</div>
+    <div class="q">Pregunta de estudio: ¿por qué las imágenes muestran mucho todo junto?</div>
+    <div class="q">Pregunta de estudio: ¿cómo juegan las relaciones de poder en lo que se muestra y lo que se oculta?</div>
+  </details>
+
+  <details>
+    <summary>10. Guías de lectura del cuadernillo</summary>
+    <p class="mini">El cuadernillo incluye guías de lectura para ayudar a estudiar. Salvo que el docente indique lo contrario, no hay que entregarlas resueltas.</p>
+    <h4>Denys Cuche</h4>
+    <ol>
+      <li>Explicar la frase: “no hay nada puramente natural en el hombre”, con ejemplo.</li>
+      <li>¿A qué se refiere con “orden simbólico”?</li>
+      <li>¿Por qué el concepto de aculturación permitió renovar el concepto de cultura?</li>
+    </ol>
+    <h4>Alejandro Grimson</h4>
+    <ol>
+      <li>¿Cómo se relacionan sentido común, lenguaje y clasificación por color de piel o etnicidad?</li>
+      <li>¿Qué significa construir límites alrededor de convenciones sociales? Dar ejemplo.</li>
+      <li>Armar una definición propia de cultura usando ideas de Grimson.</li>
+    </ol>
+    <h4>Jorge González</h4>
+    <ol>
+      <li>¿Qué características define para pensar la cultura actual?</li>
+      <li>¿Qué elementos considera para afirmar que la cultura es omnipresente?</li>
+      <li>¿Por qué tenemos diferentes representaciones del mundo? ¿Qué relación tiene con la desigualdad?</li>
+      <li>¿En qué consiste un análisis detallado de la cultura y por qué es importante?</li>
+    </ol>
+    <h4>Sergio Caggiano</h4>
+    <ol>
+      <li>Sumar una pregunta sobre el papel de las imágenes visuales.</li>
+      <li>Explicar la frase: “creamos lo que el mundo es”.</li>
+      <li>Explicar cómo juegan las relaciones de poder en mostrar y ocultar.</li>
+      <li>Explicar por qué las imágenes muestran mucho todo junto.</li>
+      <li>Armar una definición de cultura que incluya “mostrar lo no dicho”.</li>
+    </ol>
+  </details>
+
+  <details>
+    <summary>11. Mini resumen para examen</summary>
+    <div class="box"><strong>Cultura:</strong> construcción social de prácticas, sentidos, relaciones y artefactos. No es natural, no es fija, no es individual.</div>
+    <div class="box"><strong>Sentido común:</strong> conocimiento cotidiano que parece obvio, natural o normal. Organiza la vida diaria pero puede cerrar discusiones con el “porque sí”.</div>
+    <div class="box"><strong>Naturalización:</strong> hacer aparecer como natural algo histórico y social. No es punto de partida: es punto de llegada.</div>
+    <div class="box"><strong>Alta cultura:</strong> visión que asocia cultura a museos, bellas artes y educación formal, ocultando desigualdades de acceso.</div>
+    <div class="box"><strong>Capital cultural:</strong> saberes, valores, creencias, gustos y recursos culturales. Nunca es individual.</div>
+    <div class="box"><strong>Instituciones:</strong> escuela, familia, medios, Estado, iglesias, justicia. Producen y transmiten sentido.</div>
+    <div class="box"><strong>Hegemonía:</strong> lucha por imponer significaciones y sentidos como válidos o verdaderos.</div>
+    <div class="box"><strong>Frentes culturales:</strong> arenas de lucha y fronteras de contacto ideológico donde se disputan definiciones legítimas de la realidad.</div>
+    <div class="box"><strong>Imágenes:</strong> muestran y ocultan; muestran mucho todo junto; combinan clase, género, raza y etnia.</div>
+    <div class="box"><strong>Caja negra:</strong> dispositivo o sistema que usamos sin saber cómo funciona. El arte puede desarmar y rearmar esos lenguajes.</div>
+  </details>
+
+  <details>
+    <summary>12. Frase final del eje</summary>
+    <div class="box">
+      La cultura no es algo natural ni estático: es una construcción social hecha de prácticas cotidianas, sentidos, instituciones, imágenes, conflictos y luchas por definir qué es normal, válido o verdadero.
+    </div>
+  </details>
+</section>
+
+<section id="tab-misiones" class="tab">
+  <div class="card">
+    <h2>🗺️ Misiones principales</h2>
+    <p class="sub">Cada misión se completa cuando guardás la evidencia y respondés la pregunta de jefe.</p>
+  </div>
+  <div id="missions"></div>
+</section>
+
+<section id="tab-actividades" class="tab">
+  <div class="card">
+    <h2>✍️ Actividades y evidencias</h2>
+    <p class="sub">Todo se guarda automáticamente mientras escribís. Después tocá “Guardar evidencia”.</p>
+  </div>
+  <div id="activities"></div>
+</section>
+
+<section id="tab-guias" class="tab">
+  <div class="card">
+    <h2>📖 Guías de lectura</h2>
+    <p class="sub">Basadas en las preguntas del cuadernillo y en preguntas clave de los textos.</p>
+  </div>
+  <div id="guides"></div>
+</section>
+
+<section id="tab-conceptos" class="tab">
+  <div class="card">
+    <h2>🧠 Banco de conceptos</h2>
+    <p class="sub">Los conceptos que tenés que poder explicar con tus palabras.</p>
+  </div>
+  <div class="grid" id="concepts"></div>
+</section>
+
+<section id="tab-cartas" class="tab">
+  <div class="card">
+    <h2>🃏 Cartas de estudio</h2>
+    <p class="sub">Tocá la carta para girarla. Cuando la sepas, marcala como aprendida.</p>
+  </div>
+  <div class="grid" id="cards"></div>
+</section>
+
+<section id="tab-quiz" class="tab">
+  <div class="card">
+    <h2>🧪 Quiz de práctica</h2>
+    <p class="sub">+5 XP por respuesta correcta. Si te equivocás, podés reintentar.</p>
+  </div>
+  <div id="quizWrap"></div>
+</section>
+
+<section id="tab-examen" class="tab">
+  <div class="card">
+    <h2>🎓 Examen final</h2>
+    <p class="sub">20 preguntas seleccionadas del banco. Corregí una vez para ganar XP.</p>
+    <button id="examBtn" class="btn" onclick="correctExam()">Corregir examen</button>
+  </div>
+  <div id="examWrap"></div>
+  <div class="card">
+    <h3>🖊️ Preguntas abiertas de examen</h3>
+    <p class="sub">Escribí respuestas completas. Podés marcar cada una cuando esté lista.</p>
+  </div>
+  <div id="openWrap"></div>
+</section>
+
+<section id="tab-checklist" class="tab">
+  <div class="card">
+    <h2>✅ Checklist de dominio</h2>
+    <p class="sub">Marcá solo lo que realmente podés explicar.</p>
+  </div>
+  <div class="grid" id="checkWrap"></div>
+</section>
+
+<section id="tab-progreso" class="tab">
+  <div id="progress"></div>
+</section>
+
+</main>
+
+<div id="toast"></div>
+
+<script>
+const KEY = 'culturaHackFullV1';
+
+const RANKS = [
+  [0, `Recluta cultural`],
+  [50, `Observador/a de prácticas`],
+  [100, `Detector/a de sentido común`],
+  [150, `Hacker de naturalizaciones`],
+  [200, `Detective cultural experto/a`],
+  [350, `Maestro/a desnaturalizador/a`]
+];
+
+const MISSIONS = [
+  {
+    id:1,
+    emoji:`🗿`,
+    title:`La cultura no es una estatua`,
+    xp:25,
+    badge:`Cazador de prácticas`,
+    badgeEmoji:`🎯`,
+    act:`practicas`,
+    theme:`Soledad López: cultura como prácticas, sentidos y artefactos.`,
+    ideas:[
+      `La cultura es acción humana, material y simbólica, personal, colectiva, histórica y sensible.`,
+      `Se verifica en prácticas sociales, relaciones sociales y artefactos culturales.`,
+      `Los sentidos habilitan y clausuran modos de hacer, ver, decir y ser.`,
+      `La cultura nunca es individual: se aprende, se comparte y se recrea.`
+    ],
+    boss:`¿Por qué el cuadernillo dice que no hay seres humanos sin cultura?`
+  },
+  {
+    id:2,
+    emoji:`🧱`,
+    title:`El muro de lo natural`,
+    xp:40,
+    badge:`Detector/a de zonceras`,
+    badgeEmoji:`🚨`,
+    act:`frases`,
+    theme:`Introducción, Bauman y May, Jauretche, Nietzsche.`,
+    ideas:[
+      `Sentido común: conocimiento rico pero desorganizado, que apela a lo obvio, lo natural o el porque sí.`,
+      `Naturalización: lo social aparece como obvio e inevitable.`,
+      `La naturalización borra marcas de construcción y produce la idea de normal.`,
+      `No es punto de partida: es punto de llegada de una pulseada por el sentido.`
+    ],
+    boss:`¿Por qué la naturalización no es un punto de partida sino un punto de llegada?`
+  },
+  {
+    id:3,
+    emoji:`🏛️`,
+    title:`¿Alta cultura o culturas?`,
+    xp:45,
+    badge:`Curador/a de culturas populares`,
+    badgeEmoji:`🎨`,
+    act:`museo`,
+    theme:`Soledad López: alta/baja cultura, culto/inculto, civilización/barbarie.`,
+    ideas:[
+      `El sentido común reduce cultura a bellas artes, museos y educación formal.`,
+      `La alta cultura oculta desigualdades de acceso.`,
+      `“Inculto” supone personas sin cultura, pero la cultura es inherente a lo humano.`,
+      `Cultura es culturas: pluralidad de prácticas y visiones del mundo.`
+    ],
+    boss:`¿Por qué dividir entre alta y baja cultura puede esconder desigualdad social?`
+  },
+  {
+    id:4,
+    emoji:`🎒`,
+    title:`La mochila cultural`,
+    xp:45,
+    badge:`Arqueólogo/a de la mochila`,
+    badgeEmoji:`🎒`,
+    act:`mochila`,
+    theme:`Bourdieu, instituciones, transmisión cultural, Williams.`,
+    ideas:[
+      `Capital cultural: valores, creencias, saberes, conocimientos certificados y costumbres.`,
+      `Nunca es individual: es producto de una comunidad que lo comparte y defiende.`,
+      `Instituciones: medios, Estado, iglesias, escuela, justicia y familias producen sentido.`,
+      `Williams: dominante, residual y emergente; la cultura es lucha entre herencia y presente.`
+    ],
+    boss:`¿Por qué el capital cultural nunca es individual?`
+  },
+  {
+    id:5,
+    emoji:`🧪`,
+    title:`Nada es natural: laboratorio Cuche`,
+    xp:45,
+    badge:`Científico/a anti-esencialista`,
+    badgeEmoji:`🧬`,
+    act:`antinatural`,
+    theme:`Denys Cuche: cultura, naturaleza, hominización, aculturación.`,
+    ideas:[
+      `Hominización: paso de adaptación genética a adaptación cultural.`,
+      `No hay nada puramente natural en el hombre: la naturaleza está interpretada por la cultura.`,
+      `Incluso hambre, sueño o deseo tienen formato cultural.`,
+      `Aculturación: modalidad habitual de evolución cultural, no accidente devastador.`
+    ],
+    boss:`¿Por qué el concepto de aculturación muestra que las culturas no son puras ni estáticas?`
+  },
+  {
+    id:6,
+    emoji:`🗺️`,
+    title:`Los límites de la cultura`,
+    xp:50,
+    badge:`Cartógrafo/a de fronteras`,
+    badgeEmoji:`🧭`,
+    act:`fronteras`,
+    theme:`Alejandro Grimson: construcción social, fronteras, tipificaciones.`,
+    ideas:[
+      `“Blanco” y “negro” son convenciones sociales, no datos naturales.`,
+      `Las fronteras son producidas por humanos, pero se vuelven reales.`,
+      `Ontológicamente subjetivas, epistemológicamente objetivas.`,
+      `El fetichismo de las identidades oculta las prácticas que las produjeron.`
+    ],
+    boss:`Explicá con tus palabras: ontológicamente subjetivo pero epistemológicamente objetivo.`
+  },
+  {
+    id:7,
+    emoji:`🖼️`,
+    title:`Imágenes que hablan`,
+    xp:55,
+    badge:`Hacker visual`,
+    badgeEmoji:`🖼️`,
+    act:`imagenes`,
+    theme:`Sergio Caggiano: imágenes, representación, poder, mostrar/ocultar.`,
+    ideas:[
+      `Las imágenes organizan la percepción y valoración del entorno social.`,
+      `Ver y representar son actos materiales: intervienen en el mundo.`,
+      `Las imágenes muestran y ocultan.`,
+      `Muestran mucho todo junto: clase, género, raza y etnia combinados.`
+    ],
+    boss:`¿Por qué las imágenes no solo representan el mundo sino que también ayudan a construirlo?`
+  },
+  {
+    id:8,
+    emoji:`⚔️`,
+    title:`Frentes culturales: batalla por el sentido`,
+    xp:55,
+    badge:`Estratega cultural`,
+    badgeEmoji:`🗡️`,
+    act:`frentes`,
+    theme:`Jorge González: frentes culturales, hegemonía, cultura como lucha.`,
+    ideas:[
+      `La cultura organiza el presente, es sueño y memoria.`,
+      `Es dimensión omnipresente de las relaciones sociales.`,
+      `Hegemonía: cómo las clases se relacionan desde la construcción de significaciones.`,
+      `Frentes culturales: arenas de lucha y fronteras de contacto ideológico.`
+    ],
+    boss:`¿Qué es un frente cultural y por qué la hegemonía no es solo fuerza sino también sentido?`
+  },
+  {
+    id:9,
+    emoji:`👑`,
+    title:`FINAL: desarmar la caja negra`,
+    xp:80,
+    badge:`Desnaturalizador/a profesional`,
+    badgeEmoji:`👑`,
+    act:null,
+    theme:`César Aira y Julio Cortázar: arte, cajas negras, invención.`,
+    ideas:[
+      `Aira: vivimos entre cajas negras; usamos cosas sin saber cómo funcionan.`,
+      `La sociedad entera se volvió caja negra.`,
+      `El arte puede desarmar el lenguaje y rearmarlo.`,
+      `Cortázar: el saludo ya está inventado; cuando los zapatos aprietan, algo cambia.`
+    ],
+    boss:`Explicá qué aprendiste sobre cultura, naturalización, sentido común, imágenes y lucha cultural.`
+  }
+];
+
+const ACTS = [
+  {
+    key:`practicas`,
+    title:`Misión 1: Cacería de prácticas culturales`,
+    min:3,
+    help:`Recomendado: 10 prácticas. Para completar la misión se piden al menos 3.`,
+    fields:[`Acción cotidiana`,`¿Qué sentido tiene?`,`¿Quién la ve como normal?`]
+  },
+  {
+    key:`frases`,
+    title:`Misión 2: Detective de frases naturalizadas`,
+    min:3,
+    help:`Buscá frases como “pobres hubo siempre”, “no seas indio”, “eso es de varón/mujer”.`,
+    fields:[`Frase`,`¿Quién la dice?`,`¿Qué naturaliza?`,`¿A quién beneficia?`,`¿Cómo se discute?`]
+  },
+  {
+    key:`museo`,
+    title:`Misión 3: Museo invertido`,
+    min:3,
+    help:`Elegí objetos cotidianos y convertilos en piezas culturales.`,
+    fields:[`Objeto cotidiano`,`¿Por qué es cultural?`,`¿Qué práctica representa?`,`¿Qué conflicto esconde?`]
+  },
+  {
+    key:`mochila`,
+    title:`Misión 4: Mochila cultural`,
+    min:3,
+    help:`Recomendado: 15 elementos. Mínimo para misión: 3.`,
+    fields:[`Elemento cultural`,`Origen: familia/escuela/medios/barrio/club`,`¿Por qué lo incorporaste?`]
+  },
+  {
+    key:`instituciones`,
+    title:`Misión 4 extra: Instituciones`,
+    min:3,
+    help:`Escuela, familia, medios, Estado, iglesia, justicia, club.`,
+    fields:[`Institución`,`¿Qué enseña?`,`¿Qué normaliza?`,`¿Qué silencia?`]
+  },
+  {
+    key:`antinatural`,
+    title:`Misión 5: Laboratorio anti-natural`,
+    min:3,
+    help:`Cosas que parecen naturales pero son culturales.`,
+    fields:[`Parece natural`,`¿Por qué es cultural?`,`Ejemplo concreto`]
+  },
+  {
+    key:`contacto`,
+    title:`Misión 5 extra: Contacto cultural`,
+    min:3,
+    help:`Aculturación: mezclas, préstamos, transformaciones culturales.`,
+    fields:[`Elemento`,`¿De qué culturas viene?`,`¿Cómo se transformó?`,`¿Hay conflicto o aceptación?`]
+  },
+  {
+    key:`fronteras`,
+    title:`Misión 6: Fronteras invisibles`,
+    min:3,
+    help:`Etiquetas sociales que parecen naturales pero construyen límites.`,
+    fields:[`Etiqueta social`,`¿Quién la produce?`,`¿Qué efecto real tiene?`,`¿Cómo se podría discutir?`]
+  },
+  {
+    key:`imagenes`,
+    title:`Misión 7: Análisis de imágenes`,
+    min:3,
+    help:`Publicidad, noticia, redes sociales.`,
+    fields:[`Imagen / fuente`,`¿Quiénes aparecen?`,`¿Cómo aparecen?`,`¿Qué se oculta?`,`Clase/género/raza`]
+  },
+  {
+    key:`contraimagen`,
+    title:`Misión 7 extra: Contraimagen`,
+    min:1,
+    help:`Proponé una imagen que dispute el sentido de una imagen hegemónica.`,
+    fields:[`Idea de contraimagen`,`¿Qué muestra que la original ocultaba?`,`¿Dónde circularía?`]
+  },
+  {
+    key:`frentes`,
+    title:`Misión 8: Mapa de frentes culturales`,
+    min:3,
+    help:`Elegí un tema en disputa y mapeá actores.`,
+    fields:[`Tema en disputa`,`Actor social`,`¿Qué sentido defiende?`,`¿Qué medios usa?`,`¿A quiénes representa?`]
+  },
+  {
+    key:`futuro`,
+    title:`Misión 8 extra: Memoria / presente / futuro`,
+    min:1,
+    help:`La cultura también es memoria, organización del presente y sueño de futuro.`,
+    fields:[`Memoria: ¿qué heredaste?`,`Presente: ¿cómo organiza tu vida?`,`Futuro: ¿qué transformarías?`]
+  }
+];
+
+const GUIDES = [
+  {
+    key:`lopez`,
+    title:`Soledad López: cultura, culturas, prácticas culturales`,
+    xp:15,
+    questions:[
+      `¿Qué significa que la cultura sea acción?`,
+      `¿Qué son artefactos culturales? Da ejemplos materiales e inmateriales.`,
+      `¿Por qué es mejor pensar la cultura en plural?`
+    ]
+  },
+  {
+    key:`cuche`,
+    title:`Denys Cuche: la noción de cultura en ciencias sociales`,
+    xp:15,
+    questions:[
+      `Explicá la frase “no hay nada puramente natural en el hombre” y escribí un ejemplo.`,
+      `¿A qué se refiere con “orden simbólico”?`,
+      `¿Por qué el concepto de aculturación permitió renovar el concepto de cultura?`
+    ]
+  },
+  {
+    key:`grimson`,
+    title:`Alejandro Grimson: los límites de la cultura`,
+    xp:15,
+    questions:[
+      `¿Cómo se relacionan sentido común, lenguaje y clasificación de personas por color de piel o etnicidad?`,
+      `¿A qué se refiere con construir límites alrededor de convenciones sociales? Da un ejemplo.`,
+      `Arma una definición propia de cultura usando ideas de Grimson.`
+    ]
+  },
+  {
+    key:`gonzalez`,
+    title:`Jorge González: frentes culturales`,
+    xp:15,
+    questions:[
+      `¿Qué características define para pensar la cultura actual?`,
+      `¿Qué elementos considera para afirmar que la cultura es omnipresente?`,
+      `¿Por qué tenemos diferentes representaciones del mundo? ¿Qué relación tiene con la desigualdad?`,
+      `¿En qué consiste un análisis detallado de la cultura y por qué es importante?`
+    ]
+  },
+  {
+    key:`caggiano`,
+    title:`Sergio Caggiano: mostrar lo no dicho`,
+    xp:15,
+    questions:[
+      `Sumá una pregunta sobre el papel de las imágenes visuales.`,
+      `Explicá la frase: “creamos lo que el mundo es”.`,
+      `¿Cómo juegan las relaciones de poder en mostrar y ocultar?`,
+      `¿Por qué las imágenes muestran mucho todo junto?`,
+      `Arma una definición de cultura que incluya “mostrar lo no dicho”.`
+    ]
+  }
+];
+
+const CONCEPTS = [
+  [`Cultura`,`Construcción social de prácticas, sentidos y formas de vida.`],
+  [`Prácticas culturales`,`Acciones cotidianas cargadas de sentido.`],
+  [`Sentido común`,`Conocimiento cotidiano, rico pero desorganizado, que apela a lo obvio, natural o normal.`],
+  [`Naturalización`,`Hacer aparecer como natural algo histórico y social.`],
+  [`Desnaturalización`,`Mostrar que lo que parece natural fue construido.`],
+  [`Alta cultura`,`Prácticas legitimadas: museos, academia, bellas artes.`],
+  [`Baja cultura`,`Prácticas desvalorizadas por el sentido común.`],
+  [`Culto / inculto`,`Distinción que supone personas con o sin cultura, pero la cultura es inherente a lo humano.`],
+  [`Civilización / barbarie`,`Zoncera señalada por Jauretche: clasifica prácticas como superiores o salvajes.`],
+  [`Capital cultural`,`Valores, creencias, saberes, costumbres y conocimientos certificados.`],
+  [`Instituciones`,`Medios, Estado, iglesias, escuela, justicia, familias: producen sentido.`],
+  [`Transmisión cultural`,`Lo que una generación confía a la siguiente: ideas y objetos.`],
+  [`Dominante / residual / emergente`,`Categorías de Raymond Williams para pensar dinámicas culturales.`],
+  [`Hominización`,`Paso de adaptación genética a adaptación cultural.`],
+  [`Aculturación`,`Procesos de contacto y transformación entre culturas.`],
+  [`Identidad`,`Construcción cultural, no esencia fija.`],
+  [`Fronteras simbólicas`,`Límites sociales entre nosotros y otros.`],
+  [`Tipificaciones`,`Clasificaciones sociales que rigen vidas, destinos y derechos.`],
+  [`Fetichismo de identidades`,`Oculta las prácticas humanas que produjeron las identidades.`],
+  [`Ontológicamente subjetivo`,`Algo creado por prácticas humanas.`],
+  [`Epistemológicamente objetivo`,`Algo que existe objetivamente y puede verificarse.`],
+  [`Imágenes`,`Dispositivos que muestran y ocultan sentidos.`],
+  [`Hegemonía`,`Modo en que las clases se relacionan desde la construcción de significaciones.`],
+  [`Frentes culturales`,`Arenas de lucha y fronteras de contacto ideológico.`],
+  [`Cajas negras`,`Artefactos o sistemas que usamos sin saber cómo funcionan.`],
+  [`Arte`,`Práctica capaz de desarmar y rearmar lenguajes.`]
+];
+
+const CARDS = [
+  [`¿Qué es cultura?`,`Construcción social hecha de prácticas, sentidos, relaciones y artefactos.`],
+  [`¿Qué son prácticas culturales?`,`Acciones cotidianas cargadas de sentido: comer, saludar, estudiar, trabajar.`],
+  [`¿Qué es sentido común?`,`Conocimiento cotidiano que parece obvio, natural o normal.`],
+  [`¿Qué es naturalizar?`,`Convertir algo histórico y social en natural e inevitable.`],
+  [`¿Qué es desnaturalizar?`,`Mostrar que lo construido no era inevitable.`],
+  [`¿Qué es alta cultura?`,`Cultura legitimada: bellas artes, museos, academia.`],
+  [`¿Qué critica el cuadernillo de culto/inculto?`,`Supone humanos sin cultura, pero la cultura es inherente a lo humano.`],
+  [`¿Qué es capital cultural?`,`Recursos culturales: saberes, gustos, valores, costumbres, certificados.`],
+  [`¿Por qué el capital cultural no es individual?`,`Porque es producto de una comunidad que lo comparte y defiende.`],
+  [`¿Qué instituciones producen sentido?`,`Medios, Estado, iglesias, escuela, justicia, familias.`],
+  [`¿Qué dice Cuche?`,`No hay nada puramente natural en el hombre; la naturaleza está interpretada por la cultura.`],
+  [`¿Qué es aculturación?`,`Contacto y transformación entre culturas; modalidad habitual de evolución cultural.`],
+  [`¿Qué dice Grimson sobre blanco/negro?`,`Son convenciones sociales con efectos reales.`],
+  [`¿Qué son fronteras simbólicas?`,`Límites producidos por humanos que se vuelven reales.`],
+  [`Ontológicamente subjetivo / epistemológicamente objetivo`,`Creado por humanos, pero existe objetivamente y afecta la vida.`],
+  [`¿Qué dice Caggiano?`,`Las imágenes muestran y ocultan; muestran mucho todo junto.`],
+  [`¿Qué son frentes culturales?`,`Arenas de lucha y fronteras de contacto ideológico.`],
+  [`¿Qué es hegemonía?`,`Construcción de significaciones que organiza relaciones entre clases.`],
+  [`¿Qué es caja negra según Aira?`,`Algo que usamos sin saber cómo funciona.`],
+  [`¿Qué puede hacer el arte?`,`Desarmar el lenguaje y rearmarlo según otras premisas.`],
+  [`¿Qué muestra Cortázar?`,`Muchas prácticas ya están inventadas: el saludo, por ejemplo.`],
+  [`¿Cuándo algo cambia según Cortázar?`,`Cuando los zapatos aprietan: ahí aparece lo nuevo.`]
+];
+
+const QUIZ = [
+  {q:`Según el cuadernillo, la cultura es…`, o:[`Solo bellas artes`,`Construcción social de prácticas y sentidos`,`Algo natural y estático`,`Solo educación formal`], a:1},
+  {q:`Para Bauman y May, el sentido común es…`, o:[`Conocimiento científico`,`Conocimiento rico pero desorganizado`,`Una ley natural`,`Un instinto`], a:1},
+  {q:`La naturalización hace que algo social aparezca como…`, o:[`Conflicto visible`,`Obvio e inevitable`,`Arte`,`Hipótesis`], a:1},
+  {q:`El cuadernillo afirma que la naturalización es…`, o:[`Punto de partida`,`Punto de llegada`,`Un dato biológico`,`Una esencia`], a:1},
+  {q:`La expresión “no seas indio” se relaciona con…`, o:[`Civilización y barbarie`,`Alta cultura`,`Cajas negras`,`Contraimagen`], a:0},
+  {q:`La “alta cultura” suele asociarse con…`, o:[`Prácticas legitimadas en museos y academias`,`Cultura popular`,`Necesidades biológicas`,`Juegos infantiles`], a:0},
+  {q:`Decir “inculto” supone personas sin cultura, pero el cuadernillo sostiene que…`, o:[`La cultura se pierde`,`Solo algunos tienen cultura`,`La cultura es inherente a lo humano`,`La cultura es un lujo`], a:2},
+  {q:`El capital cultural incluye…`, o:[`Valores, creencias, saberes y costumbres`,`Solo dinero`,`Solo títulos`,`Rasgos biológicos`], a:0},
+  {q:`Según Bourdieu, el capital cultural…`, o:[`Es natural`,`Se hereda genéticamente`,`Es individual puro`,`Nunca es individual`], a:3},
+  {q:`Entre las instituciones que moldean sentido están…`, o:[`Medios, Estado, iglesias, escuela, justicia y familias`,`Solo la biología`,`Solo el clima`,`Únicamente museos`], a:0},
+  {q:`Raymond Williams aporta pensar la cultura como…`, o:[`Solo alta cultura`,`Naturaleza fija`,`Dominante, residual y emergente`,`Instinto`], a:2},
+  {q:`Según Cuche, la hominización implicó pasar de adaptación genética a…`, o:[`Instintiva`,`Adaptación cultural`,`Astronómica`,`Selección natural pura`], a:1},
+  {q:`Cuche afirma que…`, o:[`No hay nada puramente natural en el hombre`,`La naturaleza no se interpreta`,`Los instintos mandan`,`La cultura es secundaria`], a:0},
+  {q:`Para Cuche, decir “sé natural” en realidad significa…`, o:[`Ignorá la sociedad`,`Usá solo biología`,`Actúa según la cultura transmitida`,`Volvé a la selva`], a:2},
+  {q:`La aculturación es…`, o:[`Pérdida total de cultura`,`Un museo`,`Una esencia racial`,`Modalidad habitual de evolución cultural`], a:3},
+  {q:`Para Grimson, “blanco” y “negro” son…`, o:[`Razas puras`,`Convenciones sociales`,`Datos genéticos`,`Colores sin efectos`], a:1},
+  {q:`Las fronteras sociales son reales porque…`, o:[`Los humanos las producimos y realizamos`,`Son naturales`,`Son biológicas`,`No afectan a nadie`], a:0},
+  {q:`“Ontológicamente subjetivo y epistemológicamente objetivo” significa que…`, o:[`Todo es imaginario`,`Algo creado por humanos puede existir objetivamente`,`Solo existe lo biológico`,`Nada se puede verificar`], a:1},
+  {q:`El fetichismo de las identidades…`, o:[`Muestra el hacer humano`,`Niega toda identidad`,`Oculta las prácticas humanas que las produjeron`,`Es una técnica artística`], a:2},
+  {q:`Caggiano dice que las imágenes…`, o:[`Muestran mucho todo junto`,`Son neutrales`,`Solo decoran`,`No se relacionan con poder`], a:0},
+  {q:`Según Poole/Caggiano, ver y representar…`, o:[`Son actos pasivos`,`No producen efectos`,`Evitan el poder`,`Intervienen en el mundo y ayudan a crearlo`], a:3},
+  {q:`Para Jorge González, la cultura organiza el presente, es sueño y también…`, o:[`Instinto`,`Memoria`,`Naturaleza`,`Algo estático`], a:1},
+  {q:`Los frentes culturales son…`, o:[`Arenas de lucha y fronteras de contacto ideológico`,`Ejércitos`,`Mapas geográficos`,`Ministerios`], a:0},
+  {q:`La hegemonía permite entender…`, o:[`Economía pura`,`Biología política`,`Cómo las clases se relacionan desde la construcción de significaciones`,`Coerción física solamente`], a:2},
+  {q:`Para Aira, vivimos entre cajas negras porque…`, o:[`Usamos artefactos sin saber cómo funcionan`,`Todo se desarma fácilmente`,`No existe tecnología`,`El arte no importa`], a:0},
+  {q:`Aira dice que el arte puede…`, o:[`Repetir fórmulas`,`Desarmar el lenguaje y rearmarlo`,`Usar botones a ciegas`,`Evitar la inteligencia`], a:1},
+  {q:`En Cortázar, el saludo está…`, o:[`Ya inventado y nos calzamos en él`,`Prohibido`,`Inventado por cada persona`,`No existe`], a:0},
+  {q:`Cuando los zapatos aprietan, según Cortázar…`, o:[`Todo sigue igual`,`Algo cambia`,`Hay que comprar zapatos`,`No pasa nada`], a:1}
+];
+
+const OPEN_QUESTIONS = [
+  `Explicá qué es la cultura como construcción social.`,
+  `Diferencia entre sentido común y pensamiento crítico.`,
+  `Explicá naturalización y desnaturalización con un ejemplo.`,
+  `¿Qué es capital cultural y por qué nunca es individual?`,
+  `¿Qué son frentes culturales y qué relación tienen con hegemonía?`,
+  `¿Cómo analizarías una imagen desde Caggiano?`,
+  `¿Qué significa que algo sea ontológicamente subjetivo pero epistemológicamente objetivo?`,
+  `¿Qué relación hay entre arte y cajas negras en Aira/Cortázar?`
+];
+
+const CHECKLIST = [
+  `Puedo explicar qué es cultura según el cuadernillo.`,
+  `Puedo dar ejemplos de prácticas culturales.`,
+  `Entiendo qué es sentido común.`,
+  `Puedo explicar naturalización con ejemplos.`,
+  `Puedo explicar desnaturalización.`,
+  `Entiendo qué son artefactos culturales.`,
+  `Puedo criticar la idea de alta cultura.`,
+  `Puedo explicar la diferencia culto/inculto.`,
+  `Entiendo qué es capital cultural.`,
+  `Puedo nombrar instituciones que producen sentido.`,
+  `Entiendo transmisión cultural.`,
+  `Puedo explicar dominante/residual/emergente.`,
+  `Entiendo la posición de Cuche sobre naturaleza y cultura.`,
+  `Puedo explicar hominización.`,
+  `Puedo explicar aculturación.`,
+  `Entiendo que las culturas no son puras.`,
+  `Puedo explicar la posición de Grimson sobre construcción social.`,
+  `Entiendo qué son fronteras simbólicas.`,
+  `Puedo explicar ontológicamente subjetivo / epistemológicamente objetivo.`,
+  `Entiendo fetichismo de identidades.`,
+  `Puedo analizar imágenes según Caggiano.`,
+  `Entiendo que las imágenes muestran y ocultan.`,
+  `Puedo explicar frentes culturales.`,
+  `Puedo explicar hegemonía.`,
+  `Entiendo cajas negras según Aira.`,
+  `Puedo relacionar arte con desarme de sentidos.`,
+  `Entiendo la idea de Cortázar sobre rutinas e invención.`,
+  `Puedo armar una definición propia de cultura.`
+];
+
+const DEFAULT_STATE = {
+  xp:0,
+  missionsDone:[],
+  bosses:[],
+  answers:{},
+  activities:{},
+  activityDone:[],
+  quizCorrect:[],
+  exam:{answers:{}, done:false, score:null, order:null},
+  checks:[],
+  guides:{},
+  guidesDone:[],
+  learnedCards:[],
+  openDone:[]
+};
+
+let S = loadState();
+
+function clone(obj){return JSON.parse(JSON.stringify(obj));}
+function loadState(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(raw) return Object.assign(clone(DEFAULT_STATE), JSON.parse(raw));
+  }catch(e){}
+  return clone(DEFAULT_STATE);
+}
+function normalize(){
+  if(!S.answers) S.answers = {};
+  if(!S.activities) S.activities = {};
+  if(!S.guides) S.guides = {};
+  if(!S.exam || typeof S.exam !== 'object') S.exam = {answers:{}, done:false, score:null, order:null};
+  if(!S.exam.answers) S.exam.answers = {};
+  ['missionsDone','bosses','activityDone','quizCorrect','checks','guidesDone','learnedCards','openDone'].forEach(k=>{
+    if(!Array.isArray(S[k])) S[k]=[];
+  });
+  ACTS.forEach(a=>{
+    if(!Array.isArray(S.activities[a.key])) S.activities[a.key]=[];
+    S.activities[a.key] = S.activities[a.key].map(r=>{
+      const arr = Array.isArray(r) ? r : [];
+      return a.fields.map((_,idx)=> arr[idx] || '');
+    });
+  });
+  GUIDES.forEach(g=>{
+    if(!Array.isArray(S.guides[g.key])) S.guides[g.key] = g.questions.map(()=>'');
+  });
+}
+function persist(){
+  localStorage.setItem(KEY, JSON.stringify(S));
+  updateHUD();
+}
+function $(id){return document.getElementById(id);}
+let toastTimer;
+function toast(msg){
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2600);
+}
+function addXP(n,msg){
+  S.xp += n;
+  persist();
+  toast('+' + n + ' XP — ' + msg);
+  renderHomeStats();
+  if($('progress')) renderProgress();
+}
+function updateHUD(){
+  const xp = S.xp;
+  $('xp').textContent = xp + ' XP';
+  let base = 0;
+  let next = null;
+  let name = RANKS[0][1];
+  for(let i=0;i<RANKS.length;i++){
+    if(xp >= RANKS[i][0]){
+      name = RANKS[i][1];
+      base = RANKS[i][0];
+      next = RANKS[i+1] ? RANKS[i+1][0] : null;
+    }
+  }
+  $('rank').textContent = name;
+  let pct = 100;
+  if(next){
+    pct = Math.max(0, Math.min(100, ((xp - base) / (next - base)) * 100));
+  }
+  $('bar').style.width = pct + '%';
+}
+function showTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tabBtn').forEach(b=>b.classList.remove('active'));
+  $('tab-' + name).classList.add('active');
+  const btn = document.querySelector('.tabBtn[data-tab="' + name + '"]');
+  if(btn) btn.classList.add('active');
+  window.scrollTo({top:0});
+}
+function goAct(key){
+  showTab('actividades');
+  setTimeout(()=>{
+    const el = $('act-' + key);
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 60);
+}
+
+function renderHomeStats(){
+  const el = $('homeStats');
+  if(!el) return;
+  el.innerHTML = `
+    <div class="card"><div class="stat">${S.xp}</div><div class="muted">XP total</div></div>
+    <div class="card"><div class="stat">${S.missionsDone.length}/${MISSIONS.length}</div><div class="muted">Misiones</div></div>
+    <div class="card"><div class="stat">${S.activityDone.length}/${ACTS.length}</div><div class="muted">Actividades</div></div>
+    <div class="card"><div class="stat">${S.guidesDone.length}/${GUIDES.length}</div><div class="muted">Guías</div></div>
+    <div class="card"><div class="stat">${S.quizCorrect.length}/${QUIZ.length}</div><div class="muted">Quiz</div></div>
+    <div class="card"><div class="stat">${S.checks.length}/${CHECKLIST.length}</div><div class="muted">Checklist</div></div>
+  `;
+}
+
+function renderMissions(){
+  const w = $('missions');
+  w.innerHTML = '';
+  MISSIONS.forEach(m=>{
+    const done = S.missionsDone.includes(m.id);
+    const card = document.createElement('article');
+    card.className = 'mission card' + (done ? ' done' : '');
+    card.innerHTML = `
+      <div class="mhead">
+        <span class="em">${m.emoji}</span>
+        <h3>Misión ${m.id}: ${m.title}</h3>
+        <span class="xptag">+${m.xp} XP</span>
+      </div>
+      <p><strong>📚 Tema:</strong> ${m.theme}</p>
+      <h4>💡 Ideas clave</h4>
+      <ul>${m.ideas.map(i=>`<li>${i}</li>`).join('')}</ul>
+      ${m.act ? `
+        <p>
+          <strong>🕵️ Evidencia:</strong> completá la actividad.
+          <button class="btn small" onclick="goAct('${m.act}')">Ir a la actividad</button><br>
+          Estado: ${S.activityDone.includes(m.act) ? '✅ evidencia guardada' : '⏳ falta evidencia'}
+        </p>
+      ` : ''}
+      ${m.id === 9 ? `
+        <div class="bossbox">
+          <strong>🎭 Producción final:</strong> fanzine, hilo, reel, collage, microcuento o texto.
+          <textarea id="final-ta" placeholder="Escribí tu producción final..."></textarea>
+          <p class="muted">Mínimo 50 caracteres.</p>
+        </div>
+        <div class="bossbox">
+          <strong>👾 Jefe final:</strong> ${m.boss}
+        </div>
+      ` : `
+        <div class="bossbox">
+          <strong>👾 Pregunta de jefe:</strong> ${m.boss}
+          <textarea id="boss-ta-${m.id}" placeholder="Respondé con tus palabras..."></textarea><br>
+          <button class="btn small" id="boss-btn-${m.id}">${S.bosses.includes(m.id) ? '✔ Jefe respondido' : '⚔️ Responder jefe (+20 XP)'}</button>
+        </div>
+      `}
+      <button class="btn" id="complete-${m.id}" ${done ? 'disabled' : ''}>
+        ${done ? '✔ Misión completada' : '🏁 Completar misión'}
+      </button>
+      ${done ? `<span style="color:var(--ok);font-weight:800"> — Insignia: ${m.badgeEmoji} ${m.badge}</span>` : ''}
+    `;
+    w.appendChild(card);
+
+    if(m.id === 9){
+      const ta = card.querySelector('#final-ta');
+      ta.value = S.answers.final || '';
+      ta.oninput = ()=>{
+        S.answers.final = ta.value;
+        persist();
+      };
+    }else{
+      const ta = card.querySelector('#boss-ta-' + m.id);
+      ta.value = S.answers['boss' + m.id] || '';
+      ta.oninput = ()=>{
+        S.answers['boss' + m.id] = ta.value;
+        persist();
+      };
+      const bb = card.querySelector('#boss-btn-' + m.id);
+      if(S.bosses.includes(m.id)) bb.disabled = true;
+      bb.onclick = ()=>answerBoss(m.id);
+    }
+
+    card.querySelector('#complete-' + m.id).onclick = ()=>completeMission(m.id);
+  });
+}
+
+function answerBoss(id){
+  const ta = $('boss-ta-' + id);
+  if(!ta) return;
+  const val = (ta.value || '').trim();
+  if(val.length < 15){
+    toast('Respondé con al menos 15 caracteres.');
+    return;
+  }
+  S.answers['boss' + id] = ta.value;
+  persist();
+  if(!S.bosses.includes(id)){
+    S.bosses.push(id);
+    addXP(20, 'Jefe de la misión ' + id + ' respondido');
+  }else{
+    toast('Respuesta guardada');
+  }
+  renderMissions();
+  renderProgress();
+}
+
+function completeMission(id){
+  if(S.missionsDone.includes(id)){
+    toast('Misión ya completada');
+    return;
+  }
+  const m = MISSIONS.find(x=>x.id === id);
+  if(id === 9){
+    const finalText = (S.answers.final || '').trim();
+    if(finalText.length < 50){
+      toast('La producción final debe tener al menos 50 caracteres.');
+      return;
+    }
+  }else{
+    if(m.act && !S.activityDone.includes(m.act)){
+      toast('Primero guardá la evidencia en Actividades.');
+      goAct(m.act);
+      return;
+    }
+    if(!S.bosses.includes(id)){
+      toast('Primero respondé la pregunta de jefe.');
+      return;
+    }
+  }
+  S.missionsDone.push(id);
+  addXP(m.xp, 'Misión ' + id + ' completada');
+  renderMissions();
+  renderProgress();
+  renderHomeStats();
+  toast('🏅 Insignia: ' + m.badgeEmoji + ' ' + m.badge);
+}
+
+function renderActivities(){
+  const w = $('activities');
+  w.innerHTML = '';
+  ACTS.forEach(act=>{
+    if(!Array.isArray(S.activities[act.key])) S.activities[act.key] = [];
+    const done = S.activityDone.includes(act.key);
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.id = 'act-' + act.key;
+    card.innerHTML = `
+      <h3>${act.title}</h3>
+      <p class="muted">${act.help || ''}</p>
+      <p>Mínimo: ${act.min} filas. Estado: ${done ? '✅ completada' : '⏳ pendiente'}.</p>
+      <div class="rows" id="rows-${act.key}"></div>
+      <div class="btns">
+        <button class="btn small" onclick="addRow('${act.key}')">➕ Agregar fila</button>
+        <button class="btn small" onclick="saveActivity('${act.key}')">💾 Guardar evidencia</button>
+      </div>
+    `;
+    w.appendChild(card);
+    const rows = card.querySelector('.rows');
+    S.activities[act.key].forEach((row,i)=>{
+      const rd = document.createElement('div');
+      rd.className = 'rowCard';
+      act.fields.forEach((f,fi)=>{
+        const lab = document.createElement('label');
+        lab.className = 'field';
+        const span = document.createElement('span');
+        span.textContent = f;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = row[fi] || '';
+        input.placeholder = f;
+        input.oninput = ()=>{
+          S.activities[act.key][i][fi] = input.value;
+          persist();
+        };
+        lab.appendChild(span);
+        lab.appendChild(input);
+        rd.appendChild(lab);
+      });
+      const del = document.createElement('button');
+      del.className = 'btn small danger';
+      del.textContent = '🗑️ Borrar fila';
+      del.onclick = ()=>{
+        S.activities[act.key].splice(i,1);
+        persist();
+        renderActivities();
+      };
+      rd.appendChild(del);
+      rows.appendChild(rd);
+    });
+  });
+}
+
+function addRow(key){
+  const act = ACTS.find(a=>a.key === key);
+  if(!Array.isArray(S.activities[key])) S.activities[key] = [];
+  S.activities[key].push(act.fields.map(()=>''));
+  persist();
+  renderActivities();
+}
+
+function saveActivity(key){
+  const act = ACTS.find(a=>a.key === key);
+  const rows = S.activities[key] || [];
+  const ok = rows.length >= act.min && rows.slice(0, act.min).every(r => r.every(cell => (cell || '').trim().length > 0));
+  if(!ok){
+    toast('Completa al menos ' + act.min + ' filas con todos los campos.');
+    return;
+  }
+  persist();
+  if(!S.activityDone.includes(key)){
+    S.activityDone.push(key);
+    addXP(10, 'Actividad guardada');
+  }else{
+    toast('Actividad guardada');
+  }
+  renderActivities();
+  renderMissions();
+  renderProgress();
+}
+
+function renderGuides(){
+  const w = $('guides');
+  w.innerHTML = '';
+  GUIDES.forEach(g=>{
+    if(!Array.isArray(S.guides[g.key])) S.guides[g.key] = g.questions.map(()=>'');
+    const done = S.guidesDone.includes(g.key);
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <h3>${g.title}</h3>
+      <p class="muted">Guía de estudio. Estado: ${done ? '✅ guardada' : '⏳ pendiente'}.</p>
+    `;
+    g.questions.forEach((q,i)=>{
+      const lab = document.createElement('label');
+      lab.className = 'field';
+      const span = document.createElement('span');
+      span.textContent = (i+1) + '. ' + q;
+      const ta = document.createElement('textarea');
+      ta.value = S.guides[g.key][i] || '';
+      ta.oninput = ()=>{
+        S.guides[g.key][i] = ta.value;
+        persist();
+      };
+      lab.appendChild(span);
+      lab.appendChild(ta);
+      card.appendChild(lab);
+    });
+    const btn = document.createElement('button');
+    btn.className = 'btn small';
+    btn.textContent = done ? '✔ Guía guardada' : 'Guardar guía (+' + g.xp + ' XP)';
+    btn.disabled = done;
+    btn.onclick = ()=>saveGuide(g.key);
+    card.appendChild(btn);
+    w.appendChild(card);
+  });
+}
+
+function saveGuide(key){
+  const g = GUIDES.find(x=>x.key === key);
+  const arr = S.guides[key] || [];
+  const ok = arr.every(v => (v || '').trim().length >= 10);
+  if(!ok){
+    toast('Respondé todas las preguntas con al menos 10 caracteres.');
+    return;
+  }
+  if(!S.guidesDone.includes(key)){
+    S.guidesDone.push(key);
+    addXP(g.xp, 'Guía completada');
+  }else{
+    toast('Guía guardada');
+  }
+  renderGuides();
+  renderProgress();
+}
+
+function renderConcepts(){
+  const w = $('concepts');
+  w.innerHTML = CONCEPTS.map(c=>`
+    <div class="card">
+      <h3>${c[0]}</h3>
+      <p>${c[1]}</p>
+    </div>
+  `).join('');
+}
+
+function renderCards(){
+  const w = $('cards');
+  w.innerHTML = '';
+  CARDS.forEach((c,i)=>{
+    const learned = S.learnedCards.includes(i);
+    const wrap = document.createElement('div');
+    wrap.className = 'card';
+    wrap.innerHTML = `
+      <div class="flip">
+        <div class="flip-inner">
+          <div class="face front">${c[0]}</div>
+          <div class="face back">${c[1]}</div>
+        </div>
+      </div>
+      <button class="btn small">${learned ? '✔ Aprendida' : 'Marcar aprendida (+2 XP)'}</button>
+    `;
+    wrap.querySelector('.flip').onclick = function(){
+      this.classList.toggle('flipped');
+    };
+    const btn = wrap.querySelector('button');
+    if(learned) btn.disabled = true;
+    btn.onclick = ()=>{
+      if(!S.learnedCards.includes(i)){
+        S.learnedCards.push(i);
+        addXP(2, 'Carta aprendida');
+        renderCards();
+        renderProgress();
+      }
+    };
+    w.appendChild(wrap);
+  });
+}
+
+function renderQuiz(){
+  const w = $('quizWrap');
+  w.innerHTML = '';
+  QUIZ.forEach((q,i)=>{
+    const solved = S.quizCorrect.includes(i);
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `<p><strong>${i+1}. ${q.q}</strong></p>`;
+    q.o.forEach((opt,oi)=>{
+      const btn = document.createElement('button');
+      btn.className = 'opt' + (solved && oi === q.a ? ' correct' : '');
+      btn.textContent = opt;
+      btn.disabled = solved;
+      btn.onclick = ()=>{
+        if(solved) return;
+        if(oi === q.a){
+          S.quizCorrect.push(i);
+          addXP(5, 'Quiz correcto');
+          renderQuiz();
+          renderProgress();
+        }else{
+          btn.classList.add('wrong');
+          setTimeout(()=>btn.classList.remove('wrong'), 800);
+          toast('❌ Casi. Reintentá.');
+        }
+      };
+      div.appendChild(btn);
+    });
+    w.appendChild(div);
+  });
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random() * (i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function initExam(){
+  if(!S.exam.order || !Array.isArray(S.exam.order) || S.exam.order.length !== 20){
+    S.exam.order = shuffle([...Array(QUIZ.length).keys()]).slice(0,20);
+    persist();
+  }
+}
+
+function renderExam(){
+  initExam();
+  const w = $('examWrap');
+  w.innerHTML = '';
+  S.exam.order.forEach((qi,n)=>{
+    const q = QUIZ[qi];
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `<p><strong>${n+1}. ${q.q}</strong></p>`;
+    q.o.forEach((opt,oi)=>{
+      const label = document.createElement('label');
+      label.className = 'examLabel';
+      if(S.exam.done){
+        if(oi === q.a) label.classList.add('correct');
+        if(S.exam.answers[qi] === oi && oi !== q.a) label.classList.add('wrong');
+      }
+      const radio = document.createElement('input');
+      radio.type = 'radio';
+      radio.name = 'exam-' + qi;
+      radio.checked = S.exam.answers[qi] === oi;
+      radio.disabled = S.exam.done;
+      radio.onchange = ()=>{
+        S.exam.answers[qi] = oi;
+        persist();
+      };
+      label.appendChild(radio);
+      label.appendChild(document.createTextNode(' ' + opt));
+      div.appendChild(label);
+    });
+    w.appendChild(div);
+  });
+  const btn = $('examBtn');
+  if(S.exam.done){
+    btn.disabled = true;
+    btn.textContent = '✔ Examen corregido: ' + (S.exam.score || 0) + '/' + S.exam.order.length;
+  }else{
+    btn.disabled = false;
+    btn.textContent = 'Corregir examen (+2 XP por acierto)';
+  }
+}
+
+function correctExam(){
+  if(S.exam.done){
+    toast('Este examen ya fue corregido.');
+    return;
+  }
+  let score = 0;
+  S.exam.order.forEach(qi=>{
+    if(S.exam.answers[qi] === QUIZ[qi].a) score++;
+  });
+  S.exam.done = true;
+  S.exam.score = score;
+  const xp = score * 2;
+  persist();
+  if(xp > 0) addXP(xp, 'Examen: ' + score + '/' + S.exam.order.length);
+  else toast('Examen: ' + score + '/' + S.exam.order.length);
+  renderExam();
+  renderProgress();
+}
+
+function renderOpen(){
+  const w = $('openWrap');
+  w.innerHTML = '';
+  OPEN_QUESTIONS.forEach((q,i)=>{
+    const done = S.openDone.includes(i);
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `<p><strong>${i+1}. ${q}</strong></p>`;
+    const ta = document.createElement('textarea');
+    ta.value = S.answers['open' + i] || '';
+    ta.oninput = ()=>{
+      S.answers['open' + i] = ta.value;
+      persist();
+    };
+    card.appendChild(ta);
+    const btn = document.createElement('button');
+    btn.className = 'btn small';
+    btn.textContent = done ? '✔ Respondida' : 'Marcar respondida (+3 XP)';
+    btn.disabled = done;
+    btn.onclick = ()=>{
+      const val = (ta.value || '').trim();
+      if(val.length < 30){
+        toast('Escribí una respuesta de al menos 30 caracteres.');
+        return;
+      }
+      if(!S.openDone.includes(i)){
+        S.openDone.push(i);
+        addXP(3, 'Pregunta abierta respondida');
+        renderOpen();
+        renderProgress();
+      }
+    };
+    card.appendChild(btn);
+    w.appendChild(card);
+  });
+}
+
+function renderChecklist(){
+  const w = $('checkWrap');
+  w.innerHTML = '';
+  CHECKLIST.forEach((c,i)=>{
+    const lab = document.createElement('label');
+    lab.className = 'chk';
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.checked = S.checks.includes(i);
+    input.onchange = ()=>{
+      if(input.checked){
+        if(!S.checks.includes(i)) S.checks.push(i);
+        addXP(2, 'Checklist');
+      }else{
+        S.checks = S.checks.filter(x=>x !== i);
+        S.xp = Math.max(0, S.xp - 2);
+        persist();
+        toast('Ítem desmarcado');
+      }
+      renderProgress();
+      renderHomeStats();
+    };
+    const span = document.createElement('span');
+    span.textContent = c;
+    lab.appendChild(input);
+    lab.appendChild(span);
+    w.appendChild(lab);
+  });
+}
+
+function renderProgress(){
+  const p = $('progress');
+  if(!p) return;
+  const badgeHtml = MISSIONS.filter(m=>S.missionsDone.includes(m.id))
+    .map(m => '<div class="badge un">' + m.badgeEmoji + ' ' + m.badge + '</div>')
+    .join('') || '<p class="muted">Todavía no ganaste insignias.</p>';
+  p.innerHTML = `
+    <div class="card">
+      <h2>📈 Tu progreso</h2>
+      <div class="grid">
+        <div class="card"><div class="stat">${S.xp}</div><div class="muted">XP</div></div>
+        <div class="card"><div class="stat">${S.missionsDone.length}/${MISSIONS.length}</div><div class="muted">Misiones</div></div>
+        <div class="card"><div class="stat">${S.activityDone.length}/${ACTS.length}</div><div class="muted">Actividades</div></div>
+        <div class="card"><div class="stat">${S.guidesDone.length}/${GUIDES.length}</div><div class="muted">Guías</div></div>
+        <div class="card"><div class="stat">${S.quizCorrect.length}/${QUIZ.length}</div><div class="muted">Quiz</div></div>
+        <div class="card"><div class="stat">${S.openDone.length}/${OPEN_QUESTIONS.length}</div><div class="muted">Abiertas</div></div>
+        <div class="card"><div class="stat">${S.learnedCards.length}/${CARDS.length}</div><div class="muted">Cartas</div></div>
+        <div class="card"><div class="stat">${S.checks.length}/${CHECKLIST.length}</div><div class="muted">Checklist</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🏅 Insignias</h3>
+      <div class="grid">${badgeHtml}</div>
+    </div>
+    <div class="card">
+      <h3>💾 Guardar / recuperar progreso</h3>
+      <p class="muted">Tu progreso se guarda automáticamente en este navegador. También podés exportarlo.</p>
+      <button class="btn" onclick="exportData()">⬇️ Exportar progreso</button>
+      <label class="btn">
+        ⬆️ Importar progreso
+        <input type="file" accept="application/json" style="display:none" onchange="importFile(this)">
+      </label>
+      <button class="btn" onclick="window.print()">🖨️ Imprimir / PDF</button>
+      <button class="btn danger" onclick="resetAll()">🗑️ Borrar todo</button>
+    </div>
+  `;
+}
+
+function exportData(){
+  const blob = new Blob([JSON.stringify(S,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'cultura-hack-progreso.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function importFile(input){
+  const f = input.files[0];
+  if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const data = JSON.parse(r.result);
+      S = Object.assign(clone(DEFAULT_STATE), data);
+      normalize();
+      persist();
+      renderAll();
+      toast('Progreso importado');
+    }catch(e){
+      toast('Archivo inválido');
+    }
+  };
+  r.readAsText(f);
+}
+
+function resetAll(){
+  if(confirm('¿Seguro que querés borrar todo el progreso?')){
+    localStorage.removeItem(KEY);
+    location.reload();
+  }
+}
+
+function renderAll(){
+  renderHomeStats();
+  renderMissions();
+  renderActivities();
+  renderGuides();
+  renderConcepts();
+  renderCards();
+  renderQuiz();
+  renderExam();
+  renderOpen();
+  renderChecklist();
+  renderProgress();
+  updateHUD();
+}
+
+normalize();
+renderAll();
+showTab('inicio');
+</script>
+</body>
+</html>
