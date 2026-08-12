@@ -57,31 +57,31 @@ export default function Navbar({
           {isAuthenticated ? (
             <>
               {userEmail && (
-                <span className="max-w-[160px] truncate font-mono text-xs uppercase tracking-widest text-gold-200 animate-fade-in neon-text-gold">
+                <span className="max-w-[160px] truncate font-mono text-xs uppercase tracking-widest text-yellow-300 animate-fade-in neon-text-gold">
                   {userEmail}
                 </span>
               )}
               <button
                 onClick={onProfile}
-                className="group relative flex items-center gap-2 border-2 border-gold-400 bg-gradient-to-r from-gold-400 via-gold-300 to-gold-400 px-5 py-2.5 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-[0_0_20px_rgba(255,204,51,0.5)] transition-all hover:-translate-y-0.5 hover:from-gold-300 hover:via-gold-200 hover:to-gold-300 hover:shadow-[0_0_35px_rgba(255,204,51,0.8)] hover-lift animated-border"
+                className="group relative flex items-center gap-2 border-2 border-yellow-400 bg-yellow-400 px-5 py-2.5 font-mono text-sm font-bold uppercase tracking-wider text-black shadow-[0_0_25px_rgba(250,204,21,0.7)] transition-all hover:-translate-y-0.5 hover:bg-yellow-300 hover:shadow-[0_0_40px_rgba(250,204,21,1)] hover-lift"
               >
-                <UserCircle className="h-5 w-5 fill-ink-900/20" />
+                <UserCircle className="h-5 w-5 fill-black" />
                 Perfil
               </button>
               <button
                 onClick={onSignOut}
                 aria-label="Cerrar sesión"
-                className="grid h-10 w-10 place-items-center border-2 border-ruby-400/60 bg-ink-800/90 text-ruby-300 transition-all hover:border-ruby-400 hover:bg-ink-700 hover:text-ruby-200 hover:-translate-y-0.5 hover:shadow-[0_0_20px_rgba(201,45,68,0.5)] hover-lift glass-effect gradient-border-glow"
+                className="grid h-10 w-10 place-items-center border-2 border-red-500 bg-red-500 text-black transition-all hover:border-red-400 hover:bg-red-400 hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(239,68,68,0.8)] hover-lift"
               >
-                <LogOut className="h-5 w-5" />
+                <LogOut className="h-5 w-5 fill-black" />
               </button>
             </>
           ) : (
             <button
               onClick={onSignIn}
-              className="group relative flex items-center gap-2 border-2 border-gold-400 bg-gradient-to-r from-gold-400 via-gold-300 to-gold-400 px-5 py-2.5 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-[0_0_20px_rgba(255,204,51,0.5)] transition-all hover:-translate-y-0.5 hover:from-gold-300 hover:via-gold-200 hover:to-gold-300 hover:shadow-[0_0_35px_rgba(255,204,51,0.8)] hover-lift animated-border"
+              className="group relative flex items-center gap-2 border-2 border-yellow-400 bg-yellow-400 px-5 py-2.5 font-mono text-sm font-bold uppercase tracking-wider text-black shadow-[0_0_25px_rgba(250,204,21,0.7)] transition-all hover:-translate-y-0.5 hover:bg-yellow-300 hover:shadow-[0_0_40px_rgba(250,204,21,1)] hover-lift"
             >
-              <LogIn className="h-5 w-5 fill-ink-900/20" />
+              <LogIn className="h-5 w-5 fill-black" />
               Iniciar sesión
             </button>
           )}
@@ -121,7 +121,7 @@ export default function Navbar({
             {isAuthenticated ? (
               <>
                 {userEmail && (
-                  <p className="truncate px-1 font-mono text-[10px] uppercase tracking-widest text-gold-200 animate-fade-in neon-text-gold">
+                  <p className="truncate px-1 font-mono text-[10px] uppercase tracking-widest text-yellow-300 animate-fade-in neon-text-gold">
                     {userEmail}
                   </p>
                 )}
@@ -130,9 +130,9 @@ export default function Navbar({
                     setOpen(false);
                     onProfile?.();
                   }}
-                  className="group relative flex items-center justify-center gap-2 border-2 border-gold-400 bg-gradient-to-r from-gold-400 via-gold-300 to-gold-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-[0_0_20px_rgba(255,204,51,0.5)] transition-all hover:from-gold-300 hover:via-gold-200 hover:to-gold-300 hover:shadow-[0_0_35px_rgba(255,204,51,0.8)] hover-lift animated-border"
+                  className="group relative flex items-center justify-center gap-2 border-2 border-yellow-400 bg-yellow-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-black shadow-[0_0_25px_rgba(250,204,21,0.7)] transition-all hover:bg-yellow-300 hover:shadow-[0_0_40px_rgba(250,204,21,1)] hover-lift"
                 >
-                  <UserCircle className="h-5 w-5 fill-ink-900/20" />
+                  <UserCircle className="h-5 w-5 fill-black" />
                   Perfil
                 </button>
                 <button
@@ -140,9 +140,9 @@ export default function Navbar({
                     setOpen(false);
                     onSignOut?.();
                   }}
-                  className="flex items-center justify-center gap-2 border-2 border-ruby-400/60 bg-ink-800/90 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ruby-300 transition-all hover:border-ruby-400 hover:bg-ink-700 hover:text-ruby-200 hover:shadow-[0_0_20px_rgba(201,45,68,0.5)] hover-lift glass-effect gradient-border-glow"
+                  className="flex items-center justify-center gap-2 border-2 border-red-500 bg-red-500 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-black transition-all hover:border-red-400 hover:bg-red-400 hover:text-black hover:shadow-[0_0_25px_rgba(239,68,68,0.8)] hover-lift"
                 >
-                  <LogOut className="h-5 w-5" />
+                  <LogOut className="h-5 w-5 fill-black" />
                   Cerrar sesión
                 </button>
               </>
@@ -152,9 +152,9 @@ export default function Navbar({
                   setOpen(false);
                   onSignIn?.();
                 }}
-                className="group relative flex items-center justify-center gap-2 border-2 border-gold-400 bg-gradient-to-r from-gold-400 via-gold-300 to-gold-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-[0_0_20px_rgba(255,204,51,0.5)] transition-all hover:from-gold-300 hover:via-gold-200 hover:to-gold-300 hover:shadow-[0_0_35px_rgba(255,204,51,0.8)] hover-lift animated-border"
+                className="group relative flex items-center justify-center gap-2 border-2 border-yellow-400 bg-yellow-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-black shadow-[0_0_25px_rgba(250,204,21,0.7)] transition-all hover:bg-yellow-300 hover:shadow-[0_0_40px_rgba(250,204,21,1)] hover-lift"
               >
-                <LogIn className="h-5 w-5 fill-ink-900/20" />
+                <LogIn className="h-5 w-5 fill-black" />
                 Iniciar sesión
               </button>
             )}
