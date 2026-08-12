@@ -1,0 +1,162 @@
+import {
+  BookOpen,
+  Brain,
+  Users,
+  Landmark,
+  Scale,
+  Vote,
+  type LucideIcon,
+} from 'lucide-react';
+import type { LoreSlide, QuizQuestion, Artifact } from './lessonArgentina';
+
+export const loreSlidesCulturaSentido: LoreSlide[] = [
+  {
+    id: 1,
+    title: 'Prácticas Culturales: abrir preguntas',
+    icon: BookOpen,
+    tag: 'PRESENTACIÓN',
+    accent: 'gold',
+    body: 'Prácticas Culturales es una materia del Ciclo Inicial de la UNAJ que busca abrir preguntas sobre la cultura, desnaturalizar nuestra mirada y reconocer la trama que construye nuestras propias prácticas. No busca dar definiciones cerradas: busca que reflexionemos sobre nuestro rol como actores sociales. Las sociedades cristalizan prácticas, conceptos y creencias que, en medio de conflictos, constituyen un campo cultural preferencial que naturaliza ciertas prácticas por sobre otras.',
+  },
+  {
+    id: 2,
+    title: 'Sentido común y naturalización',
+    icon: Brain,
+    tag: 'CONCEPTO CLAVE',
+    accent: 'ruby',
+    body: 'La cultura se presenta como algo obvio, omnipresente y universal. Esa aparente universalidad es en realidad producto de un proceso social que borra las marcas de su propia construcción: a ese proceso lo llamamos naturalización. Lo naturalizado aparece como obvio e inevitable, pero la naturalización no es un punto de partida: es un punto de llegada. Arturo Jauretche llamó "zoncera" a la lógica de civilización y barbarie que sigue viva en expresiones como "no seas indio".',
+  },
+  {
+    id: 3,
+    title: 'Soledad López: la cultura es acción',
+    icon: Users,
+    tag: 'AUTORA',
+    accent: 'jade',
+    body: 'Para Soledad López, la cultura es acción humana, material y simbólica: personal, colectiva, histórica y sensible. No es un resultado natural. Los seres humanos necesitan alimento, abrigo y descanso, pero los modos de cubrir esas necesidades varían culturalmente: no existe una única manera de comer, dormir, trabajar o relacionarse. La cultura se verifica en prácticas sociales, en relaciones sociales y en artefactos culturales, siendo el lenguaje el artefacto inmaterial por excelencia.',
+  },
+  {
+    id: 4,
+    title: 'Alta cultura y capital cultural',
+    icon: Landmark,
+    tag: 'BOURDIEU',
+    accent: 'ember',
+    body: 'El sentido común suele reducir "cultura" a las bellas artes, asociando la "alta cultura" con museos, galerías y salas de concierto, y hablando de "culto" e "inculto". Pero si la cultura es inherente a lo humano, no puede haber personas sin cultura. Pierre Bourdieu llama capital cultural a los valores, creencias, saberes y costumbres desde donde miramos e interactuamos con el mundo: ese capital nunca es individual, es producto de una comunidad que lo comparte y lo defiende.',
+  },
+  {
+    id: 5,
+    title: 'Cambio, resistencia y Raymond Williams',
+    icon: Scale,
+    tag: 'SÍNTESIS',
+    accent: 'gold',
+    body: 'Las prácticas cotidianas hablan de luchas, resistencias, triunfos y fracasos: hay espacios alternativos a la cultura dominante. La transmisión cultural es simbólica y material, y resulta de la lucha entre lo heredado y lo contemporáneo. Raymond Williams propone pensar la cultura en tres registros que conviven: lo dominante, lo residual y lo emergente.',
+  },
+];
+
+export const quizQuestionsCulturaSentido: QuizQuestion[] = [
+  {
+    id: 1,
+    type: 'multiple',
+    question: 'Según el cuadernillo, la cultura es…',
+    options: ['Solo bellas artes', 'Construcción social de prácticas y sentidos', 'Algo natural y estático', 'Solo educación formal'],
+    correctIndex: 1,
+    explanation: 'La cultura se define como una construcción social: un espacio de producción y reproducción colectiva de sentido, no un dato natural.',
+    accent: 'gold',
+  },
+  {
+    id: 2,
+    type: 'truefalse',
+    question: 'La naturalización es un punto de partida: las cosas nacen "naturales" y después la sociedad las adopta.',
+    options: ['Verdadero', 'Falso'],
+    correctIndex: 1,
+    explanation: 'Falso. La naturalización es un punto de llegada: un proceso social termina haciendo aparecer como obvio algo que fue construido históricamente.',
+    accent: 'ruby',
+  },
+  {
+    id: 3,
+    type: 'multiple',
+    question: 'Para Bauman y May, el sentido común es…',
+    options: ['Conocimiento científico', 'Conocimiento rico pero desorganizado, usado para el diario oficio de vivir', 'Una ley natural', 'Un instinto'],
+    correctIndex: 1,
+    explanation: 'El sentido común apela a "lo obvio", "lo natural" o al "porque sí", y organiza la vida cotidiana sin ser un saber sistemático.',
+    accent: 'jade',
+  },
+  {
+    id: 4,
+    type: 'multiple',
+    question: 'La expresión "no seas indio" se relaciona con la zoncera que Jauretche llamó…',
+    options: ['Civilización y barbarie', 'Alta cultura', 'Cajas negras', 'Capital cultural'],
+    correctIndex: 0,
+    explanation: 'Jauretche analiza esta lógica como la "madre de todas las zonceras", vigente en expresiones cotidianas que asocian una acción con barbarie o ignorancia.',
+    accent: 'ember',
+  },
+  {
+    id: 5,
+    type: 'flashcard',
+    question: '¿Por qué el cuadernillo sostiene que no puede haber "personas incultas"?',
+    answer: 'Porque la cultura es inherente a lo humano: todas las personas tienen cultura, aunque el sentido común reduzca "cultura" a la alta cultura académica.',
+    explanation: 'Asociar cultura solo con museos y educación formal encierra a otros sectores sociales en la idea de "barbarie" o "incultura".',
+    accent: 'gold',
+  },
+  {
+    id: 6,
+    type: 'multiple',
+    question: 'El capital cultural, según Bourdieu, incluye…',
+    options: ['Valores, creencias, saberes y costumbres', 'Solo dinero', 'Solo títulos universitarios', 'Rasgos biológicos'],
+    correctIndex: 0,
+    explanation: 'El capital cultural es el piso desde donde miramos, interactuamos y proponemos: valores, creencias, saberes certificados y costumbres.',
+    accent: 'ruby',
+  },
+  {
+    id: 7,
+    type: 'truefalse',
+    question: 'Según Bourdieu, el capital cultural puede ser puramente individual.',
+    options: ['Verdadero', 'Falso'],
+    correctIndex: 1,
+    explanation: 'Falso. El capital cultural nunca es individual: es producto de una comunidad que lo comparte y lo defiende.',
+    accent: 'jade',
+  },
+  {
+    id: 8,
+    type: 'multiple',
+    question: 'Entre las instituciones que refuerzan jerarquías y sentidos, el cuadernillo menciona…',
+    options: ['Medios masivos, Estado, iglesias, escuela, justicia y familias', 'Solo la biología', 'Solo el clima', 'Únicamente los museos'],
+    correctIndex: 0,
+    explanation: 'Estas instituciones intervienen en la conformación de discursos, valores y formas de estar, sentir y vivir.',
+    accent: 'ember',
+  },
+  {
+    id: 9,
+    type: 'multiple',
+    question: 'Raymond Williams propone pensar la cultura en tres registros que conviven:',
+    options: ['Alta, media y baja', 'Dominante, residual y emergente', 'Pública, privada e íntima', 'Rural, urbana y suburbana'],
+    correctIndex: 1,
+    explanation: 'Esta tríada permite pensar la cultura como resultado de la lucha entre lo heredado (residual), lo vigente (dominante) y lo nuevo (emergente).',
+    accent: 'gold',
+  },
+  {
+    id: 10,
+    type: 'flashcard',
+    question: 'Para Soledad López, ¿en qué tres planos se verifica la cultura?',
+    answer: 'En las prácticas sociales, en las relaciones sociales y en los artefactos culturales (siendo el lenguaje el artefacto inmaterial por excelencia).',
+    explanation: 'La cultura no es solo idea: se materializa en cómo actuamos, cómo nos relacionamos y en los objetos e instituciones que usamos.',
+    accent: 'ruby',
+  },
+];
+
+export const lessonArtifactCulturaSentido: Artifact = {
+  name: 'Lente de la Desnaturalización',
+  rarity: 'LEGENDARIO',
+  era: 'FASCÍCULO 1',
+  icon: Brain,
+  description: 'Permite ver como construcción social lo que el sentido común hace pasar por natural, obvio e inevitable.',
+};
+
+export const lessonMetaCulturaSentido = {
+  module: 'Módulo 1',
+  title: 'Cultura, sentido común y naturalización',
+  subtitle: 'Presentación de la materia y la mirada de Soledad López',
+  steps: [
+    { id: 1, label: 'Contexto', icon: BookOpen as LucideIcon },
+    { id: 2, label: 'Quiz', icon: Vote as LucideIcon },
+  ],
+};

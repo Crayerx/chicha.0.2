@@ -1,0 +1,168 @@
+import {
+  MapPin,
+  Megaphone,
+  Target,
+  Vote,
+  type LucideIcon,
+} from 'lucide-react';
+import type { LoreSlide, QuizQuestion, Artifact } from './lessonArgentina';
+
+export const loreSlidesCulturaFronteras: LoreSlide[] = [
+  {
+    id: 1,
+    title: 'Grimson: construcciones sociales que son reales',
+    icon: MapPin,
+    tag: 'GRIMSON',
+    accent: 'ruby',
+    body: 'Alejandro Grimson sostiene que todo lo humano es resultado de prácticas sociales: edificios, instituciones, identidades y músicas son construcciones sociales. Pero decir que algo es construido no significa que no exista: cuando las prácticas humanas cristalizan, se vuelven reales. El sentido común nos hace creer que "blanco", "negro" o "indio" son categorías naturales, cuando en realidad son convenciones sociales que usamos para imaginar fronteras entre grupos humanos.',
+  },
+  {
+    id: 2,
+    title: 'Grimson: fronteras, tipificaciones y Searle',
+    icon: MapPin,
+    tag: 'GRIMSON',
+    accent: 'gold',
+    body: 'Los rasgos físicos existen, pero ningún rasgo tiene significado intrínseco: las fronteras entre grupos son reales porque nosotros las realizamos, aunque ocultan su historicidad y su fragilidad. Cuando las prácticas se sedimentan, las sociedades se organizan según tipificaciones que rigen vidas y derechos. Siguiendo a Searle, algo puede ser "ontológicamente subjetivo" (existe por prácticas humanas) y a la vez "epistemológicamente objetivo" (verificable empíricamente): así funcionan los pasaportes, las naciones o el derecho a votar.',
+  },
+  {
+    id: 3,
+    title: 'González: la cultura es omnipresente',
+    icon: Target,
+    tag: 'JORGE GONZÁLEZ',
+    accent: 'jade',
+    body: 'Jorge González plantea que la cultura es una dimensión omnipresente de las relaciones sociales, donde se disputan las definiciones legítimas de la realidad. Las culturas organizan la vida cotidiana, pero también son fantasía y proyecto (soñar), memoria selectiva del pasado (recordar), permiten definir nuestra situación social (definir) y son arena de disputa por el sentido (luchar). González critica tanto la "política del formol" (conservar la cultura popular como algo puro) como la "política del avestruz" (no querer ver sus mezclas con la cultura mercantil).',
+  },
+  {
+    id: 4,
+    title: 'González: frentes culturales y hegemonía',
+    icon: Target,
+    tag: 'JORGE GONZÁLEZ',
+    accent: 'ember',
+    body: 'Los frentes culturales son arenas de lucha: fronteras o límites de contacto ideológico donde distintos grupos y clases disputan la definición legítima del sentido social de la vida. La hegemonía ayuda a entender cómo se relacionan las clases desde la construcción de significaciones, permitiendo leer ideológica y culturalmente la totalidad de las relaciones sociales.',
+  },
+  {
+    id: 5,
+    title: 'Caggiano: mostrar lo no dicho',
+    icon: Megaphone,
+    tag: 'CAGGIANO',
+    accent: 'gold',
+    body: 'Sergio Caggiano estudia cómo las imágenes visuales participan en la construcción del sentido común: no solo muestran, también organizan la percepción y producen formas de ver. Siguiendo a Poole, ver y representar son actos materiales porque intervienen en el mundo: la forma en que vemos y representamos determina cómo actuamos y, al actuar, creamos ese mundo. Trabajar con imágenes implica preguntarse siempre qué se muestra y qué se oculta, y cómo se muestra lo que se muestra.',
+  },
+  {
+    id: 6,
+    title: 'Caggiano: las imágenes muestran mucho todo junto',
+    icon: Megaphone,
+    tag: 'CAGGIANO',
+    accent: 'ruby',
+    body: 'Para Caggiano, no hay modos de mostrar estructurados solo por clase, ni solo por género, raza o etnia: las imágenes combinan trazos de diferentes dimensiones a la vez. Una imagen puede ser conservadora en términos de clase pero no de género, o al revés; incluso imágenes contrahegemónicas pueden filtrar miradas hegemónicas en otro plano. "Mostrar lo no dicho" significa que las imágenes hacen visibles valores, jerarquías, exclusiones y formas de ver el mundo que no se dicen explícitamente.',
+  },
+];
+
+export const quizQuestionsCulturaFronteras: QuizQuestion[] = [
+  {
+    id: 1,
+    type: 'multiple',
+    question: 'Para Grimson, "blanco" y "negro" como categorías son…',
+    options: ['Razas puras', 'Convenciones sociales', 'Datos genéticos', 'Colores sin ningún efecto social'],
+    correctIndex: 1,
+    explanation: 'Las personas clasificadas como "blancas" o "negras" tienen tonalidades múltiples: la categoría es una convención social, no un dato biológico.',
+    accent: 'ruby',
+  },
+  {
+    id: 2,
+    type: 'truefalse',
+    question: 'Según Grimson, decir que algo es una "construcción social" significa que no existe realmente.',
+    options: ['Verdadero', 'Falso'],
+    correctIndex: 1,
+    explanation: 'Falso. Cuando las prácticas humanas cristalizan, se vuelven reales, aunque hayan sido construidas socialmente.',
+    accent: 'gold',
+  },
+  {
+    id: 3,
+    type: 'multiple',
+    question: 'Las fronteras sociales son reales porque…',
+    options: ['Los seres humanos las producimos y las realizamos', 'Son puramente biológicas', 'Son naturales desde siempre', 'No afectan a nadie'],
+    correctIndex: 0,
+    explanation: 'Aunque construidas, las fronteras sociales rigen vidas, destinos y derechos: por eso son reales aunque no sean naturales.',
+    accent: 'jade',
+  },
+  {
+    id: 4,
+    type: 'flashcard',
+    question: '¿Qué significa que algo sea "ontológicamente subjetivo pero epistemológicamente objetivo" (Searle, vía Grimson)?',
+    answer: 'Que existe solo gracias a prácticas humanas (subjetivo en su origen), pero que su existencia puede verificarse empíricamente (objetivo en sus efectos): por ejemplo, los pasaportes o el derecho a votar.',
+    explanation: 'Esta idea permite pensar cómo cosas "inventadas" por la sociedad pueden tener efectos completamente reales y verificables.',
+    accent: 'ember',
+  },
+  {
+    id: 5,
+    type: 'multiple',
+    question: 'Para Jorge González, la cultura organiza la vida cotidiana, es sueño, lucha, definición y también…',
+    options: ['Instinto', 'Memoria (recordar)', 'Naturaleza fija', 'Algo estático'],
+    correctIndex: 1,
+    explanation: 'González describe la cultura como memoria selectiva del pasado, entre otras funciones: organizar, soñar, recordar, definir y luchar.',
+    accent: 'gold',
+  },
+  {
+    id: 6,
+    type: 'multiple',
+    question: 'Los frentes culturales, según Jorge González, son…',
+    options: ['Arenas de lucha y fronteras de contacto ideológico', 'Ejércitos regulares', 'Simples mapas geográficos', 'Ministerios de cultura'],
+    correctIndex: 0,
+    explanation: 'En los frentes culturales distintos grupos y clases disputan la definición legítima del sentido social de la vida.',
+    accent: 'ruby',
+  },
+  {
+    id: 7,
+    type: 'truefalse',
+    question: 'La hegemonía, en la lectura de González, ayuda a entender cómo se relacionan las clases desde la construcción de significaciones.',
+    options: ['Verdadero', 'Falso'],
+    correctIndex: 0,
+    explanation: 'Verdadero. La hegemonía permite leer ideológica y culturalmente la totalidad de las relaciones sociales.',
+    accent: 'jade',
+  },
+  {
+    id: 8,
+    type: 'multiple',
+    question: 'Según Poole/Caggiano, ver y representar son actos…',
+    options: ['Pasivos y sin consecuencias', 'Que no producen ningún efecto', 'Ajenos a las relaciones de poder', 'Materiales, porque intervienen en el mundo y ayudan a crearlo'],
+    correctIndex: 3,
+    explanation: 'La forma en que vemos y representamos determina cómo actuamos, y al actuar creamos el mundo social que habitamos.',
+    accent: 'ember',
+  },
+  {
+    id: 9,
+    type: 'flashcard',
+    question: '¿Por qué dice Caggiano que las imágenes "muestran mucho todo junto"?',
+    answer: 'Porque combinan trazos de clase, género, raza y etnia a la vez: una imagen puede ser conservadora en un plano y no en otro.',
+    explanation: 'No existe un modo de mostrar estructurado por una sola dimensión de poder: las imágenes cruzan varias al mismo tiempo.',
+    accent: 'gold',
+  },
+  {
+    id: 10,
+    type: 'multiple',
+    question: '"Mostrar lo no dicho" (Caggiano) hace referencia a que las imágenes…',
+    options: ['Solo decoran, sin ningún efecto social', 'Pueden hacer visibles valores, jerarquías y exclusiones que no se dicen explícitamente', 'Son siempre neutrales frente al poder', 'No tienen relación con el sentido común'],
+    correctIndex: 1,
+    explanation: 'Las imágenes organizan la percepción y valoran el mundo social, mostrando aquello que muchas veces no se explicita con palabras.',
+    accent: 'ruby',
+  },
+];
+
+export const lessonArtifactCulturaFronteras: Artifact = {
+  name: 'Mapa de Frentes Culturales',
+  rarity: 'LEGENDARIO',
+  era: 'GRIMSON · GONZÁLEZ · CAGGIANO',
+  icon: MapPin,
+  description: 'Traza las fronteras simbólicas, los frentes de disputa por el sentido y lo que las imágenes muestran y ocultan.',
+};
+
+export const lessonMetaCulturaFronteras = {
+  module: 'Módulo 1',
+  title: 'Fronteras, frentes culturales e imágenes',
+  subtitle: 'Alejandro Grimson, Jorge González y Sergio Caggiano',
+  steps: [
+    { id: 1, label: 'Contexto', icon: MapPin as LucideIcon },
+    { id: 2, label: 'Quiz', icon: Vote as LucideIcon },
+  ],
+};

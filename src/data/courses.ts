@@ -1,4 +1,4 @@
-import { Lock, Clock as Unlock, Pyramid, Swords, Flame, Flag, Factory, HeartHandshake, Scale, ShieldAlert, Landmark, DollarSign, Code } from 'lucide-react';
+import { Lock, Clock as Unlock, Pyramid, Flame, Flag, Factory, HeartHandshake, Scale, ShieldAlert, Landmark, DollarSign, Code, Brain, Wrench, MapPin } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { csharpTotals } from './csharpChapters';
 
@@ -171,6 +171,53 @@ export const phaCoursesModulo2: Course[] = [
   },
 ];
 
+/**
+ * Cursos que viven adentro del Módulo 1 de Prácticas Culturales (Fascículo 1:
+ * Eje Temático Cultura). Formato simple: contexto + quiz, igual que el
+ * Módulo 2 de PHA (ver `src/data/modules.ts` y `src/data/lessons.ts`).
+ */
+export const culturaCoursesModulo1: Course[] = [
+  {
+    id: 'culturasentido',
+    title: 'Cultura, sentido común y naturalización',
+    category: 'PRÁCTICAS CULTURALES',
+    description: 'Presentación de la materia y la mirada de Soledad López: la cultura como acción, alta cultura y capital cultural.',
+    hours: 1,
+    status: 'unlocked',
+    icon: Brain,
+    accent: 'gold',
+    era: 'FASCÍCULO 1',
+    lessons: 2,
+    lessonId: 'culturasentido',
+  },
+  {
+    id: 'culturainventada',
+    title: 'Prácticas inventadas y cajas negras',
+    category: 'PRÁCTICAS CULTURALES',
+    description: 'Cortázar, Denys Cuche y César Aira: gestos ya inventados, aculturación y la sociedad como caja negra.',
+    hours: 1,
+    status: 'unlocked',
+    icon: Wrench,
+    accent: 'jade',
+    era: 'FASCÍCULO 1',
+    lessons: 2,
+    lessonId: 'culturainventada',
+  },
+  {
+    id: 'culturafronteras',
+    title: 'Fronteras, frentes culturales e imágenes',
+    category: 'PRÁCTICAS CULTURALES',
+    description: 'Alejandro Grimson, Jorge González y Sergio Caggiano: convenciones sociales, hegemonía y lo que las imágenes muestran y ocultan.',
+    hours: 1,
+    status: 'unlocked',
+    icon: MapPin,
+    accent: 'ruby',
+    era: 'FASCÍCULO 1',
+    lessons: 2,
+    lessonId: 'culturafronteras',
+  },
+];
+
 export const courses: Course[] = [
   {
     id: 'pha',
@@ -202,16 +249,17 @@ export const courses: Course[] = [
   },
   {
     id: 'feudal',
-    title: 'Feudalismo y Cruzadas',
-    category: 'EDAD MEDIA',
+    title: 'Prácticas Culturales',
+    category: 'UNAJ',
     description:
-      'Jura vasallaje, gestiona feudos y marcha hacia Tierra Santa en campañas que redefinieron Europa.',
-    hours: 14,
-    status: 'locked',
-    icon: Swords,
-    accent: 'ember',
-    era: 'siglos V – XV',
-    lessons: 28,
+      'Cultura, sentido común y naturalización: recorré el Ciclo Inicial de Prácticas Culturales en módulos temáticos, del Fascículo 1 en adelante.',
+    hours: culturaCoursesModulo1.reduce((sum, c) => sum + c.hours, 0),
+    status: 'unlocked',
+    icon: Brain,
+    accent: 'jade',
+    era: 'FASCÍCULO 1',
+    lessons: culturaCoursesModulo1.reduce((sum, c) => sum + c.lessons, 0),
+    isModuleGroup: true,
   },
   {
     id: 'revolutions',
@@ -257,7 +305,7 @@ export const statusIcon: Record<CourseStatus, LucideIcon> = {
  * lista para calcular XP total, logros, etc. — así los cursos de PHA siguen
  * contando aunque ya no aparezcan sueltos en el catálogo principal.
  */
-export const allCourses: Course[] = [...courses, ...phaCourses, ...phaCoursesModulo2];
+export const allCourses: Course[] = [...courses, ...phaCourses, ...phaCoursesModulo2, ...culturaCoursesModulo1];
 
 /**
  * Derived catalog stats — computed from `courses` so the Hero banner and the

@@ -13,6 +13,7 @@ const Profile = lazy(() => import('@/components/Profile'));
 const AuthModal = lazy(() => import('@/components/AuthModal'));
 const LessonView = lazy(() => import('@/components/lesson/LessonView'));
 const PhaView = lazy(() => import('@/components/PhaView'));
+const CulturaView = lazy(() => import('@/components/CulturaView'));
 const CSharpView = lazy(() => import('@/components/CSharpView'));
 const CSharpIntroView = lazy(() => import('@/components/csharp/CSharpIntroView'));
 const CSharpExerciseView = lazy(() => import('@/components/csharp/CSharpExerciseView'));
@@ -25,7 +26,7 @@ function ViewFallback() {
   );
 }
 
-type View = 'home' | 'lesson' | 'profile' | 'pha' | 'csharp' | 'csharp-intro' | 'csharp-exercise';
+type View = 'home' | 'lesson' | 'profile' | 'pha' | 'cultura' | 'csharp' | 'csharp-intro' | 'csharp-exercise';
 
 export default function App() {
   const { isAuthenticated, user, signOut } = useAuth();
@@ -45,6 +46,7 @@ export default function App() {
   // (PHA, C#, ...) navega a su propia vista de módulos.
   const goOpenGroup = useCallback((courseId: string) => {
     if (courseId === 'csharp') setView('csharp');
+    else if (courseId === 'feudal') setView('cultura');
     else setView('pha');
   }, []);
   const openAuthModal = useCallback(() => setAuthModalOpen(true), []);
@@ -129,6 +131,8 @@ export default function App() {
     content = <Profile onBack={goHome} onReview={goReview} />;
   } else if (view === 'pha') {
     content = <PhaView onPlay={goLesson} onReview={goReview} onBack={goHome} />;
+  } else if (view === 'cultura') {
+    content = <CulturaView onPlay={goLesson} onReview={goReview} onBack={goHome} />;
   } else if (view === 'csharp') {
     content = <CSharpView onOpenExercise={goCSharpExercise} onOpenIntro={goCSharpIntro} onBack={goHome} />;
   } else if (view === 'csharp-intro') {

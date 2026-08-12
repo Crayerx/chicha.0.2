@@ -40,3 +40,34 @@ export const phaModules: CourseModuleGroup[] = [
   },
 ];
 
+/**
+ * Submódulos de Prácticas Culturales.
+ * Módulo 1 cubre el Fascículo 1 (Eje Temático Cultura): sentido común,
+ * naturalización, prácticas inventadas, cajas negras, fronteras simbólicas
+ * y frentes culturales. Módulo 2 y 3 quedan como próximos contenidos.
+ */
+export const culturaModules: CourseModuleGroup[] = [
+  {
+    id: 'cultura-modulo-1',
+    title: 'Módulo 1',
+    description:
+      'Fascículo 1 — Eje Temático Cultura: sentido común, naturalización, prácticas inventadas, cajas negras, fronteras simbólicas y frentes culturales.',
+    status: 'unlocked',
+    courseIds: ['culturasentido', 'culturainventada', 'culturafronteras'],
+  },
+  {
+    id: 'cultura-modulo-2',
+    title: 'Módulo 2',
+    description: 'Próximamente.',
+    status: 'locked',
+    courseIds: [],
+  },
+  {
+    id: 'cultura-modulo-3',
+    title: 'Módulo 3',
+    description: 'Próximamente.',
+    status: 'locked',
+    courseIds: [],
+  },
+];
+
