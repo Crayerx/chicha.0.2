@@ -11,7 +11,6 @@ import {
   MapPin,
   Brain,
   SlidersHorizontal,
-  type LucideIcon,
 } from 'lucide-react';
 import type {
   LoreSlide,

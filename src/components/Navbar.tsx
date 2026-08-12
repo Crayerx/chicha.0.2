@@ -25,14 +25,14 @@ export default function Navbar({
   const showGoalBar = isAuthenticated && statsLoaded;
 
   return (
-    <header className="sticky top-0 z-50 border-b-2 border-ink-600 bg-ink-900/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b-2 border-ink-600 bg-ink-900/95 backdrop-blur-sm inner-glow">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <a href="#" className="group flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center border-2 border-gold-400 bg-ink-800 shadow-pixel-gold transition-transform group-hover:-translate-y-0.5">
+          <span className="grid h-10 w-10 place-items-center border-2 border-gold-400 bg-ink-800 shadow-pixel-gold transition-all duration-300 group-hover:-translate-y-0.5 group-hover:scale-105">
             <Hourglass className="h-5 w-5 animate-pulse-glow text-gold-300" />
           </span>
-          <span className="font-pixel text-lg tracking-wider text-gold-300 text-shadow-pixel">
+          <span className="font-pixel text-lg tracking-wider text-gold-300 text-shadow-gold">
             CHRONOS
           </span>
         </a>
@@ -43,7 +43,7 @@ export default function Navbar({
             <a
               key={link.href}
               href={link.href}
-              className="px-3 py-2 font-mono text-sm font-medium uppercase tracking-wider text-slate2-300 transition-colors hover:border-b-2 hover:border-gold-400 hover:text-gold-200"
+              className="relative overflow-hidden px-3 py-2 font-mono text-sm font-medium uppercase tracking-wider text-slate2-300 transition-colors hover:border-b-2 hover:border-gold-400 hover:text-gold-200 card-shine"
             >
               {link.label}
             </a>
@@ -62,7 +62,7 @@ export default function Navbar({
               )}
               <button
                 onClick={onProfile}
-                className="flex items-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-0.5 hover:bg-gold-300 hover:shadow-pixel"
+                className="flex items-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-0.5 hover:bg-gold-300 hover:shadow-pixel card-shine"
               >
                 <UserCircle className="h-4 w-4" />
                 Perfil
@@ -70,7 +70,7 @@ export default function Navbar({
               <button
                 onClick={onSignOut}
                 aria-label="Cerrar sesión"
-                className="grid h-9 w-9 place-items-center border-2 border-ink-500 bg-ink-700 text-slate2-300 transition-all hover:border-ruby-400 hover:text-ruby-300"
+                className="grid h-9 w-9 place-items-center border-2 border-ink-500 bg-ink-700 text-slate2-300 transition-all hover:border-ruby-400 hover:text-ruby-300 hover:scale-110"
               >
                 <LogOut className="h-4 w-4" />
               </button>
@@ -78,7 +78,7 @@ export default function Navbar({
           ) : (
             <button
               onClick={onSignIn}
-              className="flex items-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-0.5 hover:bg-gold-300 hover:shadow-pixel"
+              className="flex items-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-0.5 hover:bg-gold-300 hover:shadow-pixel card-shine"
             >
               <LogIn className="h-4 w-4" />
               Iniciar sesión
@@ -89,7 +89,7 @@ export default function Navbar({
         {/* Mobile toggle */}
         <button
           onClick={() => setOpen(!open)}
-          className="grid h-10 w-10 place-items-center border-2 border-ink-500 bg-ink-700 text-gold-300 md:hidden"
+          className="grid h-10 w-10 place-items-center border-2 border-ink-500 bg-ink-700 text-gold-300 transition-all hover:border-gold-400 hover:scale-105 md:hidden"
           aria-label="Menu"
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

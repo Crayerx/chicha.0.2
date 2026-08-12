@@ -1,26 +1,4 @@
-import {
-  TrendingDown,
-  Factory,
-  Users,
-  Landmark,
-  Megaphone,
-  Vote,
-  Globe,
-  Wrench,
-  Scroll,
-  Scale,
-  MapPin,
-  Brain,
-  SlidersHorizontal,
-  Grid3x3,
-  Puzzle,
-  Target,
-  Check,
-  Compass,
-  Train,
-  Wheat,
-  type LucideIcon,
-} from 'lucide-react';
+import { type LucideIcon } from 'lucide-react';
 
 import {
   loreSlides,

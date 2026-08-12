@@ -18,16 +18,21 @@ export default function Courses({
   return (
     <section id="cursos" className="relative border-b-2 border-ink-600 bg-ink-900">
       <div className="absolute inset-0 bg-dots opacity-50" />
+      {/* Decorative corner elements */}
+      <div className="pointer-events-none absolute left-4 top-4 h-16 w-16 border-l-4 border-t-4 border-gold-400/20" />
+      <div className="pointer-events-none absolute right-4 top-4 h-16 w-16 border-r-4 border-t-4 border-gold-400/20" />
+      <div className="pointer-events-none absolute bottom-4 left-4 h-16 w-16 border-b-4 border-l-4 border-gold-400/20" />
+      <div className="pointer-events-none absolute bottom-4 right-4 h-16 w-16 border-b-4 border-r-4 border-gold-400/20" />
       <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         {/* Section header */}
         <div className="mb-12 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 border-2 border-gold-400/40 bg-ink-800 px-3 py-1.5">
+          <div className="mb-4 inline-flex items-center gap-2 border-2 border-gold-400/40 bg-ink-800 px-3 py-1.5 inner-glow">
             <Library className="h-4 w-4 text-gold-300" />
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-gold-200">
               Catálogo de Eras
             </span>
           </div>
-          <h2 className="font-pixel text-xl leading-tight text-gold-300 text-shadow-pixel sm:text-2xl md:text-3xl">
+          <h2 className="font-pixel text-xl leading-tight text-gold-300 text-shadow-gold sm:text-2xl md:text-3xl">
             ELIGE TU <span className="text-ember-400">MATERIA</span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl font-terminal text-xl leading-snug text-slate2-300">

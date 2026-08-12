@@ -23,16 +23,18 @@ const COLUMNS = [
 
 export default function Footer() {
   return (
-    <footer className="border-t-2 border-ink-600 bg-ink-900">
+    <footer className="relative border-t-2 border-ink-600 bg-ink-900">
+      {/* Decorative top border glow */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-400/50 to-transparent" />
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-4">
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center border-2 border-gold-400 bg-ink-800 shadow-pixel-gold">
+              <span className="grid h-10 w-10 place-items-center border-2 border-gold-400 bg-ink-800 shadow-pixel-gold transition-transform hover:scale-105">
                 <Hourglass className="h-5 w-5 text-gold-300" />
               </span>
-              <span className="font-pixel text-base tracking-wider text-gold-300 text-shadow-pixel">
+              <span className="font-pixel text-base tracking-wider text-gold-300 text-shadow-gold">
                 CHRONOS
               </span>
             </div>
@@ -87,13 +89,13 @@ export default function Footer() {
               Datos de:
             </span>
             {SOURCES.map((src) => (
-              <span
-                key={src.label}
-                className="inline-flex items-center gap-1.5 border-2 border-ink-500 bg-ink-800 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-wider text-slate2-300 transition-colors hover:border-gold-400 hover:text-gold-200"
+              <a
+                href="#"
+                className="group flex items-center gap-2 border-2 border-ink-500 bg-ink-800 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-wider text-slate2-300 transition-all hover:-translate-y-0.5 hover:border-gold-400 hover:text-gold-200 card-shine"
               >
                 <src.icon className="h-3 w-3 text-gold-400" />
                 {src.label}
-              </span>
+              </a>
             ))}
           </div>
         </div>

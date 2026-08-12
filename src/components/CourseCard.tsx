@@ -79,7 +79,7 @@ export default function CourseCard({
 
   return (
     <article
-      className={`group relative flex flex-col border-2 ${a.border} bg-ink-800 p-5 shadow-pixel transition-all duration-200 ${a.hoverBorder} ${a.hoverShadow} hover:-translate-y-1 ${
+      className={`group relative flex flex-col border-2 ${a.border} bg-ink-800 p-5 shadow-pixel transition-all duration-200 ${a.hoverBorder} ${a.hoverShadow} hover:-translate-y-1 card-shine ${
         locked ? 'opacity-90' : ''
       }`}
     >
