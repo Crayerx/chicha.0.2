@@ -25,88 +25,87 @@ export default function Navbar({
   const showGoalBar = isAuthenticated && statsLoaded;
 
   return (
-    <header className="sticky top-0 z-50 border-b-2 border-ink-600 bg-ink-900/95 backdrop-blur-sm glass-effect gradient-shimmer">
+    <header className="sticky top-0 z-50 border-b-2 border-ink-600 bg-ink-900/95 backdrop-blur-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Logo mejorado */}
-        <a href="#" className="group flex items-center gap-3 hover-lift">
-          <span className="grid h-10 w-10 place-items-center border-2 border-gold-400 bg-ink-800 shadow-pixel-glow transition-transform group-hover:-translate-y-0.5 glow-gold">
-            <Hourglass className="h-5 w-5 animate-pulse-glow text-gold-300 neon-text-gold" />
+        {/* Logo */}
+        <a href="#" className="group flex items-center gap-3">
+          <span className="grid h-10 w-10 place-items-center border-2 border-gold-400 bg-ink-800 shadow-pixel-gold transition-transform group-hover:-translate-y-0.5">
+            <Hourglass className="h-5 w-5 animate-pulse-glow text-gold-300" />
           </span>
-          <span className="font-pixel text-lg tracking-wider text-gold-300 text-shadow-pixel neon-text-gold">
+          <span className="font-pixel text-lg tracking-wider text-gold-300 text-shadow-pixel">
             CHRONOS
           </span>
         </a>
 
-        {/* Desktop nav mejorado */}
+        {/* Desktop nav */}
         <nav className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="relative px-3 py-2 font-mono text-sm font-medium uppercase tracking-wider text-slate2-300 transition-all hover:border-b-2 hover:border-gold-400 hover:text-gold-200 group"
+              className="px-3 py-2 font-mono text-sm font-medium uppercase tracking-wider text-slate2-300 transition-colors hover:border-b-2 hover:border-gold-400 hover:text-gold-200"
             >
               {link.label}
-              <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gold-400 opacity-0 transition-opacity group-hover:opacity-100" />
             </a>
           ))}
         </nav>
 
-        {/* Desktop actions mejorado */}
+        {/* Desktop actions */}
         <div className="hidden items-center gap-4 md:flex">
           {showGoalBar && <DailyGoalBar xpToday={xpToday} goalXp={stats.daily_goal_xp} />}
           {isAuthenticated ? (
             <>
               {userEmail && (
-                <span className="max-w-[160px] truncate font-mono text-xs uppercase tracking-widest text-yellow-300 animate-fade-in neon-text-gold">
+                <span className="max-w-[160px] truncate font-mono text-xs uppercase tracking-widest text-slate2-400">
                   {userEmail}
                 </span>
               )}
               <button
                 onClick={onProfile}
-                className="group relative flex items-center gap-2 border-2 border-yellow-400 bg-yellow-400 px-5 py-2.5 font-mono text-sm font-bold uppercase tracking-wider text-black shadow-[0_0_25px_rgba(250,204,21,0.7)] transition-all hover:-translate-y-0.5 hover:bg-yellow-300 hover:shadow-[0_0_40px_rgba(250,204,21,1)] hover-lift"
+                className="flex items-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-0.5 hover:bg-gold-300 hover:shadow-pixel"
               >
-                <UserCircle className="h-5 w-5 fill-black" />
+                <UserCircle className="h-4 w-4" />
                 Perfil
               </button>
               <button
                 onClick={onSignOut}
                 aria-label="Cerrar sesión"
-                className="grid h-10 w-10 place-items-center border-2 border-red-500 bg-red-500 text-black transition-all hover:border-red-400 hover:bg-red-400 hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(239,68,68,0.8)] hover-lift"
+                className="grid h-9 w-9 place-items-center border-2 border-ink-500 bg-ink-700 text-slate2-300 transition-all hover:border-ruby-400 hover:text-ruby-300"
               >
-                <LogOut className="h-5 w-5 fill-black" />
+                <LogOut className="h-4 w-4" />
               </button>
             </>
           ) : (
             <button
               onClick={onSignIn}
-              className="group relative flex items-center gap-2 border-2 border-yellow-400 bg-yellow-400 px-5 py-2.5 font-mono text-sm font-bold uppercase tracking-wider text-black shadow-[0_0_25px_rgba(250,204,21,0.7)] transition-all hover:-translate-y-0.5 hover:bg-yellow-300 hover:shadow-[0_0_40px_rgba(250,204,21,1)] hover-lift"
+              className="flex items-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-2 font-mono text-sm font-bold uppercase tracking-wider text-ink-900 shadow-pixel-gold transition-all hover:-translate-y-0.5 hover:bg-gold-300 hover:shadow-pixel"
             >
-              <LogIn className="h-5 w-5 fill-black" />
+              <LogIn className="h-4 w-4" />
               Iniciar sesión
             </button>
           )}
         </div>
 
-        {/* Mobile toggle mejorado */}
+        {/* Mobile toggle */}
         <button
           onClick={() => setOpen(!open)}
-          className="grid h-10 w-10 place-items-center border-2 border-ink-500 bg-ink-700 text-gold-300 md:hidden transition-all hover:border-gold-400 hover:text-gold-200 hover:-translate-y-0.5"
+          className="grid h-10 w-10 place-items-center border-2 border-ink-500 bg-ink-700 text-gold-300 md:hidden"
           aria-label="Menu"
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
-      {/* Mobile menu mejorado */}
+      {/* Mobile menu */}
       {open && (
-        <div className="border-t-2 border-ink-600 bg-ink-900 px-4 py-4 md:hidden glass-effect animate-slide-down">
+        <div className="border-t-2 border-ink-600 bg-ink-900 px-4 py-4 md:hidden">
           <nav className="flex flex-col gap-1">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="border-2 border-transparent px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-slate2-300 transition-colors hover:border-gold-400 hover:bg-ink-800 hover:text-gold-200 hover-lift"
+                className="border-2 border-transparent px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-slate2-300 transition-colors hover:border-gold-400 hover:bg-ink-800 hover:text-gold-200"
               >
                 {link.label}
               </a>
@@ -121,7 +120,7 @@ export default function Navbar({
             {isAuthenticated ? (
               <>
                 {userEmail && (
-                  <p className="truncate px-1 font-mono text-[10px] uppercase tracking-widest text-yellow-300 animate-fade-in neon-text-gold">
+                  <p className="truncate px-1 font-mono text-[10px] uppercase tracking-widest text-slate2-500">
                     {userEmail}
                   </p>
                 )}
@@ -130,9 +129,9 @@ export default function Navbar({
                     setOpen(false);
                     onProfile?.();
                   }}
-                  className="group relative flex items-center justify-center gap-2 border-2 border-yellow-400 bg-yellow-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-black shadow-[0_0_25px_rgba(250,204,21,0.7)] transition-all hover:bg-yellow-300 hover:shadow-[0_0_40px_rgba(250,204,21,1)] hover-lift"
+                  className="flex items-center justify-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ink-900"
                 >
-                  <UserCircle className="h-5 w-5 fill-black" />
+                  <UserCircle className="h-4 w-4" />
                   Perfil
                 </button>
                 <button
@@ -140,9 +139,9 @@ export default function Navbar({
                     setOpen(false);
                     onSignOut?.();
                   }}
-                  className="flex items-center justify-center gap-2 border-2 border-red-500 bg-red-500 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-black transition-all hover:border-red-400 hover:bg-red-400 hover:text-black hover:shadow-[0_0_25px_rgba(239,68,68,0.8)] hover-lift"
+                  className="flex items-center justify-center gap-2 border-2 border-ink-500 bg-ink-700 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-slate2-300"
                 >
-                  <LogOut className="h-5 w-5 fill-black" />
+                  <LogOut className="h-4 w-4" />
                   Cerrar sesión
                 </button>
               </>
@@ -152,9 +151,9 @@ export default function Navbar({
                   setOpen(false);
                   onSignIn?.();
                 }}
-                className="group relative flex items-center justify-center gap-2 border-2 border-yellow-400 bg-yellow-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-black shadow-[0_0_25px_rgba(250,204,21,0.7)] transition-all hover:bg-yellow-300 hover:shadow-[0_0_40px_rgba(250,204,21,1)] hover-lift"
+                className="flex items-center justify-center gap-2 border-2 border-gold-400 bg-gold-400 px-4 py-3 font-mono text-sm font-bold uppercase tracking-wider text-ink-900"
               >
-                <LogIn className="h-5 w-5 fill-black" />
+                <LogIn className="h-4 w-4" />
                 Iniciar sesión
               </button>
             )}
